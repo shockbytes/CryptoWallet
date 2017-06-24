@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:padding="16dp"
+    tools:context="at.shockbytes.coins.core.LoginActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:gravity="center"
+        android:text="Watch your coins"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@android:color/white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/activity_login_img_btc"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        app:srcCompat="@drawable/ic_btc"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/activity_login_img_fingerprint" />
+
+    <ImageView
+        android:id="@+id/activity_login_img_eth"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        app:srcCompat="@drawable/ic_eth"
+        android:layout_alignBottom="@+id/activity_login_img_btc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="43dp" />
+
+    <ImageView
+        android:id="@+id/activity_login_img_ltc"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        app:srcCompat="@drawable/ic_ltc"
+        android:layout_alignTop="@+id/activity_login_img_btc"
+        android:layout_toEndOf="@+id/activity_login_img_fingerprint" />
+
+    <ImageView
+        android:id="@+id/activity_login_img_fingerprint"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_fingerprint"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

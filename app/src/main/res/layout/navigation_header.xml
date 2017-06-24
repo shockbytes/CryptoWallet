@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="196dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/navigation_background" />
+
+    <ImageView
+        android:id="@+id/navigation_header_imgview"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_account_template" />
+
+    <TextView
+        android:id="@+id/navigation_header_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/navigation_header_imgview"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="A Crypto Wallet user"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse" />
+
+</RelativeLayout>

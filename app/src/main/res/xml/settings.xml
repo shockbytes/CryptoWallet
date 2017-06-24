@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Currencies">
+
+        <ListPreference
+            android:title="Local currency"
+            android:key="@string/prefs_key_local_currency"
+            android:defaultValue="@string/local_currency_default_value"
+            android:entries="@array/currency_entries"
+            android:entryValues="@array/currency_entry_values">
+
+        </ListPreference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Security and Auth">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/prefs_key_fingerprint_as_auth"
+            android:title="Unlock app with fingerprint" />
+
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/prefs_key_encrypt_with_fingerprint"
+            android:title="Encrypt data based on fingerprint" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="About">
+
+        <Preference
+            android:summary="Developer"
+            android:title="Shockbytes Studio (c) 2017" />
+
+        <Preference
+            android:summary="@string/app_version"
+            android:title="App Version" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
