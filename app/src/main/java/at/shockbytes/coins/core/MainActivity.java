@@ -1,34 +1,44 @@
 package at.shockbytes.coins.core;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import at.shockbytes.coins.R;
 import at.shockbytes.coins.currency.OwnedCurrency;
 import at.shockbytes.coins.fragment.CashoutFragment;
 import at.shockbytes.coins.fragment.MainFragment;
 import at.shockbytes.coins.fragment.dialog.AddCurrencyDialogFragment;
+import at.shockbytes.coins.util.ResourceManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity
         implements AddCurrencyDialogFragment.OnCurrencyAddedListener,
         NavigationView.OnNavigationItemSelectedListener {
 
     private static final int REQ_CODE_LOGIN = 0x1247;
+    private static final int REQ_CODE_PERM_CONTACTS = 0x2224;
 
     private MainFragment mainFragment;
 
@@ -59,29 +69,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.menu_main_settings) {
-            startActivity(SettingsActivity.newIntent(this),
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-    */
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
@@ -111,13 +108,13 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.menu_navigation_balance:
 
-                toolbar.setTitle("Balance");
+                toolbar.setTitle(R.string.title_balance);
                 showMainFragment();
                 break;
 
             case R.id.menu_navigation_cashout:
 
-                toolbar.setTitle("Cashout");
+                toolbar.setTitle(R.string.title_cashout);
                 showFragment(CashoutFragment.newInstance());
                 break;
 
@@ -157,19 +154,27 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0);
-            getSupportActionBar().setTitle("Balance");
+            getSupportActionBar().setTitle(R.string.title_balance);
         }
     }
 
     private void setupNavigationDrawer() {
 
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getHeaderView(0
+        ).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initializePersonalizedDrawer();
+            }
+        });
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.contentdesc_drawer_open, R.string.contentdesc_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
+        initializePersonalizedDrawer();
     }
 
     private void showMainFragment() {
@@ -182,6 +187,37 @@ public class MainActivity extends AppCompatActivity
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(R.id.main_content, fragment)
                 .commit();
+    }
+
+    @AfterPermissionGranted(REQ_CODE_PERM_CONTACTS)
+    private void initializePersonalizedDrawer() {
+
+        if (EasyPermissions.hasPermissions(this, Manifest.permission.READ_CONTACTS)) {
+
+            TextView navigationHeaderText = (TextView) navigationView.getHeaderView(0)
+                    .findViewById(R.id.navigation_header_text);
+            ImageView navigationHeaderIcon = (ImageView) navigationView.getHeaderView(0)
+                    .findViewById(R.id.navigation_header_imgview);
+
+            String name = ResourceManager.getProfileName(this);
+            if (!name.isEmpty() && navigationHeaderText != null) {
+                navigationHeaderText.setText(ResourceManager.getProfileName(this));
+            }
+
+            Uri imageUri = ResourceManager.getProfileImage(this);
+            if (imageUri != null) {
+                navigationHeaderIcon.setImageDrawable(ResourceManager.createRoundedBitmap(this, imageUri));
+            } else if (!name.isEmpty()){
+                navigationHeaderIcon.setImageDrawable(ResourceManager.createRoundedBitmap(this,
+                        ResourceManager.createStringBitmap(ResourceManager.convertDpInPixel(96, this),
+                        ContextCompat.getColor(this, R.color.colorPrimaryDark), String.valueOf(name.charAt(0)))));
+            }
+
+        } else {
+            EasyPermissions.requestPermissions(this, getString(R.string.perm_contacts_rationale),
+                    REQ_CODE_PERM_CONTACTS, Manifest.permission.READ_CONTACTS);
+        }
+
     }
 
 }
