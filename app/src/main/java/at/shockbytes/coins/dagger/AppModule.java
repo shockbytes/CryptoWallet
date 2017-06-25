@@ -10,6 +10,7 @@ import at.shockbytes.coins.currency.DefaultCurrencyManager;
 import at.shockbytes.coins.currency.DefaultPriceProxy;
 import at.shockbytes.coins.currency.PriceProxy;
 import at.shockbytes.coins.network.PriceManager;
+import at.shockbytes.coins.storage.CoinsRealmMigration;
 import at.shockbytes.coins.storage.RealmStorageManager;
 import at.shockbytes.coins.storage.StorageManager;
 import dagger.Module;
@@ -47,8 +48,8 @@ public class AppModule {
     @Singleton
     public Realm provideRealm() {
         RealmConfiguration config = new RealmConfiguration.Builder()
-                //.schemaVersion(AppParams.REALM_SCHEMA_VERSION)
-                //.migration(new CoinsRealmMigration())
+                .schemaVersion(CoinsRealmMigration.CURRENT_SCHEME)
+                .migration(new CoinsRealmMigration())
                 //.encryptionKey(key)
                 .build();
         return Realm.getInstance(config);

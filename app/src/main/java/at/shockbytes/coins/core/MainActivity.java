@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import at.shockbytes.coins.R;
 import at.shockbytes.coins.currency.OwnedCurrency;
-import at.shockbytes.coins.fragment.CashoutFragment;
 import at.shockbytes.coins.fragment.MainFragment;
 import at.shockbytes.coins.fragment.dialog.AddCurrencyDialogFragment;
 import at.shockbytes.coins.util.ResourceManager;
@@ -115,7 +114,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.menu_navigation_cashout:
 
                 toolbar.setTitle(R.string.title_cashout);
-                showFragment(CashoutFragment.newInstance());
+                showFragment(MainFragment.newInstance(MainFragment.ViewType.CASHOUT));
                 break;
 
             case R.id.menu_navigation_settings:
@@ -161,13 +160,13 @@ public class MainActivity extends AppCompatActivity
     private void setupNavigationDrawer() {
 
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getHeaderView(0
-        ).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initializePersonalizedDrawer();
-            }
-        });
+        navigationView.getHeaderView(0)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        initializePersonalizedDrawer();
+                    }
+                });
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.contentdesc_drawer_open, R.string.contentdesc_drawer_close);
@@ -178,7 +177,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showMainFragment() {
-        mainFragment = MainFragment.newInstance();
+        mainFragment = MainFragment.newInstance(MainFragment.ViewType.BALANCE);
         showFragment(mainFragment);
     }
 
@@ -207,10 +206,10 @@ public class MainActivity extends AppCompatActivity
             Uri imageUri = ResourceManager.getProfileImage(this);
             if (imageUri != null) {
                 navigationHeaderIcon.setImageDrawable(ResourceManager.createRoundedBitmap(this, imageUri));
-            } else if (!name.isEmpty()){
+            } else if (!name.isEmpty()) {
                 navigationHeaderIcon.setImageDrawable(ResourceManager.createRoundedBitmap(this,
                         ResourceManager.createStringBitmap(ResourceManager.convertDpInPixel(96, this),
-                        ContextCompat.getColor(this, R.color.colorPrimaryDark), String.valueOf(name.charAt(0)))));
+                                ContextCompat.getColor(this, R.color.colorPrimaryDark), String.valueOf(name.charAt(0)))));
             }
 
         } else {

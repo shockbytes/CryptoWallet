@@ -17,9 +17,13 @@ public interface CurrencyManager {
 
     Observable<List<OwnedCurrency>> getOwnedCurrencies();
 
+    Observable<List<OwnedCurrency>> getCashedoutCurrencies();
+
     void addOwnedCurrency(OwnedCurrency ownedCurrency);
 
     Balance getBalance();
 
     void removeCurrency(OwnedCurrency ownedCurrency);
+
+    void cashoutCurrency(OwnedCurrency ownedCurrency);
 }

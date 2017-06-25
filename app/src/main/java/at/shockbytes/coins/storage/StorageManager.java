@@ -17,7 +17,9 @@ public interface StorageManager {
 
     void removeOwnedCurrency(OwnedCurrency currency);
 
-    Observable<List<OwnedCurrency>> loadOwnedCurrencies();
+    void cashoutOwnedCurrency(OwnedCurrency currency);
+
+    Observable<List<OwnedCurrency>> loadOwnedCurrencies(boolean isCashedOut);
 
     void updateConversionRates(OwnedCurrency c, List<PriceConversion> conversions);
 

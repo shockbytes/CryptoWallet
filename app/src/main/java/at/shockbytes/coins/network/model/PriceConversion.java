@@ -7,6 +7,7 @@ import at.shockbytes.coins.currency.CryptoCurrency;
  *         Date: 14.06.2017.
  */
 
+// TODO Modify this class to be able to work with other providers
 public class PriceConversion {
 
     public CryptoCurrency cryptoCurrency;

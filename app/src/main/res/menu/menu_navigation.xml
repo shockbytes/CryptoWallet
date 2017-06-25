@@ -16,7 +16,7 @@
             android:title="Cashout" />
 
 
-        <item android:title="About">
+        <item android:title="">
             <menu>
 
                 <item

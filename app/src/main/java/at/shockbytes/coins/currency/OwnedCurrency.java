@@ -25,6 +25,8 @@ public class OwnedCurrency extends RealmObject {
     private int boughtCurrencyOrdinal;
     private double boughtPrice;
 
+    private boolean isCashedOut;
+
     private double conversionRate;
 
     public OwnedCurrency() {
@@ -39,6 +41,7 @@ public class OwnedCurrency extends RealmObject {
         this.boughtCurrency = boughtCurrency;
         this.boughtCurrencyOrdinal = boughtCurrency.ordinal();
         this.boughtPrice = boughtPrice;
+        this.isCashedOut = false;
     }
 
     public CryptoCurrency getCryptoCurrency() {
@@ -81,6 +84,14 @@ public class OwnedCurrency extends RealmObject {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public boolean isCashedOut() {
+        return isCashedOut;
+    }
+
+    public void setCashedOut(boolean cashedOut) {
+        isCashedOut = cashedOut;
     }
 
     @Override

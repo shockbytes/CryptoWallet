@@ -1,4 +1,4 @@
-package at.shockbytes.coins.network;
+package at.shockbytes.coins.network.coinbase;
 
 import java.util.Arrays;
 
@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import at.shockbytes.coins.currency.CryptoCurrency;
 import at.shockbytes.coins.currency.Currency;
+import at.shockbytes.coins.network.PriceManager;
 import at.shockbytes.coins.network.model.PriceConversion;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
