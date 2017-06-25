@@ -30,10 +30,8 @@ public class RealmStorageManager implements StorageManager {
     public void storeOwnedCurrency(OwnedCurrency currency) {
 
         realm.beginTransaction();
-
         currency.setId(getLastPrimaryKey());
         realm.copyToRealmOrUpdate(currency);
-
         realm.commitTransaction();
     }
 
@@ -46,8 +44,17 @@ public class RealmStorageManager implements StorageManager {
     }
 
     @Override
-    public Observable<List<OwnedCurrency>> loadOwnedCurrencies() {
+    public void cashoutOwnedCurrency(OwnedCurrency currency) {
+
+        realm.beginTransaction();
+        currency.setCashedOut(true);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public Observable<List<OwnedCurrency>> loadOwnedCurrencies(boolean isCashedOut) {
         List<OwnedCurrency> stored = realm.where(OwnedCurrency.class)
+                .equalTo("isCashedOut", isCashedOut)
                 .findAllAsync()
                 .sort("id", Sort.DESCENDING);
         return Observable.just(stored)

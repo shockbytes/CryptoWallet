@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +26,17 @@ import at.shockbytes.coins.currency.CurrencyManager;
 import at.shockbytes.coins.currency.OwnedCurrency;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
 import rx.functions.Action1;
 
 public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
         OwnedCurrencyAdapter.OnEntryPopupItemSelectedListener {
+
+    public enum ViewType {
+        BALANCE, CASHOUT
+    }
+
+    private static final String ARG_VIEWTYPE = "arg_viewtype";
 
     @Inject
     protected CurrencyManager currencyManager;
@@ -53,13 +59,19 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Bind(R.id.fragment_main_empty_view)
     protected View emptyView;
 
+    @Bind(R.id.fragment_main_empty_view_text)
+    protected TextView emptyTextView;
+
     private OwnedCurrencyAdapter adapter;
 
     private boolean isViewSetup;
 
-    public static MainFragment newInstance() {
+    private ViewType viewType;
+
+    public static MainFragment newInstance(ViewType viewType) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
+        args.putSerializable(ARG_VIEWTYPE, viewType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,6 +83,7 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((CoinsApp) getActivity().getApplication()).getAppComponent().inject(this);
+        viewType = (ViewType) getArguments().getSerializable(ARG_VIEWTYPE);
         isViewSetup = false;
     }
 
@@ -118,9 +131,14 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 ContextCompat.getColor(getContext(), R.color.colorPrimary),
                 ContextCompat.getColor(getContext(), R.color.colorAccent),
                 ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        swipeRefreshLayout.setEnabled(viewType != ViewType.CASHOUT);
+
+        emptyTextView.setText(viewType == ViewType.CASHOUT
+                ? R.string.empty_indicator_cashout : R.string.empty_indicator_balance);
 
         // RecyclerView
-        adapter = new OwnedCurrencyAdapter(getContext(), new ArrayList<OwnedCurrency>(), this);
+        adapter = new OwnedCurrencyAdapter(getContext(), new ArrayList<OwnedCurrency>(),
+                viewType, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
@@ -142,7 +160,14 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         swipeRefreshLayout.setRefreshing(true);
 
-        currencyManager.getOwnedCurrencies().subscribe(new Action1<List<OwnedCurrency>>() {
+        Observable<List<OwnedCurrency>> dataSource = Observable.empty();
+        if (viewType == ViewType.BALANCE) {
+            dataSource = currencyManager.getOwnedCurrencies();
+        } else if (viewType == ViewType.CASHOUT) {
+            dataSource = currencyManager.getCashedoutCurrencies();
+        }
+
+        dataSource.subscribe(new Action1<List<OwnedCurrency>>() {
             @Override
             public void call(List<OwnedCurrency> ownedCurrencies) {
 
@@ -156,7 +181,6 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
                 // Call in here makes sure, that the balance object is loaded at this point in time
                 setupHeader(currencyManager.getBalance());
-
             }
         }, new Action1<Throwable>() {
             @Override
@@ -168,13 +192,15 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     public void onNewCurrencyEntryAvailable(OwnedCurrency ownedCurrency) {
         currencyManager.addOwnedCurrency(ownedCurrency);
-        loadData();
+        if (isVisible()) {
+            loadData();
+        }
     }
 
     @Override
     public void onCashout(OwnedCurrency ownedCurrency) {
-
-        Toast.makeText(getContext(), "TODO", Toast.LENGTH_SHORT).show();
+        currencyManager.cashoutCurrency(ownedCurrency);
+        loadData();
     }
 
     @Override

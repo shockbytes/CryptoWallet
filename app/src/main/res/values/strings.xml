@@ -15,5 +15,7 @@
     <string name="perm_contacts_rationale">\"Accessing contacts let\'s Crypto Wallet personalize your application\"</string>
     <string name="title_balance">Balance</string>
     <string name="title_cashout">Cashout</string>
+    <string name="empty_indicator_balance">Insert some coins</string>
+    <string name="empty_indicator_cashout">No coins cashed out</string>
 
 </resources>

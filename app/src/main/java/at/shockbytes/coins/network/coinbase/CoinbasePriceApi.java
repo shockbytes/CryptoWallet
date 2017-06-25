@@ -1,4 +1,4 @@
-package at.shockbytes.coins.network;
+package at.shockbytes.coins.network.coinbase;
 
 import at.shockbytes.coins.network.model.PriceConversion;
 import retrofit2.http.GET;

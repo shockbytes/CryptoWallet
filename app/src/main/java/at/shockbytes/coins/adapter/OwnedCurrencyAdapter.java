@@ -18,6 +18,7 @@ import java.util.List;
 import at.shockbytes.coins.R;
 import at.shockbytes.coins.currency.Currency;
 import at.shockbytes.coins.currency.OwnedCurrency;
+import at.shockbytes.coins.fragment.MainFragment;
 import at.shockbytes.coins.util.ResourceManager;
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -43,9 +44,13 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
 
     private Currency localCurrency;
 
+    private MainFragment.ViewType viewType;
+
     public OwnedCurrencyAdapter(Context cxt, List<OwnedCurrency> data,
+                                MainFragment.ViewType viewType,
                                 OnEntryPopupItemSelectedListener popupListener) {
         super(cxt, data);
+        this.viewType = viewType;
         this.popupListener = popupListener;
     }
 
@@ -120,6 +125,12 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
             popupMenu = new PopupMenu(context, imgBtnOverflow);
             popupMenu.getMenuInflater().inflate(R.menu.popup_item, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(this);
+
+            // Hide the cashout action if already cashed out
+            if (viewType == MainFragment.ViewType.CASHOUT) {
+                popupMenu.getMenu().getItem(0).setVisible(false);
+            }
+
             tryShowIconsInPopupMenu(popupMenu);
         }
 

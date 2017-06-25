@@ -13,6 +13,7 @@ import at.shockbytes.coins.network.model.PriceConversion;
 import at.shockbytes.coins.storage.StorageManager;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
@@ -53,7 +54,7 @@ public class DefaultCurrencyManager implements CurrencyManager {
     @Override
     public Observable<List<OwnedCurrency>> getOwnedCurrencies() {
 
-        final Observable<List<OwnedCurrency>> localCurrencies = storageManager.loadOwnedCurrencies();
+        final Observable<List<OwnedCurrency>> localCurrencies = storageManager.loadOwnedCurrencies(false);
 
         return Observable.zip(localCurrencies,
                 priceProxy.getPriceConversions(Arrays.asList(CryptoCurrency.values()), getLocalCurrency()),
@@ -63,7 +64,6 @@ public class DefaultCurrencyManager implements CurrencyManager {
                     public List<OwnedCurrency> call(List<OwnedCurrency> c,
                                                     List<PriceConversion> conversions) {
 
-                        // Calculate the overall balance
                         balance = new Balance();
                         // Assign the conversion rates to the corresponding currencies
                         for (OwnedCurrency oc : c) {
@@ -79,6 +79,23 @@ public class DefaultCurrencyManager implements CurrencyManager {
     }
 
     @Override
+    public Observable<List<OwnedCurrency>> getCashedoutCurrencies() {
+        return storageManager.loadOwnedCurrencies(true)
+                .map(new Func1<List<OwnedCurrency>, List<OwnedCurrency>>() {
+            @Override
+            public List<OwnedCurrency> call(List<OwnedCurrency> currencies) {
+
+                balance = new Balance();
+                for (OwnedCurrency oc : currencies) {
+                    balance.addInvested(oc.getBoughtPrice());
+                    balance.addCurrent(oc.getCurrentPrice());
+                }
+                return currencies;
+            }
+        });
+    }
+
+    @Override
     public void addOwnedCurrency(OwnedCurrency ownedCurrency) {
         storageManager.storeOwnedCurrency(ownedCurrency);
     }
@@ -91,5 +108,10 @@ public class DefaultCurrencyManager implements CurrencyManager {
     @Override
     public void removeCurrency(OwnedCurrency ownedCurrency) {
         storageManager.removeOwnedCurrency(ownedCurrency);
+    }
+
+    @Override
+    public void cashoutCurrency(OwnedCurrency ownedCurrency) {
+        storageManager.cashoutOwnedCurrency(ownedCurrency);
     }
 }

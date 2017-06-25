@@ -5,9 +5,9 @@ import android.app.Application;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import at.shockbytes.coins.network.CoinbasePriceApi;
+import at.shockbytes.coins.network.coinbase.CoinbasePriceApi;
 import at.shockbytes.coins.network.PriceManager;
-import at.shockbytes.coins.network.CoinbasePriceManager;
+import at.shockbytes.coins.network.coinbase.CoinbasePriceManager;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
