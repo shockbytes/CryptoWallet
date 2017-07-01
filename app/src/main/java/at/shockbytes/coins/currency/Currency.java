@@ -8,4 +8,7 @@ package at.shockbytes.coins.currency;
 public enum Currency {
     EUR,
     USD
+    /*,
+    GBP,
+    CHF*/
 }

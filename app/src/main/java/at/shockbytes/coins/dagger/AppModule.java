@@ -10,6 +10,7 @@ import at.shockbytes.coins.currency.DefaultCurrencyManager;
 import at.shockbytes.coins.currency.DefaultPriceProxy;
 import at.shockbytes.coins.currency.PriceProxy;
 import at.shockbytes.coins.network.PriceManager;
+import at.shockbytes.coins.network.conversion.CurrencyConversionApi;
 import at.shockbytes.coins.storage.CoinsRealmMigration;
 import at.shockbytes.coins.storage.RealmStorageManager;
 import at.shockbytes.coins.storage.StorageManager;
@@ -34,8 +35,10 @@ public class AppModule {
     @Provides
     @Singleton
     public CurrencyManager provideCurrencyManager(PriceProxy priceProxy,
-                                                  StorageManager storageManager) {
-        return new DefaultCurrencyManager(app.getApplicationContext(), priceProxy, storageManager);
+                                                  StorageManager storageManager,
+                                                  CurrencyConversionApi currencyConversionApi) {
+        return new DefaultCurrencyManager(app.getApplicationContext(), priceProxy,
+                storageManager, currencyConversionApi);
     }
 
     @Provides

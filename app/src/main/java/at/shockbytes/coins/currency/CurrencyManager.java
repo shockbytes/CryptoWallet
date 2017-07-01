@@ -15,6 +15,8 @@ public interface CurrencyManager {
 
     Currency getLocalCurrency();
 
+    CurrencyConversionRates getCurrencyConversionRates();
+
     Observable<List<OwnedCurrency>> getOwnedCurrencies();
 
     Observable<List<OwnedCurrency>> getCashedoutCurrencies();

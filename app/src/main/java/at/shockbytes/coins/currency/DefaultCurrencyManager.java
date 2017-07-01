@@ -9,12 +9,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import at.shockbytes.coins.network.conversion.CurrencyConversionApi;
 import at.shockbytes.coins.network.model.PriceConversion;
 import at.shockbytes.coins.storage.StorageManager;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.functions.Func2;
+import rx.functions.Func3;
 import rx.schedulers.Schedulers;
 
 /**
@@ -28,15 +29,20 @@ public class DefaultCurrencyManager implements CurrencyManager {
     private StorageManager storageManager;
     private SharedPreferences prefs;
 
+    private CurrencyConversionApi currencyConversionApi;
+    private CurrencyConversionRates conversionRates;
+
     private String PREFS_LOCAL_CURRENCY = "prefs_local_currency";
 
     private Balance balance;
 
     @Inject
     public DefaultCurrencyManager(Context context, PriceProxy priceProxy,
-                                  StorageManager storageManager) {
+                                  StorageManager storageManager,
+                                  CurrencyConversionApi currencyConversionApi) {
         this.priceProxy = priceProxy;
         this.storageManager = storageManager;
+        this.currencyConversionApi = currencyConversionApi;
 
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -51,6 +57,16 @@ public class DefaultCurrencyManager implements CurrencyManager {
         return Currency.values()[prefs.getInt(PREFS_LOCAL_CURRENCY, Currency.EUR.ordinal())];
     }
 
+
+    private Observable<CurrencyConversionRates> getCurrencyConversionRatesAsObservable() {
+        return currencyConversionApi.getCurrencyConversionRates("USD", "EUR,GBP,CHF");
+    }
+
+    @Override
+    public CurrencyConversionRates getCurrencyConversionRates() {
+        return conversionRates;
+    }
+
     @Override
     public Observable<List<OwnedCurrency>> getOwnedCurrencies() {
 
@@ -58,20 +74,14 @@ public class DefaultCurrencyManager implements CurrencyManager {
 
         return Observable.zip(localCurrencies,
                 priceProxy.getPriceConversions(Arrays.asList(CryptoCurrency.values()), getLocalCurrency()),
-                new Func2<List<OwnedCurrency>, List<PriceConversion>,
-                                        List<OwnedCurrency>>() {
+                getCurrencyConversionRatesAsObservable(),
+                new Func3<List<OwnedCurrency>, List<PriceConversion>, CurrencyConversionRates,
+                        List<OwnedCurrency>>() {
                     @Override
                     public List<OwnedCurrency> call(List<OwnedCurrency> c,
-                                                    List<PriceConversion> conversions) {
-
-                        balance = new Balance();
-                        // Assign the conversion rates to the corresponding currencies
-                        for (OwnedCurrency oc : c) {
-                            balance.addInvested(oc.getBoughtPrice());
-                            storageManager.updateConversionRates(oc, conversions);
-                            balance.addCurrent(oc.getCurrentPrice());
-                        }
-                        return c;
+                                                    List<PriceConversion> conversions,
+                                                    CurrencyConversionRates rates) {
+                        return updateOwnedCurrencyConversions(c, conversions, rates);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -80,19 +90,16 @@ public class DefaultCurrencyManager implements CurrencyManager {
 
     @Override
     public Observable<List<OwnedCurrency>> getCashedoutCurrencies() {
-        return storageManager.loadOwnedCurrencies(true)
-                .map(new Func1<List<OwnedCurrency>, List<OwnedCurrency>>() {
-            @Override
-            public List<OwnedCurrency> call(List<OwnedCurrency> currencies) {
-
-                balance = new Balance();
-                for (OwnedCurrency oc : currencies) {
-                    balance.addInvested(oc.getBoughtPrice());
-                    balance.addCurrent(oc.getCurrentPrice());
-                }
-                return currencies;
-            }
-        });
+        return Observable.zip(storageManager.loadOwnedCurrencies(true),
+                getCurrencyConversionRatesAsObservable(),
+                new Func2<List<OwnedCurrency>, CurrencyConversionRates, List<OwnedCurrency>>() {
+                    @Override
+                    public List<OwnedCurrency> call(List<OwnedCurrency> currencies,
+                                                    CurrencyConversionRates rates) {
+                        return updateOwnedCurrencyConversions(currencies, null, rates);
+                    }
+                }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
     }
 
     @Override
@@ -113,5 +120,25 @@ public class DefaultCurrencyManager implements CurrencyManager {
     @Override
     public void cashoutCurrency(OwnedCurrency ownedCurrency) {
         storageManager.cashoutOwnedCurrency(ownedCurrency);
+    }
+
+    private List<OwnedCurrency> updateOwnedCurrencyConversions (List<OwnedCurrency> c,
+                                                                List<PriceConversion> conversions,
+                                                                CurrencyConversionRates rates) {
+
+        conversionRates = rates;
+
+        balance = new Balance();
+        // Assign the conversion rates to the corresponding currencies
+        for (OwnedCurrency oc : c) {
+            double inv = rates.convert(oc.getBoughtPrice(), oc.getBoughtCurrency(),
+                    getLocalCurrency());
+            balance.addInvested(inv);
+            if (conversions != null) {
+                storageManager.updateConversionRates(oc, conversions);
+            }
+            balance.addCurrent(oc.getCurrentPrice());
+        }
+        return c;
     }
 }
