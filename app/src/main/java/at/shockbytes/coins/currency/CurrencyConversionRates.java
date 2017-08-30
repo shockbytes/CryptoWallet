@@ -68,6 +68,21 @@ public class CurrencyConversionRates {
         public String toString() {
             return "To CHF: " + CHF + "\nTo GBP: " + GBP + "\nTo EUR: " + EUR + "\nTo USD: " + USD;
         }
+
+        Rates defaultInitialize() {
+            CHF = GBP = EUR = USD = 1;
+            return this;
+        }
+    }
+
+    public static CurrencyConversionRates getDefaultCurrencyConversionRates() {
+
+        CurrencyConversionRates def = new CurrencyConversionRates();
+        def.base = "EUR";
+        def.date = "";
+        def.rates = new Rates().defaultInitialize();
+
+        return def;
     }
 
 }

@@ -77,14 +77,8 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
         @Bind(R.id.item_currency_txt_bought_price)
         TextView txtBoughtPrice;
 
-        @Bind(R.id.item_currency_txt_bought_currency)
-        TextView txtBoughtCurrency;
-
         @Bind(R.id.item_currency_txt_current_price)
         TextView txtCurrentPrice;
-
-        @Bind(R.id.item_currency_txt_current_currency)
-        TextView txtCurrentCurrency;
 
         @Bind(R.id.item_currency_txt_diff)
         TextView txtDiff;
@@ -118,11 +112,11 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
                 boughtPrice = content.getBoughtPrice();
             }
 
-            txtBoughtPrice.setText(String.valueOf(ResourceManager.roundDoubleWithDigits(boughtPrice, 2)));
-            txtBoughtCurrency.setText(ResourceManager.getSymbolForCurrency(localCurrency));
+            txtBoughtPrice.setText(String.valueOf(ResourceManager.roundDoubleWithDigits(boughtPrice, 2))
+                    + " " + ResourceManager.getSymbolForCurrency(localCurrency));
 
-            txtCurrentPrice.setText(String.valueOf(content.getCurrentPrice()));
-            txtCurrentCurrency.setText(ResourceManager.getSymbolForCurrency(localCurrency));
+            txtCurrentPrice.setText(String.valueOf(content.getCurrentPrice())
+                    + " " + ResourceManager.getSymbolForCurrency(localCurrency));
 
             double diff = content.getPriceDiffPercentage(boughtPrice);
             int diffColor = diff >= 0 ? R.color.percentage_win : R.color.percentage_loose_card;

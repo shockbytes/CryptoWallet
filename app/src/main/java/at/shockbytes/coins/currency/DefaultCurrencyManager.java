@@ -59,7 +59,8 @@ public class DefaultCurrencyManager implements CurrencyManager {
 
 
     private Observable<CurrencyConversionRates> getCurrencyConversionRatesAsObservable() {
-        return currencyConversionApi.getCurrencyConversionRates("USD", "EUR,GBP,CHF");
+        //return currencyConversionApi.getCurrencyConversionRates("USD", "EUR,GBP,CHF");
+        return Observable.just(CurrencyConversionRates.getDefaultCurrencyConversionRates());
     }
 
     @Override
@@ -81,7 +82,7 @@ public class DefaultCurrencyManager implements CurrencyManager {
                     public List<OwnedCurrency> call(List<OwnedCurrency> c,
                                                     List<PriceConversion> conversions,
                                                     CurrencyConversionRates rates) {
-                        return updateOwnedCurrencyConversions(c, conversions, rates);
+                        return updateOwnedCurrencyConversions(c, conversions, null); // TODO Replace with call later
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -96,7 +97,7 @@ public class DefaultCurrencyManager implements CurrencyManager {
                     @Override
                     public List<OwnedCurrency> call(List<OwnedCurrency> currencies,
                                                     CurrencyConversionRates rates) {
-                        return updateOwnedCurrencyConversions(currencies, null, rates);
+                        return updateOwnedCurrencyConversions(currencies, null, null); // TODO Replace with call later
                     }
                 }).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
@@ -126,6 +127,10 @@ public class DefaultCurrencyManager implements CurrencyManager {
                                                                 List<PriceConversion> conversions,
                                                                 CurrencyConversionRates rates) {
 
+        // Get default conversion rates if rates is not present
+        if (rates == null) {
+            rates = CurrencyConversionRates.getDefaultCurrencyConversionRates();
+        }
         conversionRates = rates;
 
         balance = new Balance();
