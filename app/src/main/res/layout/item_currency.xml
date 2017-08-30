@@ -54,23 +54,12 @@
             android:weightSum="1">
 
             <TextView
-                android:id="@+id/item_currency_txt_bought_currency"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="2dp"
-                android:layout_weight="0.15"
-                android:gravity="end|top"
-                android:text="€"
-                android:textSize="18sp" />
-
-            <TextView
                 android:id="@+id/item_currency_txt_bought_price"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.30"
-                android:gravity="center_vertical|start"
-                android:text="8,92"
+                android:layout_weight="0.45"
+                android:gravity="center"
+                android:text="8,92€"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/tertiary_text_light" />
 
@@ -81,23 +70,12 @@
                 app:srcCompat="@drawable/ic_conversion_arrow" />
 
             <TextView
-                android:id="@+id/item_currency_txt_current_currency"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="2dp"
-                android:layout_weight="0.15"
-                android:gravity="end|top"
-                android:text="€"
-                android:textSize="18sp" />
-
-            <TextView
                 android:id="@+id/item_currency_txt_current_price"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.30"
-                android:gravity="center_vertical|start"
-                android:text="10"
+                android:layout_weight="0.45"
+                android:gravity="center"
+                android:text="10€"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/tertiary_text_light" />
 

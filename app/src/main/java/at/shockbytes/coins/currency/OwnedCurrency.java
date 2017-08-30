@@ -73,8 +73,8 @@ public class OwnedCurrency extends RealmObject {
         return -1;
     }
 
-    public double getPriceDiffPercentage() {
-        double diff = (getCurrentPrice()  / (boughtPrice /100)) - 100;
+    public double getPriceDiffPercentage(double bought) {
+        double diff = (getCurrentPrice()  / (bought /100)) - 100;
         return ResourceManager.roundDoubleWithDigits(diff, 2);
     }
 

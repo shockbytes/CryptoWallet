@@ -17,6 +17,7 @@ import java.util.List;
 
 import at.shockbytes.coins.R;
 import at.shockbytes.coins.currency.Currency;
+import at.shockbytes.coins.currency.CurrencyConversionRates;
 import at.shockbytes.coins.currency.OwnedCurrency;
 import at.shockbytes.coins.fragment.MainFragment;
 import at.shockbytes.coins.util.ResourceManager;
@@ -43,6 +44,7 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
     private OnEntryPopupItemSelectedListener popupListener;
 
     private Currency localCurrency;
+    private CurrencyConversionRates conversionRates;
 
     private MainFragment.ViewType viewType;
 
@@ -59,8 +61,9 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
         return new ViewHolder(inflater.inflate(R.layout.item_currency, parent, false));
     }
 
-    public void setLocalCurrency(Currency localCurrency) {
+    public void setLocalCurrency(Currency localCurrency, CurrencyConversionRates conversionRates) {
         this.localCurrency = localCurrency;
+        this.conversionRates = conversionRates;
     }
 
     class ViewHolder extends BaseAdapter<OwnedCurrency>.ViewHolder implements PopupMenu.OnMenuItemClickListener {
@@ -74,14 +77,8 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
         @Bind(R.id.item_currency_txt_bought_price)
         TextView txtBoughtPrice;
 
-        @Bind(R.id.item_currency_txt_bought_currency)
-        TextView txtBoughtCurrency;
-
         @Bind(R.id.item_currency_txt_current_price)
         TextView txtCurrentPrice;
-
-        @Bind(R.id.item_currency_txt_current_currency)
-        TextView txtCurrentCurrency;
 
         @Bind(R.id.item_currency_txt_diff)
         TextView txtDiff;
@@ -105,13 +102,24 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
                     content.getCryptoCurrency()));
             txtAmount.setText(content.getAmount() + " "
                     + content.getCryptoCurrency().name());
-            txtBoughtPrice.setText(String.valueOf(content.getBoughtPrice()));
-            txtBoughtCurrency.setText(ResourceManager.getSymbolForCurrency(content.getBoughtCurrency()));
-            txtCurrentPrice.setText(String.valueOf(content.getCurrentPrice()));
-            txtCurrentCurrency.setText(ResourceManager.getSymbolForCurrency(localCurrency));
 
-            double diff = content.getPriceDiffPercentage();
-            int diffColor = diff >= 0 ? R.color.colorAccent : android.R.color.holo_red_light;
+
+            double boughtPrice;
+            if (content.getBoughtCurrency() != localCurrency) {
+                boughtPrice = conversionRates.convert(content.getBoughtPrice(),
+                        content.getBoughtCurrency(), localCurrency);
+            } else {
+                boughtPrice = content.getBoughtPrice();
+            }
+
+            txtBoughtPrice.setText(String.valueOf(ResourceManager.roundDoubleWithDigits(boughtPrice, 2))
+                    + " " + ResourceManager.getSymbolForCurrency(localCurrency));
+
+            txtCurrentPrice.setText(String.valueOf(content.getCurrentPrice())
+                    + " " + ResourceManager.getSymbolForCurrency(localCurrency));
+
+            double diff = content.getPriceDiffPercentage(boughtPrice);
+            int diffColor = diff >= 0 ? R.color.percentage_win : R.color.percentage_loose_card;
             txtDiff.setTextColor(ContextCompat.getColor(context, diffColor));
             txtDiff.setText(diff + "%");
         }

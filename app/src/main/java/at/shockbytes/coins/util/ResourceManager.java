@@ -229,6 +229,10 @@ public class ResourceManager {
                 return "€";
             case USD:
                 return "$";
+            /*case GBP:
+                return "GBP";
+            case CHF:
+                return "CHF"; */
         }
         return "";
     }

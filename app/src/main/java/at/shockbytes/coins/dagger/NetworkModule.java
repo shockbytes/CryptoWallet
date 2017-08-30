@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 import at.shockbytes.coins.network.coinbase.CoinbasePriceApi;
 import at.shockbytes.coins.network.PriceManager;
 import at.shockbytes.coins.network.coinbase.CoinbasePriceManager;
+import at.shockbytes.coins.network.conversion.CurrencyConversionApi;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -43,7 +44,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    public CoinbasePriceApi providePiceApiService(OkHttpClient client) {
+    public CoinbasePriceApi provideCoinbasePriceApi(OkHttpClient client) {
         return new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)
@@ -60,6 +61,16 @@ public class NetworkModule {
         return new CoinbasePriceManager(api);
     }
 
-
+    @Provides
+    @Singleton
+    public CurrencyConversionApi provideCurrencyConversionApi(OkHttpClient client) {
+        return new Retrofit.Builder()
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(CurrencyConversionApi.SERVICE_ENDPOINT)
+                .build()
+                .create(CurrencyConversionApi.class);
+    }
 
 }

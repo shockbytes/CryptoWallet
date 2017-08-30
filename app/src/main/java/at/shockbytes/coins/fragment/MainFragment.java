@@ -151,7 +151,7 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         txtInvested.setText(balance.getInvested() + " " + currencyManager.getLocalCurrency());
 
         double diff = balance.getPercentageDiff();
-        int diffColor = diff >= 0 ? R.color.colorAccent : android.R.color.holo_red_light;
+        int diffColor = diff >= 0 ? R.color.percentage_win : R.color.percentage_loose;
         txtDiffPercentage.setTextColor(ContextCompat.getColor(getContext(), diffColor));
         txtDiffPercentage.setText(diff + "%");
     }
@@ -173,7 +173,8 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
                 swipeRefreshLayout.setRefreshing(false);
 
-                adapter.setLocalCurrency(currencyManager.getLocalCurrency());
+                adapter.setLocalCurrency(currencyManager.getLocalCurrency(),
+                        currencyManager.getCurrencyConversionRates());
                 adapter.setData(ownedCurrencies);
 
                 int visibility = ownedCurrencies.size() == 0 ? View.VISIBLE : View.GONE;
