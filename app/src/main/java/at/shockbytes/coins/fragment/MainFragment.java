@@ -1,6 +1,7 @@
 package at.shockbytes.coins.fragment;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 
@@ -24,6 +28,7 @@ import at.shockbytes.coins.core.CoinsApp;
 import at.shockbytes.coins.currency.Balance;
 import at.shockbytes.coins.currency.CurrencyManager;
 import at.shockbytes.coins.currency.OwnedCurrency;
+import at.shockbytes.coins.util.AppParams;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
@@ -41,6 +46,9 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Inject
     protected CurrencyManager currencyManager;
 
+    @Inject
+    protected SharedPreferences preferences;
+
     @Bind(R.id.main_fragment_rv)
     protected RecyclerView recyclerView;
 
@@ -56,6 +64,9 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Bind(R.id.balance_header_txt_percentage)
     protected TextView txtDiffPercentage;
 
+    @Bind(R.id.balance_header_imgview_trend)
+    protected ImageView imgViewTrend;
+
     @Bind(R.id.fragment_main_empty_view)
     protected View emptyView;
 
@@ -67,6 +78,11 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private boolean isViewSetup;
 
     private ViewType viewType;
+
+    private Timer autoUpdateTimer;
+    private TimerTask autoUpdateTimerTask;
+
+    private double lastBalance;
 
     public static MainFragment newInstance(ViewType viewType) {
         MainFragment fragment = new MainFragment();
@@ -115,7 +131,21 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             setupViews();
         }
 
+        lastBalance = currencyManager.getLatestBalance();
         loadData();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (autoUpdateTimer != null) {
+            autoUpdateTimer.purge();
+            autoUpdateTimer.cancel();
+            autoUpdateTimerTask.cancel();
+        }
+
+        currencyManager.storeLatestBalance();
     }
 
     @Override
@@ -154,18 +184,52 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         int diffColor = diff >= 0 ? R.color.percentage_win : R.color.percentage_loose;
         txtDiffPercentage.setTextColor(ContextCompat.getColor(getContext(), diffColor));
         txtDiffPercentage.setText(diff + "%");
+
+        animateTrendArrow(balance.getCurrent());
     }
+
+    private void animateTrendArrow(double balance) {
+
+        // Do not animate anything if it has the same value
+        if (lastBalance == balance) {
+            return;
+        }
+
+        float rotation = (lastBalance > balance) ? 90 : -90;
+        imgViewTrend.setRotation(rotation);
+
+        imgViewTrend.animate().alpha(1).setDuration(AppParams.TREND_ANIM_DURATION).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                if (imgViewTrend != null) {
+                    imgViewTrend.animate().alpha(0).setDuration(AppParams.TREND_ANIM_DURATION);
+                }
+            }
+        });
+
+        lastBalance = balance;
+    }
+
 
     private void loadData() {
 
         swipeRefreshLayout.setRefreshing(true);
 
-        Observable<List<OwnedCurrency>> dataSource = Observable.empty();
         if (viewType == ViewType.BALANCE) {
-            dataSource = currencyManager.getOwnedCurrencies();
+
+            if (preferences.getBoolean(getString(R.string.prefs_key_auto_update), false)) {
+                subscribeToPeriodicDataSource();
+            } else {
+                subscribeToSingleDataSource(currencyManager.getOwnedCurrencies());
+            }
+
         } else if (viewType == ViewType.CASHOUT) {
-            dataSource = currencyManager.getCashedoutCurrencies();
+            subscribeToSingleDataSource(currencyManager.getCashedoutCurrencies());
         }
+
+    }
+
+    private void subscribeToSingleDataSource(Observable<List<OwnedCurrency>> dataSource) {
 
         dataSource.subscribe(new Action1<List<OwnedCurrency>>() {
             @Override
@@ -189,6 +253,24 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 throwable.printStackTrace();
             }
         });
+    }
+
+    private void subscribeToPeriodicDataSource() {
+
+        autoUpdateTimer = new Timer();
+        autoUpdateTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        subscribeToSingleDataSource(currencyManager.getOwnedCurrencies());
+                    }
+                });
+            }
+        };
+        autoUpdateTimer.schedule(autoUpdateTimerTask, 0, AppParams.AUTO_UPDATE_TIME);
     }
 
     public void onNewCurrencyEntryAvailable(OwnedCurrency ownedCurrency) {

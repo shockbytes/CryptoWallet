@@ -2,7 +2,6 @@ package at.shockbytes.coins.currency;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,18 +32,19 @@ public class DefaultCurrencyManager implements CurrencyManager {
     private CurrencyConversionRates conversionRates;
 
     private String PREFS_LOCAL_CURRENCY = "prefs_local_currency";
+    private String PREFS_LATEST_BALANCE = "latest_balance";
 
     private Balance balance;
 
     @Inject
     public DefaultCurrencyManager(Context context, PriceProxy priceProxy,
                                   StorageManager storageManager,
-                                  CurrencyConversionApi currencyConversionApi) {
+                                  CurrencyConversionApi currencyConversionApi,
+                                  SharedPreferences prefs) {
         this.priceProxy = priceProxy;
         this.storageManager = storageManager;
         this.currencyConversionApi = currencyConversionApi;
-
-        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        this.prefs = prefs;
     }
 
     @Override
@@ -111,6 +111,16 @@ public class DefaultCurrencyManager implements CurrencyManager {
     @Override
     public Balance getBalance() {
         return balance;
+    }
+
+    @Override
+    public void storeLatestBalance() {
+        prefs.edit().putFloat(PREFS_LATEST_BALANCE, (float) balance.getCurrent()).apply();
+    }
+
+    @Override
+    public double getLatestBalance() {
+        return prefs.getFloat(PREFS_LATEST_BALANCE, 0);
     }
 
     @Override

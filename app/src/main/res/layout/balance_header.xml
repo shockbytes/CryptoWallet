@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_main_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -23,6 +24,7 @@
         android:id="@+id/balance_header_txt_invested"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/balance_header_txt_current"
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:padding="0dp"
@@ -34,6 +36,7 @@
         android:id="@+id/balance_header_txt_percentage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/balance_header_txt_invested"
         android:layout_marginTop="4dp"
         android:gravity="center"
         android:padding="0dp"
@@ -41,4 +44,15 @@
         android:textSize="18sp"
         android:textStyle="normal" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/balance_header_imgview_trend"
+        android:layout_width="36dp"
+        android:layout_height="48dp"
+        android:layout_alignBottom="@+id/balance_header_txt_percentage"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="56dp"
+        android:alpha="0"
+        app:srcCompat="@drawable/ic_trend_flat" />
+
+</RelativeLayout>

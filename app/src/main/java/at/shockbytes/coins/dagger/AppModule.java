@@ -1,6 +1,8 @@
 package at.shockbytes.coins.dagger;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -36,9 +38,10 @@ public class AppModule {
     @Singleton
     public CurrencyManager provideCurrencyManager(PriceProxy priceProxy,
                                                   StorageManager storageManager,
-                                                  CurrencyConversionApi currencyConversionApi) {
+                                                  CurrencyConversionApi currencyConversionApi,
+                                                  SharedPreferences preferences) {
         return new DefaultCurrencyManager(app.getApplicationContext(), priceProxy,
-                storageManager, currencyConversionApi);
+                storageManager, currencyConversionApi, preferences);
     }
 
     @Provides
@@ -62,6 +65,12 @@ public class AppModule {
     @Singleton
     public StorageManager provideStorageManager(Realm realm) {
         return new RealmStorageManager(realm);
+    }
+
+    @Provides
+    @Singleton
+    public SharedPreferences provideSharedPreferences(){
+        return PreferenceManager.getDefaultSharedPreferences(app.getApplicationContext());
     }
 
 }
