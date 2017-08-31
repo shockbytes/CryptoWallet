@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Currencies">
+    <PreferenceCategory android:title="General">
 
         <ListPreference
             android:title="Local currency"
@@ -9,23 +9,19 @@
             android:defaultValue="@string/local_currency_default_value"
             android:entries="@array/currency_entries"
             android:entryValues="@array/currency_entry_values">
-
         </ListPreference>
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Security and Auth">
+        <SwitchPreference
+            android:title="Auto update values"
+            android:summary="Values updates in fixed interval"
+            android:key="@string/prefs_key_auto_update"
+            android:defaultValue="false">
+        </SwitchPreference>
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/prefs_key_fingerprint_as_auth"
-            android:title="Unlock app with fingerprint" />
-
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/prefs_key_encrypt_with_fingerprint"
-            android:title="Encrypt data based on fingerprint" />
+            android:title="Secure app with Fingerprint" />
 
     </PreferenceCategory>
 

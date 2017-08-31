@@ -25,6 +25,10 @@ public interface CurrencyManager {
 
     Balance getBalance();
 
+    void storeLatestBalance();
+
+    double getLatestBalance();
+
     void removeCurrency(OwnedCurrency ownedCurrency);
 
     void cashoutCurrency(OwnedCurrency ownedCurrency);
