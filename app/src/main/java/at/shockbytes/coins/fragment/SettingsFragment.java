@@ -1,9 +1,14 @@
 package at.shockbytes.coins.fragment;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.v4.app.ActivityCompat;
 
 import javax.inject.Inject;
 
@@ -29,14 +34,28 @@ public class SettingsFragment extends PreferenceFragment
         localCurrencyPref = (ListPreference) findPreference(getString(R.string.prefs_key_local_currency));
         localCurrencyPref.setSummary(currencyManager.getLocalCurrency().name());
         localCurrencyPref.setOnPreferenceChangeListener(this);
+
+        checkForFingerprintSecurity();
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-
         String value = (String) o;
         localCurrencyPref.setSummary(value);
         currencyManager.setLocalCurrency(Currency.valueOf(value));
         return true;
     }
+
+    private void checkForFingerprintSecurity() {
+
+        FingerprintManager fingerprintManager = (FingerprintManager) getContext()
+                .getSystemService(Context.FINGERPRINT_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED) {
+            if (!fingerprintManager.isHardwareDetected()) {
+                findPreference(getString(R.string.prefs_key_fingerprint_as_auth)).setEnabled(false);
+            }
+        }
+    }
+
 }

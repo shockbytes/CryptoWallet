@@ -15,7 +15,7 @@
             android:id="@+id/item_currency_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_btc" />
+            android:src="@drawable/ic_crypto_currency_btc" />
 
         <ImageButton
             android:id="@+id/item_currency_icon_imgbtn_overflow"

@@ -120,7 +120,9 @@ public class DefaultCurrencyManager implements CurrencyManager {
 
     @Override
     public void storeLatestBalance() {
-        prefs.edit().putFloat(PREFS_LATEST_BALANCE, (float) balance.getCurrent()).apply();
+        if (balance != null) {
+            prefs.edit().putFloat(PREFS_LATEST_BALANCE, (float) balance.getCurrent()).apply();
+        }
     }
 
     @Override

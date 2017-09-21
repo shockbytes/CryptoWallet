@@ -4,19 +4,17 @@
     <PreferenceCategory android:title="General">
 
         <ListPreference
-            android:title="Local currency"
-            android:key="@string/prefs_key_local_currency"
             android:defaultValue="@string/local_currency_default_value"
             android:entries="@array/currency_entries"
-            android:entryValues="@array/currency_entry_values">
-        </ListPreference>
+            android:entryValues="@array/currency_entry_values"
+            android:key="@string/prefs_key_local_currency"
+            android:title="Local currency" />
 
         <SwitchPreference
-            android:title="Auto update values"
-            android:summary="Values updates in fixed interval"
+            android:defaultValue="true"
             android:key="@string/prefs_key_auto_update"
-            android:defaultValue="false">
-        </SwitchPreference>
+            android:summary="Values updates in fixed interval"
+            android:title="Auto update values" />
 
         <SwitchPreference
             android:defaultValue="false"

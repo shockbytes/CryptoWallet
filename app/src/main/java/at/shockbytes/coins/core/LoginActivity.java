@@ -9,6 +9,7 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
@@ -55,6 +56,7 @@ public class LoginActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.dark_background));
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
