@@ -198,11 +198,11 @@ public class ResourceManager {
         switch (currency) {
 
             case BTC:
-                return R.drawable.ic_btc;
+                return R.drawable.ic_crypto_currency_btc;
             case ETH:
-                return R.drawable.ic_eth;
+                return R.drawable.ic_crypto_currency_eth;
             case LTC:
-                return R.drawable.ic_ltc;
+                return R.drawable.ic_crypto_currency_ltc;
         }
         return 0;
     }
@@ -213,9 +213,9 @@ public class ResourceManager {
         switch (currency) {
 
             case EUR:
-                return R.drawable.ic_eur;
+                return R.drawable.ic_currency_eur;
             case USD:
-                return R.drawable.ic_usd;
+                return R.drawable.ic_currency_usd;
         }
         return 0;
 

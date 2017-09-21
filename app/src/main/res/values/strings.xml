@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">Crypto Wallet</string>
+    <string name="app_version">1.2</string>
 
     <string name="title_activity_login">LoginActivity</string>
-    <string name="prefs_key_encrypt_with_fingerprint">prefs_key_encrypt_with_fingerprint</string>
     <string name="prefs_key_fingerprint_as_auth">prefs_key_use_fingerprint_as_auth</string>
-    <string name="app_version">1.2</string>
     <string name="local_currency_default_value">EUR</string>
     <string name="prefs_key_local_currency">prefs_key_local_currency</string>
     <string name="contentdesc_drawer_open">Open drawer</string>

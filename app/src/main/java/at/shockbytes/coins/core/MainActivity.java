@@ -15,9 +15,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.transition.Slide;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,6 +56,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setExitTransition(new Slide(Gravity.BOTTOM));
+        getWindow().setEnterTransition(new Explode());
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setupActionBar();
@@ -82,12 +88,15 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQ_CODE_LOGIN && resultCode == RESULT_OK) {
-            showMainFragment();
+        if (requestCode == REQ_CODE_LOGIN) {
+            if (resultCode == RESULT_OK) {
+                showMainFragment();
+            } else {
+                supportFinishAfterTransition();
+            }
         } else if (requestCode == REQ_CODE_NEW_BUY && resultCode == RESULT_OK) {
             mainFragment.onNewCurrencyEntryAvailable();
         }
-
     }
 
     @Override

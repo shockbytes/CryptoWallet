@@ -16,7 +16,7 @@
         android:layout_height="96dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:src="@drawable/ic_account_template" />
+        android:src="@drawable/ic_navigation_account" />
 
     <TextView
         android:id="@+id/navigation_header_text"

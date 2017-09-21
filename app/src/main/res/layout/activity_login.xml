@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/dark_background"
     android:padding="16dp"
+    android:fitsSystemWindows="true"
     tools:context="at.shockbytes.coins.core.LoginActivity">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:gravity="center"
-        android:text="Watch your coins"
+        android:text="Watch your coins working"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
@@ -23,7 +24,7 @@
         android:id="@+id/activity_login_img_btc"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        app:srcCompat="@drawable/ic_btc"
+        app:srcCompat="@drawable/ic_crypto_currency_btc_white"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/activity_login_img_fingerprint" />
 
@@ -31,7 +32,7 @@
         android:id="@+id/activity_login_img_eth"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        app:srcCompat="@drawable/ic_eth"
+        app:srcCompat="@drawable/ic_crypto_currency_eth_white"
         android:layout_alignBottom="@+id/activity_login_img_btc"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="43dp" />
@@ -40,7 +41,7 @@
         android:id="@+id/activity_login_img_ltc"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        app:srcCompat="@drawable/ic_ltc"
+        app:srcCompat="@drawable/ic_crypto_currency_ltc_white"
         android:layout_alignTop="@+id/activity_login_img_btc"
         android:layout_toEndOf="@+id/activity_login_img_fingerprint" />
 
@@ -48,7 +49,7 @@
         android:id="@+id/activity_login_img_fingerprint"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/ic_fingerprint"
+        app:srcCompat="@drawable/ic_fingerprint"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
