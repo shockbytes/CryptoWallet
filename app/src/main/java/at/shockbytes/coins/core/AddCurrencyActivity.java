@@ -1,37 +1,43 @@
-package at.shockbytes.coins.fragment.dialog;
+package at.shockbytes.coins.core;
 
-
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
+import android.transition.Explode;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import at.shockbytes.coins.R;
 import at.shockbytes.coins.adapter.CurrencySpinnerAdapter;
 import at.shockbytes.coins.currency.CryptoCurrency;
 import at.shockbytes.coins.currency.Currency;
+import at.shockbytes.coins.currency.CurrencyManager;
 import at.shockbytes.coins.currency.OwnedCurrency;
 import at.shockbytes.coins.util.ResourceManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class AddCurrencyDialogFragment extends DialogFragment {
+public class AddCurrencyActivity extends AppCompatActivity {
 
-    public interface OnCurrencyAddedListener {
-
-        void onCurrencyAdded(OwnedCurrency ownedCurrency);
+    public static Intent newIntent(Context context) {
+        return new Intent(context, AddCurrencyActivity.class);
     }
+
+    @Inject
+    protected CurrencyManager currencyManager;
 
     @Bind(R.id.fragment_dialog_add_currency_edit_cryptocurrency)
     protected TextInputEditText editCryptoCurrency;
@@ -51,78 +57,54 @@ public class AddCurrencyDialogFragment extends DialogFragment {
     @Bind(R.id.fragment_dialog_add_currency_spinner_currency)
     protected Spinner spinnerCurrency;
 
-
-    private OnCurrencyAddedListener listener;
-
-    public static AddCurrencyDialogFragment newInstance() {
-        AddCurrencyDialogFragment fragment = new AddCurrencyDialogFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public AddCurrencyDialogFragment() {
-    }
-
-
-    @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-        return new AlertDialog.Builder(getContext())
-                .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        String strbp = editCurrency.getText().toString();
-                        if (strbp.isEmpty()) {
-                            return;
-                        }
-
-                        String strcc = editCryptoCurrency.getText().toString();
-                        if (strcc.isEmpty()) {
-                            return;
-                        }
-
-                        double boughtPrice = Double.parseDouble(strbp);
-                        Currency boughtCurrency = Currency.values()[spinnerCurrency
-                                .getSelectedItemPosition()];
-                        double amount = Double.parseDouble(strcc);
-                        CryptoCurrency currency = CryptoCurrency.values()[spinnerCryptoCurrency
-                                .getSelectedItemPosition()];
-
-                        if (listener != null) {
-                            listener.onCurrencyAdded(new OwnedCurrency(currency, amount,
-                                    boughtCurrency, boughtPrice));
-                        }
-
-                        dismiss();
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .setView(createView())
-                .setIcon(R.drawable.ic_money_filled)
-                .setTitle("Add bought coins")
-                .create();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setExitTransition(new Slide(Gravity.BOTTOM));
+        getWindow().setEnterTransition(new Explode());
+        setContentView(R.layout.activity_add_currency);
+        ((CoinsApp) getApplication()).getAppComponent().inject(this);
+        ButterKnife.bind(this);
+        setupViews();
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    protected void onDestroy() {
+        super.onDestroy();
         ButterKnife.unbind(this);
     }
 
-    public void setOnCurrencyAddedListener(OnCurrencyAddedListener listener) {
-        this.listener = listener;
+    @OnClick(R.id.fragment_dialog_add_currency_btn_save)
+    protected void onClickSave() {
+
+        String strbp = editCurrency.getText().toString();
+        if (strbp.isEmpty()) {
+            return;
+        }
+
+        String strcc = editCryptoCurrency.getText().toString();
+        if (strcc.isEmpty()) {
+            return;
+        }
+
+        double boughtPrice = Double.parseDouble(strbp);
+        Currency boughtCurrency = Currency.values()[spinnerCurrency
+                .getSelectedItemPosition()];
+        double amount = Double.parseDouble(strcc);
+        CryptoCurrency currency = CryptoCurrency.values()[spinnerCryptoCurrency
+                .getSelectedItemPosition()];
+
+        OwnedCurrency ownedCurrency = new OwnedCurrency(currency, amount,
+                boughtCurrency, boughtPrice);
+
+        currencyManager.addOwnedCurrency(ownedCurrency);
+        supportFinishAfterTransition();
     }
 
-    private View createView() {
+    private void setupViews() {
 
-        View v = LayoutInflater.from(getContext())
-                .inflate(R.layout.fragment_dialog_add_currency, null, false);
-        ButterKnife.bind(this, v);
-
-        spinnerCryptoCurrency.setAdapter(new CurrencySpinnerAdapter(getContext(),
+        spinnerCryptoCurrency.setAdapter(new CurrencySpinnerAdapter(this,
                 getCryptoCurrencyItems()));
         spinnerCryptoCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -136,7 +118,7 @@ public class AddCurrencyDialogFragment extends DialogFragment {
             }
         });
 
-        spinnerCurrency.setAdapter(new CurrencySpinnerAdapter(getContext(), getCurrencyItems()));
+        spinnerCurrency.setAdapter(new CurrencySpinnerAdapter(this, getCurrencyItems()));
         spinnerCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -149,7 +131,6 @@ public class AddCurrencyDialogFragment extends DialogFragment {
             }
         });
 
-        return v;
     }
 
     private List<CurrencySpinnerAdapter.CurrencySpinnerAdapterItem> getCurrencyItems() {
@@ -169,6 +150,5 @@ public class AddCurrencyDialogFragment extends DialogFragment {
         }
         return items;
     }
-
 
 }

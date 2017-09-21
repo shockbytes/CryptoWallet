@@ -100,8 +100,8 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
 
             imgViewIcon.setImageResource(getResourceForCryptoCurrency(
                     content.getCryptoCurrency()));
-            txtAmount.setText(content.getAmount() + " "
-                    + content.getCryptoCurrency().name());
+            txtAmount.setText(ResourceManager.roundDoubleWithDigits(content.getAmount(), 8)
+                    + " " + content.getCryptoCurrency().name());
 
 
             double boughtPrice;

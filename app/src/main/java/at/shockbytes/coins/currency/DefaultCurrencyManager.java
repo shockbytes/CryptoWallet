@@ -90,6 +90,11 @@ public class DefaultCurrencyManager implements CurrencyManager {
     }
 
     @Override
+    public OwnedCurrency getOwnedCurrencyById(long id) {
+        return storageManager.getOwnedCurrencyById(id);
+    }
+
+    @Override
     public Observable<List<OwnedCurrency>> getCashedoutCurrencies() {
         return Observable.zip(storageManager.loadOwnedCurrencies(true),
                 getCurrencyConversionRatesAsObservable(),
@@ -131,6 +136,11 @@ public class DefaultCurrencyManager implements CurrencyManager {
     @Override
     public void cashoutCurrency(OwnedCurrency ownedCurrency) {
         storageManager.cashoutOwnedCurrency(ownedCurrency);
+    }
+
+    @Override
+    public void splitCashout(OwnedCurrency currency, double amountToPayout) {
+        storageManager.splitCashout(currency, amountToPayout);
     }
 
     private List<OwnedCurrency> updateOwnedCurrencyConversions (List<OwnedCurrency> c,

@@ -23,4 +23,7 @@ public interface StorageManager {
 
     void updateConversionRates(OwnedCurrency c, List<PriceConversion> conversions);
 
+    OwnedCurrency getOwnedCurrencyById(long id);
+
+    void splitCashout(OwnedCurrency currency, double amountToPayout);
 }

@@ -62,8 +62,20 @@ public class OwnedCurrency extends RealmObject {
         return boughtPrice;
     }
 
+    public void setBoughtPrice(double boughtPrice) {
+        this.boughtPrice = boughtPrice;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
     public void setConversionRate(double conversionRate) {
         this.conversionRate = conversionRate;
+    }
+
+    public double getConversionRate() {
+        return conversionRate;
     }
 
     public double getCurrentPrice() {

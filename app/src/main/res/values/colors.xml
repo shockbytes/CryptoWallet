@@ -13,7 +13,7 @@
     <color name="primaryBackground">#EEE</color>
 
     <color name="percentage_win">#8BC34A</color>
-    <color name="percentage_loose">#212121</color>
+    <color name="percentage_loose">#f44336</color>
     <color name="percentage_loose_card">#f44336</color>
 
     <color name="black_overlay">#66000000</color>

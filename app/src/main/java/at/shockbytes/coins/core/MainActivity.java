@@ -22,9 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import at.shockbytes.coins.R;
-import at.shockbytes.coins.currency.OwnedCurrency;
 import at.shockbytes.coins.fragment.MainFragment;
-import at.shockbytes.coins.fragment.dialog.AddCurrencyDialogFragment;
 import at.shockbytes.coins.util.ResourceManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,11 +31,11 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity
-        implements AddCurrencyDialogFragment.OnCurrencyAddedListener,
-        NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int REQ_CODE_LOGIN = 0x1247;
     private static final int REQ_CODE_PERM_CONTACTS = 0x2224;
+    private static final int REQ_CODE_NEW_BUY = 0x4890;
 
     private MainFragment mainFragment;
 
@@ -86,13 +84,10 @@ public class MainActivity extends AppCompatActivity
 
         if (requestCode == REQ_CODE_LOGIN && resultCode == RESULT_OK) {
             showMainFragment();
+        } else if (requestCode == REQ_CODE_NEW_BUY && resultCode == RESULT_OK) {
+            mainFragment.onNewCurrencyEntryAvailable();
         }
 
-    }
-
-    @Override
-    public void onCurrencyAdded(OwnedCurrency ownedCurrency) {
-        mainFragment.onNewCurrencyEntryAvailable(ownedCurrency);
     }
 
     @Override
@@ -143,9 +138,8 @@ public class MainActivity extends AppCompatActivity
 
     @OnClick(R.id.main_fab)
     protected void onClickFab() {
-        AddCurrencyDialogFragment dialogFragment = AddCurrencyDialogFragment.newInstance();
-        dialogFragment.setOnCurrencyAddedListener(this);
-        dialogFragment.show(getSupportFragmentManager(), dialogFragment.getTag());
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+        startActivityForResult(AddCurrencyActivity.newIntent(this), REQ_CODE_NEW_BUY, options.toBundle());
     }
 
     private void setupActionBar() {
@@ -193,9 +187,9 @@ public class MainActivity extends AppCompatActivity
 
         if (EasyPermissions.hasPermissions(this, Manifest.permission.READ_CONTACTS)) {
 
-            TextView navigationHeaderText = (TextView) navigationView.getHeaderView(0)
+            TextView navigationHeaderText = navigationView.getHeaderView(0)
                     .findViewById(R.id.navigation_header_text);
-            ImageView navigationHeaderIcon = (ImageView) navigationView.getHeaderView(0)
+            ImageView navigationHeaderIcon = navigationView.getHeaderView(0)
                     .findViewById(R.id.navigation_header_imgview);
 
             String name = ResourceManager.getProfileName(this);
