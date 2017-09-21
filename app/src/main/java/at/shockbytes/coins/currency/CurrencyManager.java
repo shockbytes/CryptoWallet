@@ -19,6 +19,8 @@ public interface CurrencyManager {
 
     Observable<List<OwnedCurrency>> getOwnedCurrencies();
 
+    OwnedCurrency getOwnedCurrencyById(long id);
+
     Observable<List<OwnedCurrency>> getCashedoutCurrencies();
 
     void addOwnedCurrency(OwnedCurrency ownedCurrency);
@@ -32,4 +34,6 @@ public interface CurrencyManager {
     void removeCurrency(OwnedCurrency ownedCurrency);
 
     void cashoutCurrency(OwnedCurrency ownedCurrency);
+
+    void splitCashout(OwnedCurrency currency, double amountToPayout);
 }

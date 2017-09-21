@@ -21,5 +21,9 @@
 
 * Improved Enter dialog
 * Improved cashout dialog
-* Introduce currency exchange rates (buy in USD and show in EUR)
 * Secure app with fingerprint
+
+### Upcoming Version 1.3
+
+* Introduce currency exchange rates (buy in USD and show in EUR)
+* Secure database with fingerprint encryption

@@ -29,12 +29,14 @@
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
-
         <activity
             android:name=".core.SettingsActivity"
             android:label="Settings"
-            android:theme="@style/AppTheme.Settings" />
-
+            android:theme="@style/AppTheme.WithActionBar" />
+        <activity android:name=".core.AddCurrencyActivity"
+            android:label="Add currency"
+            android:theme="@style/AppTheme.WithActionBar">
+        </activity>
     </application>
 
 </manifest>

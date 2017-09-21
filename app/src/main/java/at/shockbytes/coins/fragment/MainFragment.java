@@ -262,19 +262,20 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             @Override
             public void run() {
 
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        subscribeToSingleDataSource(currencyManager.getOwnedCurrencies());
-                    }
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            subscribeToSingleDataSource(currencyManager.getOwnedCurrencies());
+                        }
+                    });
+                }
             }
         };
         autoUpdateTimer.schedule(autoUpdateTimerTask, 0, AppParams.AUTO_UPDATE_TIME);
     }
 
-    public void onNewCurrencyEntryAvailable(OwnedCurrency ownedCurrency) {
-        currencyManager.addOwnedCurrency(ownedCurrency);
+    public void onNewCurrencyEntryAvailable() {
         if (isVisible()) {
             loadData();
         }
@@ -282,8 +283,16 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onCashout(OwnedCurrency ownedCurrency) {
-        currencyManager.cashoutCurrency(ownedCurrency);
-        loadData();
+
+        CashoutDialogFragment fragment = CashoutDialogFragment.newInstance(ownedCurrency.getId());
+        fragment.setOnCashoutCompletedListener(new CashoutDialogFragment.OnCashoutCompletedListener() {
+            @Override
+            public void onCashoutCompleted() {
+                loadData();
+            }
+        });
+        fragment.show(getFragmentManager(), "cashout-fragment");
+
     }
 
     @Override
