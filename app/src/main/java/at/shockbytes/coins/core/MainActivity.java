@@ -1,6 +1,7 @@
 package at.shockbytes.coins.core;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,9 +29,10 @@ import android.widget.TextView;
 import at.shockbytes.coins.R;
 import at.shockbytes.coins.fragment.MainFragment;
 import at.shockbytes.coins.util.ResourceManager;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -42,16 +45,18 @@ public class MainActivity extends AppCompatActivity
 
     private MainFragment mainFragment;
 
-    @Bind(R.id.main_toolbar)
+    @BindView(R.id.main_toolbar)
     protected Toolbar toolbar;
 
-    @Bind(R.id.main_drawer_layout)
+    @BindView(R.id.main_drawer_layout)
     protected DrawerLayout drawerLayout;
 
-    @Bind(R.id.main_navigation_view)
+    @BindView(R.id.main_navigation_view)
     protected NavigationView navigationView;
 
     private ActionBarDrawerToggle drawerToggle;
+
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity
         getWindow().setExitTransition(new Slide(Gravity.BOTTOM));
         getWindow().setEnterTransition(new Explode());
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         setupActionBar();
         setupNavigationDrawer();
 
@@ -75,7 +80,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override
@@ -145,6 +150,7 @@ public class MainActivity extends AppCompatActivity
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @SuppressLint("RestrictedApi")
     @OnClick(R.id.main_fab)
     protected void onClickFab() {
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);

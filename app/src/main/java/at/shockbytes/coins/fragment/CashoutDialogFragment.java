@@ -20,8 +20,9 @@ import at.shockbytes.coins.core.CoinsApp;
 import at.shockbytes.coins.currency.CurrencyManager;
 import at.shockbytes.coins.currency.OwnedCurrency;
 import at.shockbytes.coins.util.ResourceManager;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Martin Macheiner
@@ -49,18 +50,20 @@ public class CashoutDialogFragment extends DialogFragment implements SeekBar.OnS
     @Inject
     protected CurrencyManager currencyManager;
 
-    @Bind(R.id.dialog_fragment_cashout_txt_currency)
+    @BindView(R.id.dialog_fragment_cashout_txt_currency)
     protected TextView txtCurrency;
 
-    @Bind(R.id.dialog_fragment_cashout_txt_amount)
+    @BindView(R.id.dialog_fragment_cashout_txt_amount)
     protected TextView txtAmount;
 
-    @Bind(R.id.dialog_fragment_cashout_seekbar_amount)
+    @BindView(R.id.dialog_fragment_cashout_seekbar_amount)
     protected SeekBar seekBarAmount;
 
     private OwnedCurrency currency;
 
     private OnCashoutCompletedListener listener;
+
+    private Unbinder unbinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,7 +128,7 @@ public class CashoutDialogFragment extends DialogFragment implements SeekBar.OnS
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override
@@ -151,7 +154,7 @@ public class CashoutDialogFragment extends DialogFragment implements SeekBar.OnS
     private View getCashoutView() {
         View v = LayoutInflater.from(getContext())
                 .inflate(R.layout.dialog_fragment_cashout, null, false);
-        ButterKnife.bind(this, v);
+        unbinder = ButterKnife.bind(this, v);
         return v;
     }
 

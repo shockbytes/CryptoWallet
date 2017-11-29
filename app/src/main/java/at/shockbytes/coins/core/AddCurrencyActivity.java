@@ -26,9 +26,10 @@ import at.shockbytes.coins.currency.Currency;
 import at.shockbytes.coins.currency.CurrencyManager;
 import at.shockbytes.coins.currency.OwnedCurrency;
 import at.shockbytes.coins.util.ResourceManager;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class AddCurrencyActivity extends AppCompatActivity {
 
@@ -39,23 +40,25 @@ public class AddCurrencyActivity extends AppCompatActivity {
     @Inject
     protected CurrencyManager currencyManager;
 
-    @Bind(R.id.fragment_dialog_add_currency_edit_cryptocurrency)
+    @BindView(R.id.fragment_dialog_add_currency_edit_cryptocurrency)
     protected TextInputEditText editCryptoCurrency;
 
-    @Bind(R.id.fragment_dialog_add_currency_edit_currency)
+    @BindView(R.id.fragment_dialog_add_currency_edit_currency)
     protected TextInputEditText editCurrency;
 
-    @Bind(R.id.fragment_dialog_add_currency_til_cryptocurrency)
+    @BindView(R.id.fragment_dialog_add_currency_til_cryptocurrency)
     protected TextInputLayout tilCryptoCurrency;
 
-    @Bind(R.id.fragment_dialog_add_currency_til_currency)
+    @BindView(R.id.fragment_dialog_add_currency_til_currency)
     protected TextInputLayout tilCurrency;
 
-    @Bind(R.id.fragment_dialog_add_currency_spinner_cryptocurrency)
+    @BindView(R.id.fragment_dialog_add_currency_spinner_cryptocurrency)
     protected Spinner spinnerCryptoCurrency;
 
-    @Bind(R.id.fragment_dialog_add_currency_spinner_currency)
+    @BindView(R.id.fragment_dialog_add_currency_spinner_currency)
     protected Spinner spinnerCurrency;
+
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +68,14 @@ public class AddCurrencyActivity extends AppCompatActivity {
         getWindow().setEnterTransition(new Explode());
         setContentView(R.layout.activity_add_currency);
         ((CoinsApp) getApplication()).getAppComponent().inject(this);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         setupViews();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @OnClick(R.id.fragment_dialog_add_currency_btn_save)

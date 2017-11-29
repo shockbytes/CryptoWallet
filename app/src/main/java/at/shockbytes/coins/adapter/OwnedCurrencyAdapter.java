@@ -21,7 +21,7 @@ import at.shockbytes.coins.currency.CurrencyConversionRates;
 import at.shockbytes.coins.currency.OwnedCurrency;
 import at.shockbytes.coins.fragment.MainFragment;
 import at.shockbytes.coins.util.ResourceManager;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 import static at.shockbytes.coins.util.ResourceManager.getResourceForCryptoCurrency;
@@ -68,22 +68,22 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
 
     class ViewHolder extends BaseAdapter<OwnedCurrency>.ViewHolder implements PopupMenu.OnMenuItemClickListener {
 
-        @Bind(R.id.item_currency_icon)
+        @BindView(R.id.item_currency_icon)
         ImageView imgViewIcon;
 
-        @Bind(R.id.item_currency_txt_amount)
+        @BindView(R.id.item_currency_txt_amount)
         TextView txtAmount;
 
-        @Bind(R.id.item_currency_txt_bought_price)
+        @BindView(R.id.item_currency_txt_bought_price)
         TextView txtBoughtPrice;
 
-        @Bind(R.id.item_currency_txt_current_price)
+        @BindView(R.id.item_currency_txt_current_price)
         TextView txtCurrentPrice;
 
-        @Bind(R.id.item_currency_txt_diff)
+        @BindView(R.id.item_currency_txt_diff)
         TextView txtDiff;
 
-        @Bind(R.id.item_currency_icon_imgbtn_overflow)
+        @BindView(R.id.item_currency_icon_imgbtn_overflow)
         ImageButton imgBtnOverflow;
 
         private PopupMenu popupMenu;

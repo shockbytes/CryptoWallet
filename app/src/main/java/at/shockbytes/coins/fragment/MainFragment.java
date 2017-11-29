@@ -4,7 +4,6 @@ package at.shockbytes.coins.fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,12 +28,12 @@ import at.shockbytes.coins.currency.Balance;
 import at.shockbytes.coins.currency.CurrencyManager;
 import at.shockbytes.coins.currency.OwnedCurrency;
 import at.shockbytes.coins.util.AppParams;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.functions.Action1;
 
-public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
         OwnedCurrencyAdapter.OnEntryPopupItemSelectedListener {
 
     public enum ViewType {
@@ -49,28 +48,28 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Inject
     protected SharedPreferences preferences;
 
-    @Bind(R.id.main_fragment_rv)
+    @BindView(R.id.main_fragment_rv)
     protected RecyclerView recyclerView;
 
-    @Bind(R.id.fragment_main_swipe_container)
+    @BindView(R.id.fragment_main_swipe_container)
     protected SwipeRefreshLayout swipeRefreshLayout;
 
-    @Bind(R.id.balance_header_txt_current)
+    @BindView(R.id.balance_header_txt_current)
     protected TextView txtCurrent;
 
-    @Bind(R.id.balance_header_txt_invested)
+    @BindView(R.id.balance_header_txt_invested)
     protected TextView txtInvested;
 
-    @Bind(R.id.balance_header_txt_percentage)
+    @BindView(R.id.balance_header_txt_percentage)
     protected TextView txtDiffPercentage;
 
-    @Bind(R.id.balance_header_imgview_trend)
+    @BindView(R.id.balance_header_imgview_trend)
     protected ImageView imgViewTrend;
 
-    @Bind(R.id.fragment_main_empty_view)
+    @BindView(R.id.fragment_main_empty_view)
     protected View emptyView;
 
-    @Bind(R.id.fragment_main_empty_view_text)
+    @BindView(R.id.fragment_main_empty_view_text)
     protected TextView emptyTextView;
 
     private OwnedCurrencyAdapter adapter;
@@ -118,12 +117,6 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
@@ -153,7 +146,8 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         loadData();
     }
 
-    private void setupViews() {
+    @Override
+    public void setupViews() {
 
         // SwipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener(this);
