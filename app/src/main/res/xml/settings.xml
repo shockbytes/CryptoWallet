@@ -27,7 +27,7 @@
 
         <Preference
             android:summary="Developer"
-            android:title="Shockbytes Studio (c) 2017" />
+            android:title="Shockbytes Studio &#169; 2017" />
 
         <Preference
             android:summary="@string/app_version"

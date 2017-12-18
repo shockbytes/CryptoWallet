@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
 import android.transition.Slide;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -70,12 +71,23 @@ public class AddCurrencyActivity extends AppCompatActivity {
         ((CoinsApp) getApplication()).getAppComponent().inject(this);
         unbinder = ButterKnife.bind(this);
         setupViews();
+        setupActionBar();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            supportFinishAfterTransition();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @OnClick(R.id.fragment_dialog_add_currency_btn_save)
@@ -133,6 +145,14 @@ public class AddCurrencyActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+    }
+
+    private void setupActionBar() {
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
     }
 

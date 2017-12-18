@@ -11,6 +11,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Explode;
+import android.transition.Slide;
+import android.view.Gravity;
+import android.view.Window;
 
 import java.util.List;
 
@@ -55,6 +59,9 @@ public class LoginActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setExitTransition(new Slide(Gravity.BOTTOM));
+        getWindow().setEnterTransition(new Explode());
         setContentView(R.layout.activity_login);
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.dark_background));
 

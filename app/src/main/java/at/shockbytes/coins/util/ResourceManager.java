@@ -22,7 +22,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.AppCompatDrawableManager;
-import android.util.Log;
 import android.util.TypedValue;
 
 import java.io.IOException;
@@ -75,9 +74,7 @@ public class ResourceManager {
             return "";
         }
 
-        int index_name = c
-                .getColumnIndex(ContactsContract.Profile.DISPLAY_NAME);
-
+        int index_name = c.getColumnIndex(ContactsContract.Profile.DISPLAY_NAME);
         if (c.moveToNext()) {
 
             String name = c.getString(index_name);
@@ -199,11 +196,11 @@ public class ResourceManager {
         switch (currency) {
 
             case BTC:
-                return R.drawable.ic_crypto_currency_btc;
+                return R.drawable.ic_crypto_currency_btc_white;
             case ETH:
-                return R.drawable.ic_crypto_currency_eth;
+                return R.drawable.ic_crypto_currency_eth_white;
             case LTC:
-                return R.drawable.ic_crypto_currency_ltc;
+                return R.drawable.ic_crypto_currency_ltc_white;
         }
         return 0;
     }

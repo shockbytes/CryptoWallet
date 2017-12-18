@@ -15,7 +15,7 @@
             android:id="@+id/item_currency_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_crypto_currency_btc" />
+            android:src="@drawable/ic_crypto_currency_btc_white" />
 
         <ImageButton
             android:id="@+id/item_currency_icon_imgbtn_overflow"
@@ -31,18 +31,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/item_currency_icon"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="0,04 BTC"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@android:color/secondary_text_light" />
+            android:text="0.04 BTC"
+            android:textColor="@android:color/white"
+            android:textSize="26sp" />
 
         <View
             android:id="@+id/item_currency_divider"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:layout_below="@+id/item_currency_txt_amount"
             android:layout_margin="4dp"
-            android:background="#A9A9A9" />
+            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/item_currency_conversion_container"
@@ -58,10 +60,11 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.45"
+                android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:text="8,92€"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/tertiary_text_light" />
+                android:textColor="@color/controls" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -74,10 +77,11 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.45"
+                android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:text="10€"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/tertiary_text_light" />
+                android:textColor="@color/controls" />
 
         </LinearLayout>
 
@@ -89,7 +93,7 @@
             android:gravity="center"
             android:text="+2%"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/percentage_win" />
 
 
     </RelativeLayout>

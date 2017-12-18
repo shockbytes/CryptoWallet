@@ -119,7 +119,7 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
                     + " " + ResourceManager.getSymbolForCurrency(localCurrency));
 
             double diff = content.getPriceDiffPercentage(boughtPrice);
-            int diffColor = diff >= 0 ? R.color.percentage_win : R.color.percentage_loose_card;
+            int diffColor = diff >= 0 ? R.color.percentage_win : R.color.percentage_loose;
             txtDiff.setTextColor(ContextCompat.getColor(context, diffColor));
             txtDiff.setText(diff + "%");
         }
@@ -168,7 +168,7 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
                     popupListener.onCashout(content);
                     break;
 
-                case R.id.popup_item_delete:
+                case R.id.popup_item_remove:
 
                     popupListener.onDelete(content);
                     break;

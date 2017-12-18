@@ -52,7 +52,7 @@
             app:layout_anchor="@+id/main_content"
             app:layout_anchorGravity="bottom|right|end"
             app:layout_behavior="at.shockbytes.coins.util.ui.ScrollAwareFloatingActionButtonBehavior"
-            app:srcCompat="@drawable/ic_money" />
+            app:srcCompat="@drawable/ic_add" />
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -61,6 +61,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:itemTextColor="@drawable/navigation_item_foreground"
+        app:itemIconTint="@drawable/navigation_item_foreground"
         app:headerLayout="@layout/navigation_header"
         app:menu="@menu/menu_navigation" />
 

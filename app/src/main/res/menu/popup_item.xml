@@ -7,8 +7,8 @@
         android:title="Cashout" />
 
     <item
-        android:id="@+id/popup_item_delete"
-        android:icon="@drawable/ic_delete"
-        android:title="Delete" />
+        android:id="@+id/popup_item_remove"
+        android:icon="@drawable/ic_cancel"
+        android:title="Remove" />
 
 </menu>
