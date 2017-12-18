@@ -6,11 +6,11 @@ import javax.inject.Inject;
 
 import at.shockbytes.coins.currency.OwnedCurrency;
 import at.shockbytes.coins.network.model.PriceConversion;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.Sort;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * @author Martin Macheiner

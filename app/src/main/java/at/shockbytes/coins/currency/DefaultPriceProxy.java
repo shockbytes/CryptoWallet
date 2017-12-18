@@ -7,8 +7,8 @@ import java.util.List;
 import at.shockbytes.coins.network.PriceManager;
 import at.shockbytes.coins.network.model.PriceConversion;
 import at.shockbytes.coins.network.model.PriceConversionWrapper;
-import rx.Observable;
-import rx.functions.FuncN;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * @author Martin Macheiner
@@ -28,21 +28,19 @@ public class DefaultPriceProxy implements PriceProxy {
                                                                  Currency to) {
 
         final PriceConversionWrapper wrapper = getConversionObservables(from, to);
-        return Observable.zip(wrapper.conversions,
-                new FuncN<List<PriceConversion>>() {
+        return Observable.zip(wrapper.conversions, new Function<Object[], List<PriceConversion>>() {
 
-                    @Override
-                    public List<PriceConversion> call(Object... args) {
-
-                        List<PriceConversion> conversions = new ArrayList<>();
-                        for (int i = 0; i < args.length; i++) {
-                            PriceConversion pc = (PriceConversion) args[i];
-                            pc.cryptoCurrency = wrapper.from.get(i);
-                            conversions.add(pc);
-                        }
-                        return conversions;
-                    }
-                });
+            @Override
+            public List<PriceConversion> apply(Object... args) throws Exception {
+                List<PriceConversion> conversions = new ArrayList<>();
+                for (int i = 0; i < args.length; i++) {
+                    PriceConversion pc = (PriceConversion) args[i];
+                    pc.cryptoCurrency = wrapper.from.get(i);
+                    conversions.add(pc);
+                }
+                return conversions;
+            }
+        });
     }
 
     private PriceConversionWrapper getConversionObservables(List<CryptoCurrency> from,

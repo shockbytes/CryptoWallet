@@ -5,8 +5,8 @@ import android.app.Application;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import at.shockbytes.coins.network.coinbase.CoinbasePriceApi;
 import at.shockbytes.coins.network.PriceManager;
+import at.shockbytes.coins.network.coinbase.CoinbasePriceApi;
 import at.shockbytes.coins.network.coinbase.CoinbasePriceManager;
 import at.shockbytes.coins.network.conversion.CurrencyConversionApi;
 import dagger.Module;
@@ -14,7 +14,7 @@ import dagger.Provides;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -46,7 +46,7 @@ public class NetworkModule {
     @Singleton
     public CoinbasePriceApi provideCoinbasePriceApi(OkHttpClient client) {
         return new Retrofit.Builder()
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(CoinbasePriceApi.SERVICE_ENDPOINT)
@@ -65,7 +65,7 @@ public class NetworkModule {
     @Singleton
     public CurrencyConversionApi provideCurrencyConversionApi(OkHttpClient client) {
         return new Retrofit.Builder()
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(CurrencyConversionApi.SERVICE_ENDPOINT)

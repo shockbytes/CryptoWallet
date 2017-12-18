@@ -30,8 +30,8 @@ import at.shockbytes.coins.currency.OwnedCurrency;
 import at.shockbytes.coins.util.AppParams;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.functions.Action1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 
 public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
         OwnedCurrencyAdapter.OnEntryPopupItemSelectedListener {
@@ -225,9 +225,9 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private void subscribeToSingleDataSource(Observable<List<OwnedCurrency>> dataSource) {
 
-        dataSource.subscribe(new Action1<List<OwnedCurrency>>() {
+        dataSource.subscribe(new Consumer<List<OwnedCurrency>>() {
             @Override
-            public void call(List<OwnedCurrency> ownedCurrencies) {
+            public void accept(List<OwnedCurrency> ownedCurrencies) {
 
                 swipeRefreshLayout.setRefreshing(false);
 
@@ -241,9 +241,9 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 // Call in here makes sure, that the balance object is loaded at this point in time
                 setupHeader(currencyManager.getBalance());
             }
-        }, new Action1<Throwable>() {
+        }, new Consumer<Throwable>() {
             @Override
-            public void call(Throwable throwable) {
+            public void accept(Throwable throwable) {
                 throwable.printStackTrace();
             }
         });

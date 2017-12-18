@@ -1,10 +1,10 @@
 package at.shockbytes.coins.network.coinbase;
 
 import at.shockbytes.coins.network.model.PriceConversion;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Path;
-import rx.Observable;
 
 /**
  * @author Martin Macheiner
@@ -17,7 +17,7 @@ public interface CoinbasePriceApi {
 
     @GET("{conversion}/spot")
     Observable<PriceConversion> getSpotPrice(@Path("conversion") String conversion,
-                                @Header("CB-VERSION") String version);
+                                             @Header("CB-VERSION") String version);
 
     @GET("{conversion}/buy")
     Observable<PriceConversion> getBuyPrice(@Path("conversion") String conversion,

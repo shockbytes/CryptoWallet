@@ -3,7 +3,7 @@ package at.shockbytes.coins.network;
 import at.shockbytes.coins.currency.CryptoCurrency;
 import at.shockbytes.coins.currency.Currency;
 import at.shockbytes.coins.network.model.PriceConversion;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * @author Martin Macheiner

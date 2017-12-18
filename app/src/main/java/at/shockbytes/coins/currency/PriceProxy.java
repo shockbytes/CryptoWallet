@@ -3,7 +3,7 @@ package at.shockbytes.coins.currency;
 import java.util.List;
 
 import at.shockbytes.coins.network.model.PriceConversion;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * @author Martin Macheiner

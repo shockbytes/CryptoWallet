@@ -8,9 +8,9 @@ import at.shockbytes.coins.currency.CryptoCurrency;
 import at.shockbytes.coins.currency.Currency;
 import at.shockbytes.coins.network.PriceManager;
 import at.shockbytes.coins.network.model.PriceConversion;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author Martin Macheiner

@@ -4,7 +4,7 @@ import java.util.List;
 
 import at.shockbytes.coins.currency.OwnedCurrency;
 import at.shockbytes.coins.network.model.PriceConversion;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * @author Martin Macheiner

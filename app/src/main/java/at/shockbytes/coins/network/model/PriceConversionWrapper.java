@@ -3,7 +3,7 @@ package at.shockbytes.coins.network.model;
 import java.util.List;
 
 import at.shockbytes.coins.currency.CryptoCurrency;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * @author Martin Macheiner

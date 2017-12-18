@@ -1,9 +1,9 @@
 package at.shockbytes.coins.network.conversion;
 
 import at.shockbytes.coins.currency.CurrencyConversionRates;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * @author Martin Macheiner

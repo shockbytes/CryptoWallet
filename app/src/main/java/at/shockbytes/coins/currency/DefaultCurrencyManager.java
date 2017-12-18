@@ -11,11 +11,12 @@ import javax.inject.Inject;
 import at.shockbytes.coins.network.conversion.CurrencyConversionApi;
 import at.shockbytes.coins.network.model.PriceConversion;
 import at.shockbytes.coins.storage.StorageManager;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func2;
-import rx.functions.Func3;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Function3;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * @author Martin Macheiner
@@ -76,12 +77,12 @@ public class DefaultCurrencyManager implements CurrencyManager {
         return Observable.zip(localCurrencies,
                 priceProxy.getPriceConversions(Arrays.asList(CryptoCurrency.values()), getLocalCurrency()),
                 getCurrencyConversionRatesAsObservable(),
-                new Func3<List<OwnedCurrency>, List<PriceConversion>, CurrencyConversionRates,
+                new Function3<List<OwnedCurrency>, List<PriceConversion>, CurrencyConversionRates,
                         List<OwnedCurrency>>() {
                     @Override
-                    public List<OwnedCurrency> call(List<OwnedCurrency> c,
-                                                    List<PriceConversion> conversions,
-                                                    CurrencyConversionRates rates) {
+                    public List<OwnedCurrency> apply(List<OwnedCurrency> c,
+                                                     List<PriceConversion> conversions,
+                                                     CurrencyConversionRates rates) {
                         return updateOwnedCurrencyConversions(c, conversions, null); // TODO Replace with call later
                     }
                 })
@@ -98,10 +99,10 @@ public class DefaultCurrencyManager implements CurrencyManager {
     public Observable<List<OwnedCurrency>> getCashedoutCurrencies() {
         return Observable.zip(storageManager.loadOwnedCurrencies(true),
                 getCurrencyConversionRatesAsObservable(),
-                new Func2<List<OwnedCurrency>, CurrencyConversionRates, List<OwnedCurrency>>() {
+                new BiFunction<List<OwnedCurrency>, CurrencyConversionRates, List<OwnedCurrency>>() {
                     @Override
-                    public List<OwnedCurrency> call(List<OwnedCurrency> currencies,
-                                                    CurrencyConversionRates rates) {
+                    public List<OwnedCurrency> apply(List<OwnedCurrency> currencies,
+                                                     CurrencyConversionRates rates) {
                         return updateOwnedCurrencyConversions(currencies, null, null); // TODO Replace with call later
                     }
                 }).observeOn(AndroidSchedulers.mainThread())
@@ -145,9 +146,9 @@ public class DefaultCurrencyManager implements CurrencyManager {
         storageManager.splitCashout(currency, amountToPayout);
     }
 
-    private List<OwnedCurrency> updateOwnedCurrencyConversions (List<OwnedCurrency> c,
-                                                                List<PriceConversion> conversions,
-                                                                CurrencyConversionRates rates) {
+    private List<OwnedCurrency> updateOwnedCurrencyConversions(List<OwnedCurrency> c,
+                                                               List<PriceConversion> conversions,
+                                                               CurrencyConversionRates rates) {
 
         // Get default conversion rates if rates is not present
         if (rates == null) {
