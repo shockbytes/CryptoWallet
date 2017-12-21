@@ -201,6 +201,8 @@ public class ResourceManager {
                 return R.drawable.ic_crypto_currency_eth_white;
             case LTC:
                 return R.drawable.ic_crypto_currency_ltc_white;
+            case BCH:
+                return R.drawable.ic_crypto_currency_bch_white;
         }
         return 0;
     }

@@ -8,5 +8,6 @@ package at.shockbytes.coins.currency;
 public enum CryptoCurrency {
     BTC,
     ETH,
-    LTC
+    LTC,
+    BCH
 }

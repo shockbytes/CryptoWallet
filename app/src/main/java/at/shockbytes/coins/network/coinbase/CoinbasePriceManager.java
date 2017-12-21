@@ -49,7 +49,8 @@ public class CoinbasePriceManager implements PriceManager {
 
     @Override
     public boolean supportsCurrencyConversion(CryptoCurrency currency) {
-        return Arrays.asList(CryptoCurrency.BTC, CryptoCurrency.ETH, CryptoCurrency.LTC)
+        return Arrays.asList(CryptoCurrency.BTC, CryptoCurrency.ETH,
+                CryptoCurrency.LTC, CryptoCurrency.BCH)
                 .contains(currency);
     }
 
