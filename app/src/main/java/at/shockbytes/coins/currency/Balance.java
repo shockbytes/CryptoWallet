@@ -12,9 +12,7 @@ public class Balance {
     private double invested;
     private double current;
 
-    public Balance() {
-
-    }
+    public Balance() { }
 
     public double getInvested() {
         return ResourceManager.roundDoubleWithDigits(invested, 2);

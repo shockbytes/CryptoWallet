@@ -19,6 +19,7 @@ import at.shockbytes.coins.currency.CurrencyManager
 import at.shockbytes.coins.currency.OwnedCurrency
 import at.shockbytes.coins.dagger.AppComponent
 import at.shockbytes.coins.ui.fragment.dialog.CashoutDialogFragment
+import at.shockbytes.coins.ui.fragment.dialog.RemoveConfirmationDialogFragment
 import at.shockbytes.coins.util.AppParams
 import butterknife.BindView
 import io.reactivex.Observable
@@ -56,8 +57,11 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     @BindView(R.id.balance_header_txt_percentage)
     lateinit var txtDiffPercentage: TextView
 
+    // Can't be assigned with just the ButterKnife assignment,
+    // will crash if it is not handled that way
+    @JvmField
     @BindView(R.id.balance_header_imgview_trend)
-    lateinit var imgViewTrend: ImageView
+    var imgViewTrend: ImageView? = null
 
     @BindView(R.id.fragment_main_empty_view)
     lateinit var emptyView: View
@@ -147,8 +151,12 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onDelete(ownedCurrency: OwnedCurrency) {
-        currencyManager.removeCurrency(ownedCurrency)
-        loadData()
+        val dialog = RemoveConfirmationDialogFragment.newInstance()
+                .setConfirmationListener {
+                    currencyManager.removeCurrency(ownedCurrency)
+                    loadData()
+                }
+        dialog.show(fragmentManager, "remove_confirmation_dialog_fragment")
     }
 
     private fun setupHeader(balance: Balance) {
@@ -172,11 +180,11 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
         }
 
         val rotation = (if (lastBalance > balance) 90 else -90).toFloat()
-        imgViewTrend.rotation = rotation
+        imgViewTrend?.rotation = rotation
 
-        imgViewTrend.animate().alpha(1f).setDuration(AppParams.trendAnimDuration)
-                .withEndAction {
-                    imgViewTrend.animate().alpha(0f).duration = AppParams.trendAnimDuration
+        imgViewTrend?.animate()?.alpha(1f)?.setDuration(AppParams.trendAnimDuration)
+                ?.withEndAction {
+                    imgViewTrend?.animate()?.alpha(0f)?.duration = AppParams.trendAnimDuration
                 }
         lastBalance = balance
     }

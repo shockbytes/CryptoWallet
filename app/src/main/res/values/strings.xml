@@ -49,5 +49,8 @@
     <string name="auth_no_fingerprint_registered">Please register a fingerprint first!</string>
     <string name="auth_lib_error">Cannot initialize Fingerprint library!</string>
     <string name="auth_perm_rationale">This app needs to access your fingerprint.</string>
+    <string name="login_summary">Keep track of your coin progress</string>
+    <string name="dialog_remove_confirmation_title">Remove coins</string>
+    <string name="dialog_remove_confirmation_msg">Delete the coins from your wallet?</string>
 
 </resources>

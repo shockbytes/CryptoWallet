@@ -38,4 +38,7 @@
     <string name="prefs_general_auto_update_title">Daten automatisch updaten</string>
     <string name="prefs_general_auto_update_summary">Daten werden periodisch aufgefrischt</string>
     <string name="prefs_general_fingerprint_title">Fingerprintsperre</string>
+    <string name="login_summary">Verfolge die Wertentwicklung deiner Coins</string>
+    <string name="dialog_remove_confirmation_title">Coins löschen</string>
+    <string name="dialog_remove_confirmation_msg">Sollen die Coins aus deiner Brieftasche gelöscht werden?</string>
 </resources>
