@@ -58,7 +58,7 @@ public class ShockFingerprintManager {
             EasyPermissions.requestPermissions(
                     context,
                     "This app needs to access your fingerprint.",
-                    AppParams.INSTANCE.getREQUEST_FINGERPRINT_PERMISSION(),
+                    AppParams.INSTANCE.getRequestFingerprintCode(),
                     Manifest.permission.USE_FINGERPRINT);
         } else {
             fingerprintManager.authenticate(getCryptoObject(), new CancellationSignal(), 0, callback, null);

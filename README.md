@@ -25,12 +25,12 @@
 
 ### Version 1.3
 * Dark Redesign
+* Extract strings
 
 #### TODO for 1.3
 * Introduce Help screen
 * Showcase introduction
 * Landscape support
-* Extract strings
 
 ### Upcoming Version 1.4
 

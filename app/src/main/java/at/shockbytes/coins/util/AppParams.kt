@@ -7,7 +7,7 @@ package at.shockbytes.coins.util
 
 object AppParams {
 
-    val REQUEST_FINGERPRINT_PERMISSION = 0x1982
-    var AUTO_UPDATE_TIME = 5000L
-    var TREND_ANIM_DURATION = 850L
+    val requestFingerprintCode = 0x1982
+    var autoUpdateTime = 5000L
+    var trendAnimDuration = 850L
 }

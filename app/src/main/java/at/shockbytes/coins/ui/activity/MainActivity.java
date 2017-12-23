@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity
             case R.id.menu_navigation_cashout:
 
                 toolbar.setTitle(R.string.title_cashout);
-                showFragment(MainFragment.newInstance(MainFragment.ViewType.CASHOUT));
+                showFragment(MainFragment.Companion.newInstance(MainFragment.ViewType.CASHOUT));
                 break;
 
             case R.id.menu_navigation_settings:
@@ -175,7 +175,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void showMainFragment() {
-        mainFragment = MainFragment.newInstance(MainFragment.ViewType.BALANCE);
+        mainFragment = MainFragment.Companion.newInstance(MainFragment.ViewType.BALANCE);
         showFragment(mainFragment);
     }
 

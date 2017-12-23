@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity
             EasyPermissions.requestPermissions(
                     this,
                     "This app needs to access your fingerprint, Google account and your external storage.",
-                    AppParams.INSTANCE.getREQUEST_FINGERPRINT_PERMISSION(),
+                    AppParams.INSTANCE.getRequestFingerprintCode(),
                     Manifest.permission.USE_FINGERPRINT);
             return;
         }
