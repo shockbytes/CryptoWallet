@@ -28,10 +28,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import at.shockbytes.coins.R;
-import at.shockbytes.coins.currency.CryptoCurrency;
-import at.shockbytes.coins.currency.Currency;
-
 /**
  * @author Martin Macheiner
  *         Date: 15.06.2017.
@@ -191,50 +187,5 @@ public class ResourceManager {
         return bd.doubleValue();
     }
 
-    public static int getResourceForCryptoCurrency(CryptoCurrency currency) {
-
-        switch (currency) {
-
-            case BTC:
-                return R.drawable.ic_crypto_currency_btc_white;
-            case ETH:
-                return R.drawable.ic_crypto_currency_eth_white;
-            case LTC:
-                return R.drawable.ic_crypto_currency_ltc_white;
-            case BCH:
-                return R.drawable.ic_crypto_currency_bch_white;
-        }
-        return 0;
-    }
-
-    public static int getResourceForCurrency(Currency currency) {
-
-
-        switch (currency) {
-
-            case EUR:
-                return R.drawable.ic_currency_eur;
-            case USD:
-                return R.drawable.ic_currency_usd;
-        }
-        return 0;
-
-    }
-
-    public static String getSymbolForCurrency(Currency currency) {
-
-        switch (currency) {
-
-            case EUR:
-                return "€";
-            case USD:
-                return "$";
-            /*case GBP:
-                return "GBP";
-            case CHF:
-                return "CHF"; */
-        }
-        return "";
-    }
 
 }

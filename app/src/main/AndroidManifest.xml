@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".core.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,16 +24,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".core.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name=".core.SettingsActivity"
+            android:name=".ui.activity.SettingsActivity"
             android:label="Settings"
             android:theme="@style/AppTheme.WithActionBarLight" />
-        <activity android:name=".core.AddCurrencyActivity"
+        <activity android:name=".ui.activity.AddCurrencyActivity"
             android:label="Add currency"
             android:theme="@style/AppTheme.WithActionBar">
         </activity>

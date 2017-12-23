@@ -1,4 +1,4 @@
-package at.shockbytes.coins.fragment;
+package at.shockbytes.coins.ui.fragment;
 
 import android.Manifest;
 import android.content.Context;
@@ -19,6 +19,13 @@ import at.shockbytes.coins.currency.CurrencyManager;
 
 public class SettingsFragment extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
+
+    public static SettingsFragment newInstance() {
+        SettingsFragment fragment = new SettingsFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Inject
     protected CurrencyManager currencyManager;

@@ -1,10 +1,12 @@
-package at.shockbytes.coins.fragment
+package at.shockbytes.coins.ui.fragment
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.View
 import android.widget.Toast
+import at.shockbytes.coins.core.CoinsApp
+import at.shockbytes.coins.dagger.AppComponent
 import butterknife.ButterKnife
 import butterknife.Unbinder
 
@@ -15,6 +17,11 @@ import butterknife.Unbinder
 abstract class BaseFragment : Fragment() {
 
     private var unbinder: Unbinder? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        injectToGraph((activity.application as CoinsApp).appComponent)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,6 +35,8 @@ abstract class BaseFragment : Fragment() {
     }
 
     protected abstract fun setupViews()
+
+    protected abstract fun injectToGraph(appComponent: AppComponent)
 
     @JvmOverloads
     protected fun showSnackbar(text: String, actionText: String,

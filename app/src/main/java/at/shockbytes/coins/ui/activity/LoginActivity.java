@@ -1,4 +1,4 @@
-package at.shockbytes.coins.core;
+package at.shockbytes.coins.ui.activity;
 
 import android.Manifest;
 import android.app.KeyguardManager;
@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity
             EasyPermissions.requestPermissions(
                     this,
                     "This app needs to access your fingerprint, Google account and your external storage.",
-                    AppParams.REQUEST_FINGERPRINT_PERMISSION,
+                    AppParams.INSTANCE.getREQUEST_FINGERPRINT_PERMISSION(),
                     Manifest.permission.USE_FINGERPRINT);
             return;
         }

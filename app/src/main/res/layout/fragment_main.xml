@@ -1,10 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="at.shockbytes.coins.core.MainActivity">
+    tools:context="at.shockbytes.coins.ui.activity.MainActivity">
 
     <include layout="@layout/balance_header" />
 
@@ -43,7 +42,7 @@
                     android:layout_marginTop="24dp"
                     android:layout_centerInParent="true"
                     android:gravity="center_horizontal"
-                    android:text="Insert some coins"
+                    android:text="@string/hint_insert_coins"
                     android:fontFamily="sans-serif-light"
                     android:textColor="@color/controls"
                     android:textSize="32sp" />

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".core.MainActivity">
+    tools:context=".ui.activity.MainActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_content_container"
@@ -52,7 +52,8 @@
             app:layout_anchor="@+id/main_content"
             app:layout_anchorGravity="bottom|right|end"
             app:layout_behavior="at.shockbytes.coins.util.ui.ScrollAwareFloatingActionButtonBehavior"
-            app:srcCompat="@drawable/ic_add" />
+            app:srcCompat="@drawable/ic_add"
+            android:focusable="true" />
 
     </android.support.design.widget.CoordinatorLayout>
 

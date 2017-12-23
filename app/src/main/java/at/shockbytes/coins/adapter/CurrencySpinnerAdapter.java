@@ -52,9 +52,9 @@ public class CurrencySpinnerAdapter extends ArrayAdapter<CurrencySpinnerAdapter.
             v = LayoutInflater.from(getContext()).inflate(R.layout.item_spinner, parent, false);
         }
 
-        TextView text = (TextView) v.findViewById(R.id.item_spinner_text);
+        TextView text = v.findViewById(R.id.item_spinner_text);
         text.setText(getItem(position).text);
-        ImageView imgView = (ImageView) v.findViewById(R.id.item_spinner_icon);
+        ImageView imgView = v.findViewById(R.id.item_spinner_icon);
         imgView.setImageResource(getItem(position).iconId);
         return v;
 

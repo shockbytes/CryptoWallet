@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
 
@@ -8,21 +7,25 @@
             android:id="@+id/menu_navigation_balance"
             android:checked="true"
             android:icon="@drawable/ic_navigation_balance"
-            android:title="Balance" />
+            android:title="@string/navigation_balance" />
 
         <item
             android:id="@+id/menu_navigation_cashout"
             android:icon="@drawable/ic_navigation_cashout"
-            android:title="Cashout" />
-
+            android:title="@string/navigation_cashout" />
 
         <item android:title="">
             <menu>
 
                 <item
+                    android:id="@+id/menu_navigation_help"
+                    android:icon="@drawable/ic_navigation_help"
+                    android:title="@string/navigation_help" />
+
+                <item
                     android:id="@+id/menu_navigation_settings"
                     android:icon="@drawable/ic_navigation_settings"
-                    android:title="Settings" />
+                    android:title="@string/navigation_settings" />
 
             </menu>
         </item>

@@ -6,7 +6,7 @@
     android:background="@color/dark_background"
     android:fitsSystemWindows="true"
     android:padding="16dp"
-    tools:context="at.shockbytes.coins.core.LoginActivity">
+    tools:context="at.shockbytes.coins.ui.activity.LoginActivity">
 
     <TextView
         android:id="@+id/textView"

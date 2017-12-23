@@ -19,12 +19,11 @@ import at.shockbytes.coins.R;
 import at.shockbytes.coins.currency.Currency;
 import at.shockbytes.coins.currency.CurrencyConversionRates;
 import at.shockbytes.coins.currency.OwnedCurrency;
-import at.shockbytes.coins.fragment.MainFragment;
+import at.shockbytes.coins.ui.fragment.MainFragment;
+import at.shockbytes.coins.util.CoinUtils;
 import at.shockbytes.coins.util.ResourceManager;
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static at.shockbytes.coins.util.ResourceManager.getResourceForCryptoCurrency;
 
 /**
  * @author Martin Macheiner
@@ -98,7 +97,7 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
         public void bind(OwnedCurrency ownedCurrency) {
             content = ownedCurrency;
 
-            imgViewIcon.setImageResource(getResourceForCryptoCurrency(
+            imgViewIcon.setImageResource(CoinUtils.INSTANCE.getResourceForCryptoCurrency(
                     content.getCryptoCurrency()));
             txtAmount.setText(ResourceManager.roundDoubleWithDigits(content.getAmount(), 8)
                     + " " + content.getCryptoCurrency().name());
@@ -113,10 +112,10 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
             }
 
             txtBoughtPrice.setText(String.valueOf(ResourceManager.roundDoubleWithDigits(boughtPrice, 2))
-                    + " " + ResourceManager.getSymbolForCurrency(localCurrency));
+                    + " " + CoinUtils.INSTANCE.getSymbolForCurrency(localCurrency));
 
             txtCurrentPrice.setText(String.valueOf(content.getCurrentPrice())
-                    + " " + ResourceManager.getSymbolForCurrency(localCurrency));
+                    + " " + CoinUtils.INSTANCE.getSymbolForCurrency(localCurrency));
 
             double diff = content.getPriceDiffPercentage(boughtPrice);
             int diffColor = diff >= 0 ? R.color.percentage_win : R.color.percentage_loose;

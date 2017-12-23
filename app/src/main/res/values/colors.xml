@@ -13,8 +13,6 @@
 
     <color name="controls">#EEE</color>
 
-    <color name="primaryBackground">#EEE</color>
-
     <color name="percentage_win">#8BC34A</color>
     <color name="percentage_loose">#f44336</color>
 

@@ -1,9 +1,8 @@
-package at.shockbytes.coins.fragment;
+package at.shockbytes.coins.ui.fragment;
 
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,23 +14,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import at.shockbytes.coins.R;
 import at.shockbytes.coins.adapter.OwnedCurrencyAdapter;
-import at.shockbytes.coins.core.CoinsApp;
 import at.shockbytes.coins.currency.Balance;
 import at.shockbytes.coins.currency.CurrencyManager;
 import at.shockbytes.coins.currency.OwnedCurrency;
+import at.shockbytes.coins.dagger.AppComponent;
+import at.shockbytes.coins.ui.fragment.dialog.CashoutDialogFragment;
 import at.shockbytes.coins.util.AppParams;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
@@ -39,6 +41,14 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     public enum ViewType {
         BALANCE, CASHOUT
+    }
+
+    public static MainFragment newInstance(ViewType viewType) {
+        MainFragment fragment = new MainFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_VIEWTYPE, viewType);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     private static final String ARG_VIEWTYPE = "arg_viewtype";
@@ -78,43 +88,28 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private boolean isViewSetup;
 
     private ViewType viewType;
-
-    private Timer autoUpdateTimer;
-    private TimerTask autoUpdateTimerTask;
-
+    
     private double lastBalance;
 
-    public static MainFragment newInstance(ViewType viewType) {
-        MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_VIEWTYPE, viewType);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public MainFragment() {
-    }
+    private Disposable timerDisposable;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((CoinsApp) getActivity().getApplication()).getAppComponent().inject(this);
         viewType = (ViewType) getArguments().getSerializable(ARG_VIEWTYPE);
         isViewSetup = false;
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(this, v);
-        return v;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setupViews();
+    protected void injectToGraph(@NotNull AppComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override
@@ -133,10 +128,8 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onPause() {
         super.onPause();
 
-        if (autoUpdateTimer != null) {
-            autoUpdateTimer.purge();
-            autoUpdateTimer.cancel();
-            autoUpdateTimerTask.cancel();
+        if (timerDisposable != null && !timerDisposable.isDisposed()) {
+            timerDisposable.dispose();
         }
 
         currencyManager.storeLatestBalance();
@@ -170,6 +163,26 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         isViewSetup = true;
     }
 
+    @Override
+    public void onCashout(OwnedCurrency ownedCurrency) {
+
+        CashoutDialogFragment fragment = CashoutDialogFragment.newInstance(ownedCurrency.getId());
+        fragment.setOnCashoutCompletedListener(new CashoutDialogFragment.OnCashoutCompletedListener() {
+            @Override
+            public void onCashoutCompleted() {
+                loadData();
+            }
+        });
+        fragment.show(getFragmentManager(), "cashout-fragment");
+
+    }
+
+    @Override
+    public void onDelete(OwnedCurrency ownedCurrency) {
+        currencyManager.removeCurrency(ownedCurrency);
+        loadData();
+    }
+
     private void setupHeader(Balance balance) {
 
         txtCurrent.setText(balance.getCurrent() + " " + currencyManager.getLocalCurrency());
@@ -193,18 +206,17 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         float rotation = (lastBalance > balance) ? 90 : -90;
         imgViewTrend.setRotation(rotation);
 
-        imgViewTrend.animate().alpha(1).setDuration(AppParams.TREND_ANIM_DURATION).withEndAction(new Runnable() {
+        imgViewTrend.animate().alpha(1).setDuration(AppParams.INSTANCE.getTREND_ANIM_DURATION()).withEndAction(new Runnable() {
             @Override
             public void run() {
                 if (imgViewTrend != null) {
-                    imgViewTrend.animate().alpha(0).setDuration(AppParams.TREND_ANIM_DURATION);
+                    imgViewTrend.animate().alpha(0).setDuration(AppParams.INSTANCE.getTREND_ANIM_DURATION());
                 }
             }
         });
 
         lastBalance = balance;
     }
-
 
     private void loadData() {
 
@@ -252,22 +264,13 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private void subscribeToPeriodicDataSource() {
 
-        autoUpdateTimer = new Timer();
-        autoUpdateTimerTask = new TimerTask() {
+        timerDisposable = Observable.timer(AppParams.INSTANCE.getAUTO_UPDATE_TIME(),
+                TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread()).doOnNext(new Consumer<Long>() {
             @Override
-            public void run() {
-
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            subscribeToSingleDataSource(currencyManager.getOwnedCurrencies());
-                        }
-                    });
-                }
+            public void accept(Long aLong) throws Exception {
+                subscribeToSingleDataSource(currencyManager.getOwnedCurrencies());
             }
-        };
-        autoUpdateTimer.schedule(autoUpdateTimerTask, 0, AppParams.AUTO_UPDATE_TIME);
+        }).subscribe();
     }
 
     public void onNewCurrencyEntryAvailable() {
@@ -276,23 +279,5 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
     }
 
-    @Override
-    public void onCashout(OwnedCurrency ownedCurrency) {
 
-        CashoutDialogFragment fragment = CashoutDialogFragment.newInstance(ownedCurrency.getId());
-        fragment.setOnCashoutCompletedListener(new CashoutDialogFragment.OnCashoutCompletedListener() {
-            @Override
-            public void onCashoutCompleted() {
-                loadData();
-            }
-        });
-        fragment.show(getFragmentManager(), "cashout-fragment");
-
-    }
-
-    @Override
-    public void onDelete(OwnedCurrency ownedCurrency) {
-        currencyManager.removeCurrency(ownedCurrency);
-        loadData();
-    }
 }

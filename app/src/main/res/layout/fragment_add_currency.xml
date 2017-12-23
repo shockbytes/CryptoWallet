@@ -68,7 +68,7 @@
         android:layout_margin="16dp"
         android:backgroundTint="@color/colorAccent"
         android:padding="16dp"
-        android:text="Add to wallet"
+        android:text="@string/add_to_wallet"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>

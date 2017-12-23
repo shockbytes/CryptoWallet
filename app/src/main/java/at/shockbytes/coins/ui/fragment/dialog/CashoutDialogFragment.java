@@ -1,4 +1,4 @@
-package at.shockbytes.coins.fragment;
+package at.shockbytes.coins.ui.fragment.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -31,7 +31,7 @@ import butterknife.Unbinder;
 
 public class CashoutDialogFragment extends DialogFragment implements SeekBar.OnSeekBarChangeListener {
 
-    interface OnCashoutCompletedListener {
+    public interface OnCashoutCompletedListener {
 
         void onCashoutCompleted();
     }

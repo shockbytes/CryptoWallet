@@ -1,4 +1,4 @@
-package at.shockbytes.coins.core;
+package at.shockbytes.coins.ui.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,28 +14,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Explode;
-import android.transition.Slide;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.jetbrains.annotations.NotNull;
+
 import at.shockbytes.coins.R;
-import at.shockbytes.coins.fragment.MainFragment;
+import at.shockbytes.coins.dagger.AppComponent;
+import at.shockbytes.coins.ui.fragment.MainFragment;
 import at.shockbytes.coins.util.ResourceManager;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int REQ_CODE_LOGIN = 0x1247;
@@ -55,16 +52,10 @@ public class MainActivity extends AppCompatActivity
 
     private ActionBarDrawerToggle drawerToggle;
 
-    private Unbinder unbinder;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-        getWindow().setExitTransition(new Slide(Gravity.BOTTOM));
-        getWindow().setEnterTransition(new Explode());
         setContentView(R.layout.activity_main);
-        unbinder = ButterKnife.bind(this);
         setupActionBar();
         setupNavigationDrawer();
 
@@ -77,9 +68,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
+    public void injectToGraph(@NotNull AppComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override
@@ -127,7 +117,7 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.menu_navigation_settings:
 
-                startActivity(SettingsActivity.newIntent(this),
+                startActivity(SettingsActivity.Companion.newIntent(this),
                         ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
                 break;
         }
@@ -153,7 +143,7 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.main_fab)
     protected void onClickFab() {
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
-        startActivityForResult(AddCurrencyActivity.newIntent(this), REQ_CODE_NEW_BUY, options.toBundle());
+        startActivityForResult(AddCurrencyActivity.Companion.newIntent(this), REQ_CODE_NEW_BUY, options.toBundle());
     }
 
     private void setupActionBar() {

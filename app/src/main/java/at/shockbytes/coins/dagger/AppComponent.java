@@ -2,11 +2,11 @@ package at.shockbytes.coins.dagger;
 
 import javax.inject.Singleton;
 
-import at.shockbytes.coins.core.AddCurrencyActivity;
-import at.shockbytes.coins.core.MainActivity;
-import at.shockbytes.coins.fragment.CashoutDialogFragment;
-import at.shockbytes.coins.fragment.MainFragment;
-import at.shockbytes.coins.fragment.SettingsFragment;
+import at.shockbytes.coins.ui.activity.MainActivity;
+import at.shockbytes.coins.ui.fragment.AddCurrencyFragment;
+import at.shockbytes.coins.ui.fragment.MainFragment;
+import at.shockbytes.coins.ui.fragment.SettingsFragment;
+import at.shockbytes.coins.ui.fragment.dialog.CashoutDialogFragment;
 import dagger.Component;
 
 /**
@@ -19,9 +19,9 @@ public interface AppComponent {
 
     void inject(MainActivity activity);
 
-    void inject(AddCurrencyActivity activity);
-
     void inject(MainFragment fragment);
+
+    void inject(AddCurrencyFragment fragment);
 
     void inject(SettingsFragment fragment);
 
