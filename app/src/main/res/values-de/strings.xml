@@ -12,7 +12,7 @@
     <string name="navigation_cashout">Auszahlen</string>
     <string name="navigation_balance">Kontostand</string>
     <string name="hint_insert_coins">Füge deine Coins hinzu!</string>
-    <string name="add_to_wallet">Zu Brieftasche hinzufügen</string>
+    <string name="add_to_wallet">Zur Brieftasche hinzufügen</string>
     <string name="navigation_header_default_name">Anonymer Benutzer</string>
     <string name="empty_indicator_cashout">Noch keine Auszahlung vorhanden…</string>
     <string name="empty_indicator_balance">Füge Coins zu deiner Brieftasche hinzu</string>
@@ -20,4 +20,22 @@
     <string name="perm_contacts_rationale">Crypto Watcher benutzt deine Kontaktdaten um die App für dich zu personalisieren</string>
     <string name="contentdesc_drawer_close">Schließe Drawer</string>
     <string name="contentdesc_drawer_open">Öffne Drawer</string>
+    <string name="cashout_all">Alles auszahlen</string>
+    <string name="dialog_cashout_title">Coins auszahlen</string>
+    <string name="hint_dialog_cashout_bigger_zero">Menge muss größer als 0 sein!</string>
+    <string name="dialog_cashout_message">%s auszahlen</string>
+    <string name="prefs_cat_general">Allgemein</string>
+    <string name="prefs_cat_currency">Währung</string>
+    <string name="prefs_cat_about">Über</string>
+    <string name="prefs_about_developer_summary">Entwickler</string>
+    <string name="prefs_currency_local_title">Lokale Währung</string>
+    <string name="prefs_currency_price_provider_title">Preisanbieter (Beta)</string>
+    <string name="auth_failed">Authentifizierung fehlgeschlagen</string>
+    <string name="auth_lockscreen_not_enabled">Lockscreen-Feature nicht eingeschalten!</string>
+    <string name="auth_no_fingerprint_registered">Bitte Fingerprint zuerst registrieren!</string>
+    <string name="auth_lib_error">Fingerprint-Bibliothek kann nicht initialisiert werden!</string>
+    <string name="auth_perm_rationale">Diese App benötigt zugriff zu ihren Fingerprint!</string>
+    <string name="prefs_general_auto_update_title">Daten automatisch updaten</string>
+    <string name="prefs_general_auto_update_summary">Daten werden periodisch aufgefrischt</string>
+    <string name="prefs_general_fingerprint_title">Fingerprintsperre</string>
 </resources>

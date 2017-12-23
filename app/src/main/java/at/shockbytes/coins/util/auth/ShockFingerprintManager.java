@@ -1,14 +1,16 @@
 package at.shockbytes.coins.util.auth;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.hardware.fingerprint.FingerprintManager;
-import android.os.CancellationSignal;
+import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.support.v4.os.CancellationSignal;
 
 import java.security.KeyStore;
 
@@ -24,18 +26,18 @@ import pub.devrel.easypermissions.EasyPermissions;
  *         Date: 26.04.2017.
  */
 
+@TargetApi(Build.VERSION_CODES.M)
 public class ShockFingerprintManager {
 
     private static final String KEY_NAME = "shockfingerprint_key";
 
     private KeyStore keyStore;
-    private KeyGenerator keyGenerator;
     private Cipher cipher;
 
     private Activity context;
-    private FingerprintManager fingerprintManager;
+    private FingerprintManagerCompat fingerprintManager;
 
-    public ShockFingerprintManager(Activity activity, FingerprintManager fingerprintManager) {
+    public ShockFingerprintManager(Activity activity, FingerprintManagerCompat fingerprintManager) {
         this.fingerprintManager = fingerprintManager;
         this.context = activity;
     }
@@ -45,14 +47,14 @@ public class ShockFingerprintManager {
         return initializeCipher();
     }
 
-    private FingerprintManager.CryptoObject getCryptoObject() {
+    private FingerprintManagerCompat.CryptoObject getCryptoObject() {
         if (cipher != null) {
-            return new FingerprintManager.CryptoObject(cipher);
+            return new FingerprintManagerCompat.CryptoObject(cipher);
         }
         return null;
     }
 
-    public void authenticate(@NonNull FingerprintManager.AuthenticationCallback callback) {
+    public void authenticate(@NonNull FingerprintManagerCompat.AuthenticationCallback callback) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.USE_FINGERPRINT)
                 != PackageManager.PERMISSION_GRANTED) {
             EasyPermissions.requestPermissions(
@@ -61,7 +63,7 @@ public class ShockFingerprintManager {
                     AppParams.INSTANCE.getRequestFingerprintCode(),
                     Manifest.permission.USE_FINGERPRINT);
         } else {
-            fingerprintManager.authenticate(getCryptoObject(), new CancellationSignal(), 0, callback, null);
+            fingerprintManager.authenticate(getCryptoObject(), 0, new CancellationSignal(),callback, null);
         }
     }
 
@@ -70,9 +72,8 @@ public class ShockFingerprintManager {
         try {
 
             keyStore = KeyStore.getInstance("AndroidKeyStore");
-            keyGenerator = KeyGenerator.getInstance(
-                    KeyProperties.KEY_ALGORITHM_AES,
-                    "AndroidKeyStore");
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(
+                    KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
 
             keyStore.load(null);
 

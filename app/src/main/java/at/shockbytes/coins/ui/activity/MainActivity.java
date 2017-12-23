@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity
 
         if (PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(getString(R.string.prefs_key_fingerprint_as_auth), false)) {
-            startActivityForResult(LoginActivity.newIntent(this), REQ_CODE_LOGIN);
+            startActivityForResult(LoginActivity.Companion.newIntent(this), REQ_CODE_LOGIN);
         } else {
             showMainFragment();
         }

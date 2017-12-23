@@ -28,5 +28,26 @@
     <string name="label_help">Help</string>
     <string name="label_add_currency">Add currency</string>
     <string name="label_settings">Settings</string>
+    <string name="hint_dialog_cashout_bigger_zero">Amount must be bigger than 0!</string>
+    <string name="cashout_all">Cashout all</string>
+    <string name="dialog_cashout_title">Cashout coins</string>
+    <string name="dialog_cashout_message">Cashout your %s</string>
+    <string name="dialog_cashout_message_amount" translatable="false">0 / %f</string>
+    <string name="prefs_cat_general">General</string>
+    <string name="prefs_cat_currency">Currency</string>
+    <string name="prefs_cat_about">About</string>
+    <string name="prefs_about_developer_summary">Developer</string>
+    <string name="prefs_about_developer_title" translatable="false">Shockbytes Studio © 2017 – 2018</string>
+    <string name="prefs_about_version_title" translatable="false">App Version</string>
+    <string name="prefs_general_auto_update_summary">Values update in fixed interval</string>
+    <string name="prefs_general_auto_update_title">Auto update values</string>
+    <string name="prefs_general_fingerprint_title">Unlock with Fingerprint</string>
+    <string name="prefs_currency_local_title">Local currency</string>
+    <string name="prefs_currency_price_provider_title">Price Provider (Beta)</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="auth_lockscreen_not_enabled">Lock screen security not enabled!</string>
+    <string name="auth_no_fingerprint_registered">Please register a fingerprint first!</string>
+    <string name="auth_lib_error">Cannot initialize Fingerprint library!</string>
+    <string name="auth_perm_rationale">This app needs to access your fingerprint.</string>
 
 </resources>

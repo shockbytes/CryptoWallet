@@ -32,14 +32,9 @@
 * Introduce Help screen
 * Showcase introduction
 
-### Upcoming Version 1.4
+## Upcoming features
 
-* Introduce currency exchange rates (buy in USD and show in EUR)
-* Secure database with fingerprint encryption
-* Landscape support
-
-## TODO
-
-* Conversion from EUR to USD using fixer.io
+* Introduce currency exchange rates (buy in USD and show in EUR) --> using fixer.io
 * Database encryption based on Fingerprint cipher
+* Landscape support
 * Introduce provider selection in settings

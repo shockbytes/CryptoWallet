@@ -1,37 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="General">
+    <PreferenceCategory android:title="@string/prefs_cat_general">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/prefs_key_auto_update"
+            android:summary="@string/prefs_general_auto_update_summary"
+            android:title="@string/prefs_general_auto_update_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/prefs_key_fingerprint_as_auth"
+            android:title="@string/prefs_general_fingerprint_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/prefs_cat_currency">
 
         <ListPreference
             android:defaultValue="@string/local_currency_default_value"
             android:entries="@array/currency_entries"
             android:entryValues="@array/currency_entry_values"
             android:key="@string/prefs_key_local_currency"
-            android:title="Local currency" />
+            android:title="@string/prefs_currency_local_title" />
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/prefs_key_auto_update"
-            android:summary="Values updates in fixed interval"
-            android:title="Auto update values" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/prefs_key_fingerprint_as_auth"
-            android:title="Secure app with Fingerprint" />
+        <Preference
+            android:summary="Coinbase, CoinMarket"
+            android:title="@string/prefs_currency_price_provider_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="About">
+    <PreferenceCategory android:title="@string/prefs_cat_about">
 
         <Preference
-            android:summary="Developer"
-            android:title="Shockbytes Studio &#169; 2017" />
+            android:summary="@string/prefs_about_developer_summary"
+            android:title="@string/prefs_about_developer_title" />
 
         <Preference
             android:summary="@string/app_version"
-            android:title="App Version" />
+            android:title="@string/prefs_about_version_title" />
 
     </PreferenceCategory>
 
