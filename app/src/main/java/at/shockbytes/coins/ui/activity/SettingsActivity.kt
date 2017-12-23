@@ -18,7 +18,7 @@ class SettingsActivity : BackNavigableActivity() {
         super.onCreate(savedInstanceState)
 
         fragmentManager.beginTransaction()
-                .replace(android.R.id.content, SettingsFragment())
+                .replace(android.R.id.content, SettingsFragment.newInstance())
                 .commit()
     }
 

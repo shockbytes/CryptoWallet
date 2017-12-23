@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_cashout">Auszahlung</string>
+    <string name="popup_item_cashout">Auszahlen</string>
+    <string name="remove">Entfernen</string>
+    <string name="error_add_currency">Bitte geben Sie einen Betrag ein!</string>
+    <string name="label_help">Hilfe</string>
+    <string name="label_add_currency">Währung hinzufügen</string>
+    <string name="label_settings">Einstellungen</string>
+    <string name="navigation_settings">Einstellungen</string>
+    <string name="navigation_help">Hilfe</string>
+    <string name="navigation_cashout">Auszahlen</string>
+    <string name="navigation_balance">Kontostand</string>
+    <string name="hint_insert_coins">Füge deine Coins hinzu!</string>
+    <string name="add_to_wallet">Zu Brieftasche hinzufügen</string>
+    <string name="navigation_header_default_name">Anonymer Benutzer</string>
+    <string name="empty_indicator_cashout">Noch keine Auszahlung vorhanden…</string>
+    <string name="empty_indicator_balance">Füge Coins zu deiner Brieftasche hinzu</string>
+    <string name="title_balance">Kontostand</string>
+    <string name="perm_contacts_rationale">Crypto Watcher benutzt deine Kontaktdaten um die App für dich zu personalisieren</string>
+    <string name="contentdesc_drawer_close">Schließe Drawer</string>
+    <string name="contentdesc_drawer_open">Öffne Drawer</string>
+</resources>

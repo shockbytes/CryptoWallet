@@ -115,6 +115,12 @@ public class MainActivity extends BaseActivity
                 showFragment(MainFragment.Companion.newInstance(MainFragment.ViewType.CASHOUT));
                 break;
 
+            case R.id.menu_navigation_help:
+
+                startActivity(HelpActivity.Companion.newIntent(this),
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
+                break;
+
             case R.id.menu_navigation_settings:
 
                 startActivity(SettingsActivity.Companion.newIntent(this),

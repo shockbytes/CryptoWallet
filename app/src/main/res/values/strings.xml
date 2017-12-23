@@ -1,20 +1,19 @@
 <resources>
-    <string name="app_name">Crypto Watcher</string>
-    <string name="app_version">1.3</string>
+    <string name="app_name" translatable="false">Crypto Watcher</string>
+    <string name="app_version" translatable="false">1.3</string>
 
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prefs_key_fingerprint_as_auth">prefs_key_use_fingerprint_as_auth</string>
-    <string name="local_currency_default_value">EUR</string>
-    <string name="prefs_key_local_currency">prefs_key_local_currency</string>
+    <string name="prefs_key_fingerprint_as_auth" translatable="false">prefs_key_use_fingerprint_as_auth</string>
+    <string name="local_currency_default_value" translatable="false">EUR</string>
+    <string name="prefs_key_local_currency" translatable="false">prefs_key_local_currency</string>
     <string name="contentdesc_drawer_open">Open drawer</string>
     <string name="contentdesc_drawer_close">Close drawer</string>
 
-    <string name="perm_contacts_rationale">\"Accessing contacts let\'s Crypto Wallet personalize your application\"</string>
+    <string name="perm_contacts_rationale">\"Accessing contacts let\'s Crypto Watcher personalize your application\"</string>
     <string name="title_balance">Balance</string>
     <string name="title_cashout">Cashout</string>
     <string name="empty_indicator_balance">Add coins to your wallet</string>
     <string name="empty_indicator_cashout">No cashout so far…</string>
-    <string name="prefs_key_auto_update">key_auto_update</string>
+    <string name="prefs_key_auto_update" translatable="false">key_auto_update</string>
 
     <string name="navigation_header_default_name">A Crypto Watcher user</string>
     <string name="add_to_wallet">Add to wallet</string>
@@ -26,5 +25,8 @@
     <string name="popup_item_cashout">Cashout</string>
     <string name="remove">Remove</string>
     <string name="error_add_currency">Please enter an amount!</string>
+    <string name="label_help">Help</string>
+    <string name="label_add_currency">Add currency</string>
+    <string name="label_settings">Settings</string>
 
 </resources>

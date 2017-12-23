@@ -26,17 +26,21 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".ui.activity.SettingsActivity"
-            android:label="Settings"
+            android:label="@string/label_settings"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WithActionBarLight" />
         <activity android:name=".ui.activity.AddCurrencyActivity"
-            android:label="Add currency"
-            android:theme="@style/AppTheme.WithActionBar">
-        </activity>
+            android:label="@string/label_add_currency"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.WithActionBar" />
+        <activity android:name=".ui.activity.HelpActivity"
+            android:label="@string/label_help"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.WithActionBar"/>
     </application>
 
 </manifest>

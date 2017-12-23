@@ -1,4 +1,4 @@
-# CryptoWallet
+# Crypto Watcher
 
 ## Versions
 
@@ -26,16 +26,17 @@
 ### Version 1.3
 * Dark Redesign
 * Extract strings
+* Support Bitcoin Cash (BCH)
 
 #### TODO for 1.3
 * Introduce Help screen
 * Showcase introduction
-* Landscape support
 
 ### Upcoming Version 1.4
 
 * Introduce currency exchange rates (buy in USD and show in EUR)
 * Secure database with fingerprint encryption
+* Landscape support
 
 ## TODO
 
