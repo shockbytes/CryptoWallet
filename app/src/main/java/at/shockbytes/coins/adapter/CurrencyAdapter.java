@@ -17,8 +17,8 @@ import java.util.List;
 
 import at.shockbytes.coins.R;
 import at.shockbytes.coins.currency.Currency;
-import at.shockbytes.coins.currency.CurrencyConversionRates;
-import at.shockbytes.coins.currency.OwnedCurrency;
+import at.shockbytes.coins.currency.RealCurrency;
+import at.shockbytes.coins.currency.conversion.CurrencyConversionRates;
 import at.shockbytes.coins.ui.fragment.MainFragment;
 import at.shockbytes.coins.util.CoinUtils;
 import at.shockbytes.coins.util.ResourceManager;
@@ -30,42 +30,42 @@ import butterknife.OnClick;
  *         Date: 15.06.2017.
  */
 
-public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
+public class CurrencyAdapter extends BaseAdapter<Currency> {
 
     public interface OnEntryPopupItemSelectedListener {
 
-        void onCashout(OwnedCurrency ownedCurrency);
+        void onCashout(Currency ownedCurrency);
 
-        void onDelete(OwnedCurrency ownedCurrency);
+        void onDelete(Currency ownedCurrency);
 
     }
 
     private OnEntryPopupItemSelectedListener popupListener;
 
-    private Currency localCurrency;
+    private RealCurrency localCurrency;
     private CurrencyConversionRates conversionRates;
 
     private MainFragment.ViewType viewType;
 
-    public OwnedCurrencyAdapter(Context cxt, List<OwnedCurrency> data,
-                                MainFragment.ViewType viewType,
-                                OnEntryPopupItemSelectedListener popupListener) {
+    public CurrencyAdapter(Context cxt, List<Currency> data,
+                           MainFragment.ViewType viewType,
+                           OnEntryPopupItemSelectedListener popupListener) {
         super(cxt, data);
         this.viewType = viewType;
         this.popupListener = popupListener;
     }
 
     @Override
-    public BaseAdapter<OwnedCurrency>.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseAdapter<Currency>.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(inflater.inflate(R.layout.item_currency, parent, false));
     }
 
-    public void setLocalCurrency(Currency localCurrency, CurrencyConversionRates conversionRates) {
+    public void setLocalCurrency(RealCurrency localCurrency, CurrencyConversionRates conversionRates) {
         this.localCurrency = localCurrency;
         this.conversionRates = conversionRates;
     }
 
-    class ViewHolder extends BaseAdapter<OwnedCurrency>.ViewHolder implements PopupMenu.OnMenuItemClickListener {
+    class ViewHolder extends BaseAdapter<Currency>.ViewHolder implements PopupMenu.OnMenuItemClickListener {
 
         @BindView(R.id.item_currency_icon)
         ImageView imgViewIcon;
@@ -94,21 +94,20 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
         }
 
         @Override
-        public void bind(OwnedCurrency ownedCurrency) {
+        public void bind(Currency ownedCurrency) {
             content = ownedCurrency;
 
             imgViewIcon.setImageResource(CoinUtils.INSTANCE.getResourceForCryptoCurrency(
                     content.getCryptoCurrency()));
-            txtAmount.setText(ResourceManager.roundDoubleWithDigits(content.getAmount(), 8)
+            txtAmount.setText(ResourceManager.roundDoubleWithDigits(content.getCryptoAmount(), 8)
                     + " " + content.getCryptoCurrency().name());
 
-
             double boughtPrice;
-            if (content.getBoughtCurrency() != localCurrency) {
-                boughtPrice = conversionRates.convert(content.getBoughtPrice(),
-                        content.getBoughtCurrency(), localCurrency);
+            if (content.getRealCurrency() != localCurrency) {
+                boughtPrice = conversionRates.convert(content.getRealAmount(),
+                        content.getRealCurrency(), localCurrency);
             } else {
-                boughtPrice = content.getBoughtPrice();
+                boughtPrice = content.getRealAmount();
             }
 
             txtBoughtPrice.setText(String.valueOf(ResourceManager.roundDoubleWithDigits(boughtPrice, 2))
@@ -117,14 +116,14 @@ public class OwnedCurrencyAdapter extends BaseAdapter<OwnedCurrency> {
             txtCurrentPrice.setText(String.valueOf(content.getCurrentPrice())
                     + " " + CoinUtils.INSTANCE.getSymbolForCurrency(localCurrency));
 
-            double diff = content.getPriceDiffPercentage(boughtPrice);
+            double diff = content.getPricePercentageDiff(boughtPrice);
             int diffColor = diff >= 0 ? R.color.percentage_win : R.color.percentage_loose;
             txtDiff.setTextColor(ContextCompat.getColor(context, diffColor));
             txtDiff.setText(diff + "%");
         }
 
         @OnClick(R.id.item_currency_icon_imgbtn_overflow)
-        public void onClickOverflow() {
+        void onClickOverflow() {
             popupMenu.show();
         }
 

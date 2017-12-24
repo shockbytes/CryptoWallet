@@ -13,10 +13,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import at.shockbytes.coins.R
-import at.shockbytes.coins.adapter.OwnedCurrencyAdapter
+import at.shockbytes.coins.adapter.CurrencyAdapter
 import at.shockbytes.coins.currency.Balance
+import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.currency.CurrencyManager
-import at.shockbytes.coins.currency.OwnedCurrency
 import at.shockbytes.coins.dagger.AppComponent
 import at.shockbytes.coins.ui.fragment.dialog.CashoutDialogFragment
 import at.shockbytes.coins.ui.fragment.dialog.RemoveConfirmationDialogFragment
@@ -25,12 +25,11 @@ import butterknife.BindView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
-        OwnedCurrencyAdapter.OnEntryPopupItemSelectedListener {
+        CurrencyAdapter.OnEntryPopupItemSelectedListener {
 
     enum class ViewType {
         BALANCE, CASHOUT
@@ -74,7 +73,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
 
     private lateinit var viewType: ViewType
 
-    private var adapter: OwnedCurrencyAdapter? = null
+    private var adapter: CurrencyAdapter? = null
 
     private var isViewSetup: Boolean = false
 
@@ -138,7 +137,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
             R.string.empty_indicator_balance)
 
         // RecyclerView
-        adapter = OwnedCurrencyAdapter(context, ArrayList(),
+        adapter = CurrencyAdapter(context, ArrayList(),
                 viewType, this)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -146,34 +145,34 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
         isViewSetup = true
     }
 
-    override fun onCashout(ownedCurrency: OwnedCurrency) {
+    override fun onCashout(ownedCurrency: Currency) {
 
         val fragment = CashoutDialogFragment.newInstance(ownedCurrency.id)
         fragment.setOnCashoutCompletedListener { loadData() }
         fragment.show(fragmentManager, "cashout-fragment")
     }
 
-    override fun onDelete(ownedCurrency: OwnedCurrency) {
-        val amount = "${ownedCurrency.amount} ${ownedCurrency.cryptoCurrency.name}"
+    override fun onDelete(c: Currency) {
+        val amount = "${c.cryptoAmount} ${c.getCryptoCurrency().name}"
         val dialog = RemoveConfirmationDialogFragment.newInstance(amount)
                 .setConfirmationListener {
-                    currencyManager.removeCurrency(ownedCurrency)
+                    currencyManager.removeCurrency(c)
                     loadData()
                 }
         dialog.show(fragmentManager, "remove_confirmation_dialog_fragment")
     }
 
-    private fun setupHeader(balance: Balance) {
+    private fun setupHeader(balance: Balance?) {
 
-        txtCurrent.text = balance.current.toString() + " " + currencyManager.localCurrency
-        txtInvested.text = balance.invested.toString() + " " + currencyManager.localCurrency
+        txtCurrent.text = balance?.current?.toString() + " " + currencyManager.localCurrency
+        txtInvested.text = balance?.invested?.toString() + " " + currencyManager.localCurrency
 
-        val diff = balance.percentageDiff
+        val diff = balance?.percentageDiff ?: 0.0
         val diffColor = if (diff >= 0) R.color.percentage_win else R.color.percentage_loose
         txtDiffPercentage.setTextColor(ContextCompat.getColor(context, diffColor))
         txtDiffPercentage.text = diff.toString() + "%"
 
-        animateTrendArrow(balance.current)
+        animateTrendArrow(balance?.current ?: lastBalance)
     }
 
     private fun animateTrendArrow(balance: Double) {
@@ -206,12 +205,12 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
             }
 
         } else if (viewType == ViewType.CASHOUT) {
-            subscribeToSingleDataSource(currencyManager.cashedoutCurrencies)
+            subscribeToSingleDataSource(currencyManager.cashedOutCurrencies)
         }
 
     }
 
-    private fun subscribeToSingleDataSource(dataSource: Observable<List<OwnedCurrency>>) {
+    private fun subscribeToSingleDataSource(dataSource: Observable<List<Currency>>) {
 
         dataSource.subscribe({ ownedCurrencies ->
             swipeRefreshLayout.isRefreshing = false

@@ -1,4 +1,4 @@
-package at.shockbytes.coins.network.model;
+package at.shockbytes.coins.currency.price;
 
 import java.util.List;
 

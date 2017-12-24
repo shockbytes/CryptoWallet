@@ -2,7 +2,7 @@
 
 ## Versions
 
-### Version 1.0
+### Version 0.7
 
 * Add Bitcoin, Ethereum and Litecoin
 * Manually update course
@@ -10,25 +10,26 @@
 * Technical possibility to incorporate other API provider
 * Cash out full amount of entered currency (it won't update price)
 
-### Version 1.1
+### Version 0.8
 
 * New color design
 * Auto update values
 * Arrow indicates latest trend in balance header
 * Stability improvements
 
-### Version 1.2 
+### Version 0.9
 
 * Improved Enter dialog
 * Improved cashout dialog
 * Secure app with fingerprint
 
-### Version 1.3
+### Version 1.0
 * Apply dark design
 * Extract strings
 * Support Bitcoin Cash (BCH)
 * Introduce Help screen
 * Showcase introduction
+* Refactor data storage model
 
 ## Upcoming features
 

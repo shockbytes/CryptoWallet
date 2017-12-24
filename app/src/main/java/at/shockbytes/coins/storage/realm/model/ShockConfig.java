@@ -1,4 +1,4 @@
-package at.shockbytes.coins.storage;
+package at.shockbytes.coins.storage.realm.model;
 
 import io.realm.RealmObject;
 

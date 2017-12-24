@@ -2,7 +2,7 @@ package at.shockbytes.coins.util
 
 import at.shockbytes.coins.R
 import at.shockbytes.coins.currency.CryptoCurrency
-import at.shockbytes.coins.currency.Currency
+import at.shockbytes.coins.currency.RealCurrency
 
 /**
  * @author Martin Macheiner
@@ -22,21 +22,21 @@ object CoinUtils {
         }
     }
 
-    fun getResourceForCurrency(currency: Currency): Int {
+    fun getResourceForCurrency(realCurrency: RealCurrency): Int {
 
-        return when (currency) {
+        return when (realCurrency) {
 
-            Currency.EUR -> R.drawable.ic_currency_eur
-            Currency.USD -> R.drawable.ic_currency_usd
+            RealCurrency.EUR -> R.drawable.ic_currency_eur
+            RealCurrency.USD -> R.drawable.ic_currency_usd
         }
     }
 
-    fun getSymbolForCurrency(currency: Currency): String {
+    fun getSymbolForCurrency(realCurrency: RealCurrency): String {
 
-        return when (currency) {
+        return when (realCurrency) {
 
-            Currency.EUR -> "€"
-            Currency.USD -> "$"
+            RealCurrency.EUR -> "€"
+            RealCurrency.USD -> "$"
         }
         /*
         case GBP:

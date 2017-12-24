@@ -15,7 +15,7 @@ import at.shockbytes.coins.adapter.CurrencySpinnerAdapter
 import at.shockbytes.coins.currency.CryptoCurrency
 import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.currency.CurrencyManager
-import at.shockbytes.coins.currency.OwnedCurrency
+import at.shockbytes.coins.currency.RealCurrency
 import at.shockbytes.coins.dagger.AppComponent
 import at.shockbytes.coins.util.CoinUtils
 import butterknife.BindView
@@ -100,20 +100,20 @@ class AddCurrencyFragment : BaseFragment() {
         }
 
         val boughtPrice = java.lang.Double.parseDouble(strbp)
-        val boughtCurrency = Currency.values()[spinnerCurrency.selectedItemPosition]
+        val boughtCurrency = RealCurrency.values()[spinnerCurrency.selectedItemPosition]
         val amount = java.lang.Double.parseDouble(strcc)
         val currency = CryptoCurrency.values()[spinnerCryptoCurrency.selectedItemPosition]
 
-        val ownedCurrency = OwnedCurrency(currency, amount,
-                boughtCurrency, boughtPrice)
+        val c = Currency(_cryptoCurrency = currency, cryptoAmount = amount,
+                _realCurrency = boughtCurrency, realAmount = boughtPrice)
 
-        currencyManager.addOwnedCurrency(ownedCurrency)
+        currencyManager.addCurrency(c)
         activity.setResult(Activity.RESULT_OK, Intent())
         activity.supportFinishAfterTransition()
     }
 
     private fun getCurrencyItems(): List<CurrencySpinnerAdapter.CurrencySpinnerAdapterItem> {
-        return Currency.values().map {
+        return RealCurrency.values().map {
             CurrencySpinnerAdapter.CurrencySpinnerAdapterItem(it.name,
                     CoinUtils.getResourceForCurrency(it))
         }

@@ -1,4 +1,6 @@
-package at.shockbytes.coins.currency;
+package at.shockbytes.coins.currency.conversion;
+
+import at.shockbytes.coins.currency.RealCurrency;
 
 /**
  * @author Martin Macheiner
@@ -16,7 +18,7 @@ public class CurrencyConversionRates {
 
     }
 
-    public double convert(double value, Currency from, Currency to) {
+    public double convert(double value, RealCurrency from, RealCurrency to) {
 
         // Do nothing in this case
         if (from == to) {
@@ -31,7 +33,7 @@ public class CurrencyConversionRates {
 
     }
 
-    private double getRateForCurrency(Currency currency) {
+    private double getRateForCurrency(RealCurrency currency) {
 
         switch (currency) {
 
