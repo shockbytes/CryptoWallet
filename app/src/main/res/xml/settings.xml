@@ -25,9 +25,11 @@
             android:key="@string/prefs_key_local_currency"
             android:title="@string/prefs_currency_local_title" />
 
+        <!--
         <Preference
             android:summary="Coinbase, CoinMarket"
             android:title="@string/prefs_currency_price_provider_title" />
+        -->
 
     </PreferenceCategory>
 
