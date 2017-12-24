@@ -36,6 +36,7 @@ captures/
 *.iml
 ./idea/*
 .idea
+.idea/vcs.xml
 
 # Keystore files
 *.jks
