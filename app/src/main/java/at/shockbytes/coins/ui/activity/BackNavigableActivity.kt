@@ -1,8 +1,7 @@
-package at.shockbytes.dante.ui.activity
+package at.shockbytes.coins.ui.activity
 
 import android.os.Bundle
 import android.view.MenuItem
-import at.shockbytes.coins.ui.activity.BaseActivity
 
 abstract class BackNavigableActivity : BaseActivity() {
 

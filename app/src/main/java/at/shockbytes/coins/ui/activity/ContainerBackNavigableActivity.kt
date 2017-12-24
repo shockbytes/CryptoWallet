@@ -3,7 +3,6 @@ package at.shockbytes.coins.ui.activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import at.shockbytes.coins.dagger.AppComponent
-import at.shockbytes.dante.ui.activity.BackNavigableActivity
 
 /**
  * @author Martin Macheiner

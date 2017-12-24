@@ -1,14 +1,13 @@
 package at.shockbytes.coins.ui.fragment
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.preference.ListPreference
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.support.v4.app.ActivityCompat
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import at.shockbytes.coins.R
 import at.shockbytes.coins.core.CoinsApp
 import at.shockbytes.coins.currency.Currency
@@ -43,8 +42,7 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
 
     private fun checkForFingerprintSecurity() {
 
-        val fingerprintManager = context
-                .getSystemService(Context.FINGERPRINT_SERVICE) as FingerprintManager
+        val fingerprintManager = FingerprintManagerCompat.from(activity)
         if (ActivityCompat.checkSelfPermission(activity,
                 Manifest.permission.USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED) {
             if (!fingerprintManager.isHardwareDetected) {

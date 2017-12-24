@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="196dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ImageView
@@ -15,8 +16,9 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
-        android:src="@drawable/ic_navigation_account" />
+        app:srcCompat="@drawable/ic_navigation_account" />
 
     <TextView
         android:id="@+id/navigation_header_text"
@@ -24,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/navigation_header_imgview"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/navigation_header_default_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />

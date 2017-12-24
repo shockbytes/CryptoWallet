@@ -42,32 +42,35 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     @Inject
     lateinit var preferences: SharedPreferences
 
+    @BindView(R.id.fragment_main_header)
+    lateinit var balanceHeader: View
+
     @BindView(R.id.main_fragment_rv)
-    lateinit var recyclerView: RecyclerView
+    protected lateinit var recyclerView: RecyclerView
 
     @BindView(R.id.fragment_main_swipe_container)
-    lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    protected lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     @BindView(R.id.balance_header_txt_current)
-    lateinit var txtCurrent: TextView
+    protected lateinit var txtCurrent: TextView
 
     @BindView(R.id.balance_header_txt_invested)
-    lateinit var txtInvested: TextView
+    protected lateinit var txtInvested: TextView
 
     @BindView(R.id.balance_header_txt_percentage)
-    lateinit var txtDiffPercentage: TextView
+    protected lateinit var txtDiffPercentage: TextView
 
     // Can't be assigned with just the ButterKnife assignment,
     // will crash if it is not handled that way
     @JvmField
     @BindView(R.id.balance_header_imgview_trend)
-    var imgViewTrend: ImageView? = null
+    protected var imgViewTrend: ImageView? = null
 
     @BindView(R.id.fragment_main_empty_view)
-    lateinit var emptyView: View
+    protected lateinit var emptyView: View
 
     @BindView(R.id.fragment_main_empty_view_text)
-    lateinit var emptyTextView: TextView
+    protected lateinit var emptyTextView: TextView
 
     private lateinit var viewType: ViewType
 

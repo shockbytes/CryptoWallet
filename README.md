@@ -28,8 +28,6 @@
 * Extract strings
 * Support Bitcoin Cash (BCH)
 * Introduce Help screen
-
-#### TODO for 1.3
 * Showcase introduction
 
 ## Upcoming features

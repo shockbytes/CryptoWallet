@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import at.shockbytes.coins.dagger.AppComponent
 import at.shockbytes.coins.ui.fragment.SettingsFragment
-import at.shockbytes.dante.ui.activity.BackNavigableActivity
 
 
 /**

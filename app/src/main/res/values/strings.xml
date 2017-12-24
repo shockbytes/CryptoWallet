@@ -58,5 +58,8 @@
         Crypto Watcher. With this feature you can keep track how much profit (hopefully) you made
         with your coins. Note, that it is not possible to sell your actual coins with this app.
         This app is just for watching the progress of your coins.</string>
+    <string name="showcase_fab">Add your crypto currency with the corresponding buying price.</string>
+    <string name="showcase_drawer">You can navigate between balance and cashout. You can visit help and settings here as well.</string>
+    <string name="showcase_header">Here you can see your current balance. You can also see your invested money and your percentual profit.</string>
 
 </resources>

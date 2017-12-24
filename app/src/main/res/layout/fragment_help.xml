@@ -13,8 +13,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:drawableLeft="@drawable/ic_navigation_balance"
+            android:drawablePadding="16dp"
+            android:drawableStart="@drawable/ic_navigation_balance"
+            android:gravity="center_vertical"
             android:text="@string/title_balance"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:layout_width="match_parent"
@@ -26,8 +31,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="32dp"
+            android:drawableLeft="@drawable/ic_navigation_cashout"
+            android:drawablePadding="16dp"
+            android:drawableStart="@drawable/ic_navigation_cashout"
+            android:gravity="center_vertical"
             android:text="@string/title_cashout"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:layout_width="match_parent"
