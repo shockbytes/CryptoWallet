@@ -61,14 +61,13 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/fragment_dialog_add_currency_btn_save"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/colorAccent"
         android:padding="16dp"
         android:text="@string/add_to_wallet"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        app:backgroundTint="@color/colorAccent" />
 
 </RelativeLayout>

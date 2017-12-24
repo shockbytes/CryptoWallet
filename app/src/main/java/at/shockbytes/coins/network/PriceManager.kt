@@ -3,6 +3,7 @@ package at.shockbytes.coins.network
 import at.shockbytes.coins.currency.CryptoCurrency
 import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.network.model.PriceConversion
+import at.shockbytes.coins.network.model.PriceManagerInfo
 import io.reactivex.Observable
 
 /**
@@ -12,9 +13,7 @@ import io.reactivex.Observable
 
 interface PriceManager {
 
-    val name: String
-
-    val icon: Int
+    val info: PriceManagerInfo
 
     var isEnabled: Boolean
 

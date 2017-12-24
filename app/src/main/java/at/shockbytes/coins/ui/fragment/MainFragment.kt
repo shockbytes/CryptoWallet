@@ -151,7 +151,8 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onDelete(ownedCurrency: OwnedCurrency) {
-        val dialog = RemoveConfirmationDialogFragment.newInstance()
+        val amount = "${ownedCurrency.amount} ${ownedCurrency.cryptoCurrency.name}"
+        val dialog = RemoveConfirmationDialogFragment.newInstance(amount)
                 .setConfirmationListener {
                     currencyManager.removeCurrency(ownedCurrency)
                     loadData()

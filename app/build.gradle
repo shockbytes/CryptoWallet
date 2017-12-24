@@ -56,7 +56,7 @@ dependencies {
 
     implementation 'pub.devrel:easypermissions:1.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.github.deano2390:MaterialShowcaseView:1.2.0@aar'
+    implementation 'com.github.iammert:MaterialIntroView:1.6.0'
 
     implementation "com.google.dagger:dagger:$daggerVersion"
 

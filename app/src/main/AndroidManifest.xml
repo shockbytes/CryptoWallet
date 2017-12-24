@@ -30,7 +30,7 @@
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".ui.activity.SettingsActivity"
-            android:label="@string/label_settings"
+            android:label="@string/navigation_settings"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WithActionBarLight" />
         <activity android:name=".ui.activity.AddCurrencyActivity"
@@ -38,7 +38,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WithActionBar" />
         <activity android:name=".ui.activity.HelpActivity"
-            android:label="@string/label_help"
+            android:label="@string/navigation_help"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WithActionBar"/>
     </application>

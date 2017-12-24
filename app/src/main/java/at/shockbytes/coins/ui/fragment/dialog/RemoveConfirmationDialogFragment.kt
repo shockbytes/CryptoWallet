@@ -15,11 +15,18 @@ class RemoveConfirmationDialogFragment : DialogFragment() {
 
     private var confirmationListener: (() -> Unit)? = null
 
+    private lateinit var amount: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        amount = arguments.getString(ARG_AMOUNT)
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(context)
                 .setTitle(R.string.dialog_remove_confirmation_title)
                 .setIcon(R.drawable.ic_cancel)
-                .setMessage(R.string.dialog_remove_confirmation_msg)
+                .setMessage(getString(R.string.dialog_remove_confirmation_msg, amount))
                 .setPositiveButton(R.string.remove) { _, _ ->
                     confirmationListener?.invoke()
                     dismiss()
@@ -35,9 +42,12 @@ class RemoveConfirmationDialogFragment : DialogFragment() {
 
     companion object {
 
-        fun newInstance(): RemoveConfirmationDialogFragment {
+        private val ARG_AMOUNT = "arg_amount"
+
+        fun newInstance(amount: String): RemoveConfirmationDialogFragment {
             val fragment = RemoveConfirmationDialogFragment()
             val args = Bundle()
+            args.putString(ARG_AMOUNT, amount)
             fragment.arguments = args
             return fragment
         }

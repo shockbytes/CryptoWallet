@@ -4,9 +4,7 @@
     <string name="popup_item_cashout">Auszahlen</string>
     <string name="remove">Entfernen</string>
     <string name="error_add_currency">Bitte geben Sie einen Betrag ein!</string>
-    <string name="label_help">Hilfe</string>
     <string name="label_add_currency">Währung hinzufügen</string>
-    <string name="label_settings">Einstellungen</string>
     <string name="navigation_settings">Einstellungen</string>
     <string name="navigation_help">Hilfe</string>
     <string name="navigation_cashout">Auszahlen</string>
@@ -40,5 +38,13 @@
     <string name="prefs_general_fingerprint_title">Fingerprintsperre</string>
     <string name="login_summary">Verfolge die Wertentwicklung deiner Coins</string>
     <string name="dialog_remove_confirmation_title">Coins löschen</string>
-    <string name="dialog_remove_confirmation_msg">Sollen die Coins aus deiner Brieftasche gelöscht werden?</string>
+    <string name="dialog_remove_confirmation_msg">Sollen %s aus deiner Brieftasche gelöscht werden?</string>
+    <string name="help_balance">Du kannst deine Coins mit den jeweiligen Kaufpreis zu deiner Brieftasche hinzufügen
+        und zusehen, wie sich der Preis über die Zeit entwickelt. Crypto Watcher hat keinen Zugriff
+        auf deine persoönliche Coin-Brieftasche, um die Sicherheit deiner Coins zu gewährleisten.
+        \n\nZurzeit werden folgende Kryptowährungen unterstützt:\n\n\t&#8226; BTC\n\t&#8226; BCH\n\t&#8226; ETH\n\t&#8226; LTC</string>
+    <string name="help_cashout">Wenn du deine tatsächlichen Coins verkaufst kannst du sie auch in
+        Crypto Watcher auszahlen. Mit diesem Feature kannst du den Profit (hoffentlich) deiner Coins
+        aufzeichnen. Bitte beachte, dass du deine tatsächlichen Coins NICHT mit dieser App auszahlen
+        kannst. Die App ist nur dazu da, um du den Fortschritt deiner Coins zu beobachten.</string>
 </resources>

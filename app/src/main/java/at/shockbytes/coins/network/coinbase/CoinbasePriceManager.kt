@@ -5,6 +5,7 @@ import at.shockbytes.coins.currency.CryptoCurrency
 import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.network.PriceManager
 import at.shockbytes.coins.network.model.PriceConversion
+import at.shockbytes.coins.network.model.PriceManagerInfo
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -17,9 +18,7 @@ import java.util.*
 
 class CoinbasePriceManager(private val api: CoinbasePriceApi) : PriceManager {
 
-    override val name: String = "Coinbase"
-
-    override val icon: Int = R.drawable.ic_price_provider_coinbase
+    override val info = PriceManagerInfo("Coinbase", R.drawable.ic_price_provider_coinbase)
 
     override var isEnabled: Boolean = true
 

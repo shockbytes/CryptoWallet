@@ -24,16 +24,17 @@
 * Secure app with fingerprint
 
 ### Version 1.3
-* Dark Redesign
+* Apply dark design
 * Extract strings
 * Support Bitcoin Cash (BCH)
+* Introduce Help screen
 
 #### TODO for 1.3
-* Introduce Help screen
 * Showcase introduction
 
 ## Upcoming features
 
+* Ads as cards?
 * Introduce currency exchange rates (buy in USD and show in EUR) --> using fixer.io
 * Database encryption based on Fingerprint cipher
 * Landscape support
