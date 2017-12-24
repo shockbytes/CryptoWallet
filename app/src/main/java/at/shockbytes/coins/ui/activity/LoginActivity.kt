@@ -109,6 +109,7 @@ class LoginActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
     private fun deriveRealmKey(result: FingerprintManagerCompat.AuthenticationResult?): ByteArray {
 
         // TODO Derive realm key cryptoCurrency fingerprint data
+        println(result?.toString())
         return ByteArray(0)
     }
 
