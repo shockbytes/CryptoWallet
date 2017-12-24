@@ -18,9 +18,7 @@ class HelpFragment : BaseFragment() {
         return inflater?.inflate(R.layout.fragment_help, container, false)
     }
 
-    override fun setupViews() {
-        // TODO
-    }
+    override fun setupViews() { }
 
     override fun injectToGraph(appComponent: AppComponent) {
         // Do nothing

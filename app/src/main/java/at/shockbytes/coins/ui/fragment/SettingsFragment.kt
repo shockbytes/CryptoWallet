@@ -10,7 +10,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import at.shockbytes.coins.R
 import at.shockbytes.coins.core.CoinsApp
-import at.shockbytes.coins.currency.Currency
+import at.shockbytes.coins.currency.RealCurrency
 import at.shockbytes.coins.currency.CurrencyManager
 import javax.inject.Inject
 
@@ -36,7 +36,7 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
     override fun onPreferenceChange(preference: Preference, o: Any): Boolean {
         val value = o as String
         localCurrencyPref.summary = value
-        currencyManager.localCurrency = Currency.valueOf(value)
+        currencyManager.localCurrency = RealCurrency.valueOf(value)
         return true
     }
 

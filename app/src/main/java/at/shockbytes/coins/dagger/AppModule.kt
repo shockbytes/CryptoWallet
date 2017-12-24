@@ -5,13 +5,13 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import at.shockbytes.coins.currency.CurrencyManager
 import at.shockbytes.coins.currency.DefaultCurrencyManager
-import at.shockbytes.coins.currency.DefaultPriceProxy
-import at.shockbytes.coins.currency.PriceProxy
-import at.shockbytes.coins.network.PriceManager
+import at.shockbytes.coins.currency.price.DefaultPriceProxy
+import at.shockbytes.coins.currency.price.PriceManager
+import at.shockbytes.coins.currency.price.PriceProxy
 import at.shockbytes.coins.network.conversion.CurrencyConversionApi
-import at.shockbytes.coins.storage.CoinsRealmMigration
-import at.shockbytes.coins.storage.RealmStorageManager
 import at.shockbytes.coins.storage.StorageManager
+import at.shockbytes.coins.storage.realm.CryptoWatcherRealmMigration
+import at.shockbytes.coins.storage.realm.RealmStorageManager
 import dagger.Module
 import dagger.Provides
 import io.realm.Realm
@@ -33,8 +33,7 @@ class AppModule(private val app: Application) {
                                storageManager: StorageManager,
                                currencyConversionApi: CurrencyConversionApi,
                                preferences: SharedPreferences): CurrencyManager {
-        return DefaultCurrencyManager(app.applicationContext, priceProxy,
-                storageManager, currencyConversionApi, preferences)
+        return DefaultCurrencyManager(priceProxy, storageManager, currencyConversionApi, preferences)
     }
 
     @Provides
@@ -47,8 +46,8 @@ class AppModule(private val app: Application) {
     @Singleton
     fun provideRealm(): Realm {
         val config = RealmConfiguration.Builder()
-                .schemaVersion(CoinsRealmMigration.CURRENT_SCHEME.toLong())
-                .migration(CoinsRealmMigration())
+                .schemaVersion(CryptoWatcherRealmMigration.v1_0_scheme)
+                .migration(CryptoWatcherRealmMigration())
                 //.encryptionKey(key)
                 .build()
         return Realm.getInstance(config)

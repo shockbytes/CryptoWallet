@@ -1,7 +1,7 @@
 package at.shockbytes.coins.dagger
 
 import android.app.Application
-import at.shockbytes.coins.network.PriceManager
+import at.shockbytes.coins.currency.price.PriceManager
 import at.shockbytes.coins.network.coinbase.CoinbasePriceApi
 import at.shockbytes.coins.network.coinbase.CoinbasePriceManager
 import at.shockbytes.coins.network.conversion.CurrencyConversionApi

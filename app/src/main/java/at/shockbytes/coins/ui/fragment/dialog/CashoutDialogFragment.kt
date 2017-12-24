@@ -11,8 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import at.shockbytes.coins.R
 import at.shockbytes.coins.core.CoinsApp
+import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.currency.CurrencyManager
-import at.shockbytes.coins.currency.OwnedCurrency
 import at.shockbytes.coins.util.ResourceManager
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -38,7 +38,7 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
     @BindView(R.id.dialog_fragment_cashout_seekbar_amount)
     protected lateinit var seekBarAmount: SeekBar
 
-    private lateinit var currency: OwnedCurrency
+    private lateinit var currency: Currency
 
     private var completeListener: (() -> Unit)? = null
 
@@ -70,7 +70,7 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
 
                     val amountToPayout = seekBarAmount.progress / SEEKBAR_FACTOR
                     if (amountToPayout > 0) {
-                        currencyManager.splitCashout(currency, amountToPayout)
+                        currencyManager.partialCashout(currency, amountToPayout)
                         completeListener?.invoke()
                     } else {
                         Toast.makeText(context, R.string.hint_dialog_cashout_bigger_zero, Toast.LENGTH_SHORT).show()
@@ -98,7 +98,7 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
         txtAmount.text = ((progress / SEEKBAR_FACTOR).toString() + " / "
-                + ResourceManager.roundDoubleWithDigits(currency.amount, 8))
+                + ResourceManager.roundDoubleWithDigits(currency.cryptoAmount, 8))
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar) { }
@@ -111,12 +111,12 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
 
     private fun setup() {
 
-        seekBarAmount.max = Math.ceil(currency.amount * SEEKBAR_FACTOR).toInt()
+        seekBarAmount.max = Math.ceil(currency.cryptoAmount * SEEKBAR_FACTOR).toInt()
         seekBarAmount.setOnSeekBarChangeListener(this)
 
-        txtCurrency.text = getString(R.string.dialog_cashout_message, currency.cryptoCurrency.name)
+        txtCurrency.text = getString(R.string.dialog_cashout_message, currency.getCryptoCurrency().name)
         txtAmount.text = getString(R.string.dialog_cashout_message_amount,
-                ResourceManager.roundDoubleWithDigits(currency.amount, 8))
+                ResourceManager.roundDoubleWithDigits(currency.cryptoAmount, 8))
     }
 
     companion object {
