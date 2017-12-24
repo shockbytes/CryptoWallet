@@ -220,12 +220,10 @@ class MainActivity : BaseActivity(),
     }
 
     private fun showShowcaseViews() {
-
         showShowcaseView(fab, AppParams.showcaseIdFab, R.string.showcase_fab)
     }
 
     private fun showShowcaseView(view: View?, id: String, @StringRes textId: Int) {
-
         MaterialIntroView.Builder(this)
                 .enableDotAnimation(false)
                 .enableIcon(false)

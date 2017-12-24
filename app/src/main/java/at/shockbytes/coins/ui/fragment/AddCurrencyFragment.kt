@@ -1,5 +1,7 @@
 package at.shockbytes.coins.ui.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
@@ -47,6 +49,13 @@ class AddCurrencyFragment : BaseFragment() {
     @BindView(R.id.fragment_dialog_add_currency_spinner_currency)
     lateinit var spinnerCurrency: Spinner
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Set it default to canceled and set to OK when 'save' is clicked
+        activity.setResult(Activity.RESULT_CANCELED, Intent())
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_add_currency, container, false)
@@ -79,7 +88,6 @@ class AddCurrencyFragment : BaseFragment() {
         }
     }
 
-
     @OnClick(R.id.fragment_dialog_add_currency_btn_save)
     fun onClickSave() {
 
@@ -100,6 +108,7 @@ class AddCurrencyFragment : BaseFragment() {
                 boughtCurrency, boughtPrice)
 
         currencyManager.addOwnedCurrency(ownedCurrency)
+        activity.setResult(Activity.RESULT_OK, Intent())
         activity.supportFinishAfterTransition()
     }
 
