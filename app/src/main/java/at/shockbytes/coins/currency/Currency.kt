@@ -12,11 +12,11 @@ import io.realm.annotations.PrimaryKey
  */
 
 open class Currency(@PrimaryKey var id: Long = 0,
-                    @Ignore var _cryptoCurrency: CryptoCurrency = CryptoCurrency.BTC,
-                    var cryptoCurrencyOrdinal: Int = _cryptoCurrency.ordinal,
+                    @Ignore private var _cryptoCurrency: CryptoCurrency = CryptoCurrency.BTC,
+                    private var cryptoCurrencyOrdinal: Int = _cryptoCurrency.ordinal,
                     var cryptoAmount: Double = 0.0,
-                    @Ignore var _realCurrency: RealCurrency = RealCurrency.EUR,
-                    var realCurrencyOrdinal: Int = _realCurrency.ordinal,
+                    @Ignore private var _realCurrency: RealCurrency = RealCurrency.EUR,
+                    private var realCurrencyOrdinal: Int = _realCurrency.ordinal,
                     var realAmount: Double = 0.0,
                     var instanceCashedOut: Boolean = false,
                     var conversionRate: Double = 0.0,
@@ -24,8 +24,7 @@ open class Currency(@PrimaryKey var id: Long = 0,
                     var boughtDate: Long = 0,
                     var cashoutDate: Long = 0) : RealmObject() {
 
-    var currentPrice: Double = 0.0
-        private set
+    val currentPrice: Double
         get() {
             return if (conversionRate != 0.0) {
                 ResourceManager.roundDoubleWithDigits(cryptoAmount * conversionRate, 2)

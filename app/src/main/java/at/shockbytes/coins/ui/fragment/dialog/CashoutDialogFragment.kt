@@ -10,7 +10,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import at.shockbytes.coins.R
-import at.shockbytes.coins.core.CoinsApp
+import at.shockbytes.coins.core.CryptoWatcherApp
 import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.currency.CurrencyManager
 import at.shockbytes.coins.util.ResourceManager
@@ -54,7 +54,7 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity.application as CoinsApp).appComponent.inject(this)
+        (activity.application as CryptoWatcherApp).appComponent.inject(this)
 
         val id = arguments.getLong(ARG_CURRENCY_ID)
         currency = currencyManager.getOwnedCurrencyById(id)

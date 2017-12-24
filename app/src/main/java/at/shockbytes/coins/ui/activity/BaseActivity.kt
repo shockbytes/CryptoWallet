@@ -9,7 +9,7 @@ import android.transition.Slide
 import android.view.Gravity
 import android.view.Window
 import android.widget.Toast
-import at.shockbytes.coins.core.CoinsApp
+import at.shockbytes.coins.core.CryptoWatcherApp
 import at.shockbytes.coins.dagger.AppComponent
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -25,7 +25,7 @@ abstract class BaseActivity : AppCompatActivity() {
             window.exitTransition = Slide(Gravity.BOTTOM)
             window.enterTransition = Explode()
         }
-        injectToGraph((application as CoinsApp).appComponent)
+        injectToGraph((application as CryptoWatcherApp).appComponent)
     }
 
     override fun setContentView(layoutResID: Int) {

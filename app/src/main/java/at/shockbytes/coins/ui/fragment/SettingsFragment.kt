@@ -9,7 +9,7 @@ import android.preference.PreferenceFragment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import at.shockbytes.coins.R
-import at.shockbytes.coins.core.CoinsApp
+import at.shockbytes.coins.core.CryptoWatcherApp
 import at.shockbytes.coins.currency.RealCurrency
 import at.shockbytes.coins.currency.CurrencyManager
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity.application as CoinsApp).appComponent.inject(this)
+        (activity.application as CryptoWatcherApp).appComponent.inject(this)
         addPreferencesFromResource(R.xml.settings)
 
         localCurrencyPref = findPreference(getString(R.string.prefs_key_local_currency)) as ListPreference

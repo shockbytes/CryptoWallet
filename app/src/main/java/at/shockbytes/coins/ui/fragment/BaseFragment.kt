@@ -5,7 +5,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.View
 import android.widget.Toast
-import at.shockbytes.coins.core.CoinsApp
+import at.shockbytes.coins.core.CryptoWatcherApp
 import at.shockbytes.coins.dagger.AppComponent
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -20,7 +20,7 @@ abstract class BaseFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectToGraph((activity.application as CoinsApp).appComponent)
+        injectToGraph((activity.application as CryptoWatcherApp).appComponent)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
