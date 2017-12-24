@@ -61,5 +61,6 @@
     <string name="showcase_fab">Add your crypto currency with the corresponding buying price.</string>
     <string name="showcase_drawer">You can navigate between balance and cashout. You can visit help and settings here as well.</string>
     <string name="showcase_header">Here you can see your current balance. You can also see your invested money and your percentual profit.</string>
+    <string name="error_add_currency_bigger_than_zero">Amount must be bigger than 0.0</string>
 
 </resources>

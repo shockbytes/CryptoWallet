@@ -179,7 +179,7 @@ public class ResourceManager {
 
     public static double roundDoubleWithDigits(double value, int digits) {
 
-        if (value == 0) {
+        if (value == 0.0) {
             return 0.00;
         }
 

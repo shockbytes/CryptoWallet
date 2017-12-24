@@ -50,4 +50,5 @@
     <string name="showcase_fab">Füge deine Kryptowährungen mit dem dazugehörigen Kaufpreis hinzu.</string>
     <string name="showcase_header">Hier wird neben deinem aktuellen Kontostand auch der investierte Betrag und der prozentuelle Profit angezeigt.</string>
     <string name="showcase_drawer">Du kannst zwischen Kontostand und Auszahlung navigieren. Hier kommst du auch zur Hilfe und den Einstellungen</string>
+    <string name="error_add_currency_bigger_than_zero">Die Zahlen müssen größer als 0.0 sein</string>
 </resources>

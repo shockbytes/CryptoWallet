@@ -99,13 +99,18 @@ class AddCurrencyFragment : BaseFragment() {
             return
         }
 
-        val boughtPrice = java.lang.Double.parseDouble(strbp)
-        val boughtCurrency = RealCurrency.values()[spinnerCurrency.selectedItemPosition]
-        val amount = java.lang.Double.parseDouble(strcc)
-        val currency = CryptoCurrency.values()[spinnerCryptoCurrency.selectedItemPosition]
+        val realAmount = strbp.toDouble()
+        val realCurrency = RealCurrency.values()[spinnerCurrency.selectedItemPosition]
+        val cryptoAmount = strcc.toDouble()
+        val cryptoCurrency = CryptoCurrency.values()[spinnerCryptoCurrency.selectedItemPosition]
 
-        val c = Currency(_cryptoCurrency = currency, cryptoAmount = amount,
-                _realCurrency = boughtCurrency, realAmount = boughtPrice)
+        if (realAmount <= 0.0 || cryptoAmount <= 0.0) {
+            showSnackbar(getString(R.string.error_add_currency_bigger_than_zero))
+            return
+        }
+
+        val c = Currency(_cryptoCurrency = cryptoCurrency, cryptoAmount = cryptoAmount,
+                _realCurrency = realCurrency, realAmount = realAmount)
 
         currencyManager.addCurrency(c)
         activity.setResult(Activity.RESULT_OK, Intent())
