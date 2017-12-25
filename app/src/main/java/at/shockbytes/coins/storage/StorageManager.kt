@@ -19,7 +19,7 @@ interface StorageManager {
 
     fun loadOwnedCurrencies(isCashedOut: Boolean): Observable<List<Currency>>
 
-    fun updateConversionRates(c: Currency, conversions: List<PriceConversion>)
+    fun updateConversionRate(c: Currency, conversions: List<PriceConversion>)
 
     fun getOwnedCurrencyById(id: Long): Currency
 

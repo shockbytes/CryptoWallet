@@ -34,7 +34,7 @@
                     android:layout_height="128dp"
                     android:layout_above="@+id/fragment_main_empty_view_text"
                     android:layout_centerHorizontal="true"
-                    app:srcCompat="@drawable/ic_crypto_currency_btc_white" />
+                    app:srcCompat="@drawable/ic_crypto_currency_btc" />
 
                 <TextView
                     android:id="@+id/fragment_main_empty_view_text"

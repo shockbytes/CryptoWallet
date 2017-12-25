@@ -15,4 +15,6 @@ interface PriceProxy {
     fun getPriceConversions(from: List<CryptoCurrency>,
                             to: RealCurrency): Observable<List<PriceConversion>>
 
+    fun getSupportedCryptoCurrencies(): List<CryptoCurrency>
+
 }

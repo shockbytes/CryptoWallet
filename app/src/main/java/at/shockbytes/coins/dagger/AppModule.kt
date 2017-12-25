@@ -38,8 +38,9 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    fun providePriceProxy(@Named("CoinbasePriceManager") priceProvider: PriceProvider): PriceProxy {
-        return DefaultPriceProxy(Arrays.asList(priceProvider))
+    fun providePriceProxy(@Named("CoinbasePriceProvider") coinbaseProvider: PriceProvider,
+                          @Named("CoinMarketCapPriceProvider") coinMarketCapProvider: PriceProvider): PriceProxy {
+        return DefaultPriceProxy(Arrays.asList(coinbaseProvider, coinMarketCapProvider))
     }
 
     @Provides

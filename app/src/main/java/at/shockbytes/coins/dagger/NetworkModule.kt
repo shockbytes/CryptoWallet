@@ -1,9 +1,12 @@
 package at.shockbytes.coins.dagger
 
 import android.app.Application
+import android.content.SharedPreferences
 import at.shockbytes.coins.currency.price.PriceProvider
 import at.shockbytes.coins.network.coinbase.CoinbasePriceApi
 import at.shockbytes.coins.network.coinbase.CoinbasePriceProvider
+import at.shockbytes.coins.network.coinmarketcap.CoinMarketCapPriceApi
+import at.shockbytes.coins.network.coinmarketcap.CoinMarketCapPriceProvider
 import at.shockbytes.coins.network.conversion.CurrencyConversionApi
 import dagger.Module
 import dagger.Provides
@@ -47,9 +50,31 @@ class NetworkModule(private val app: Application) {
 
     @Provides
     @Singleton
-    @Named("CoinbasePriceManager")
-    fun providePriceManager(api: CoinbasePriceApi): PriceProvider {
-        return CoinbasePriceProvider(api)
+    @Named("CoinbasePriceProvider")
+    fun provideCoinbasePriceProvider(api: CoinbasePriceApi,
+                                     prefs: SharedPreferences): PriceProvider {
+        return CoinbasePriceProvider(api, prefs)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideCoinMarketCapPriceApi(client: OkHttpClient): CoinMarketCapPriceApi {
+        return Retrofit.Builder()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(CoinMarketCapPriceApi.SERVICE_ENDPOINT)
+                .build()
+                .create(CoinMarketCapPriceApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @Named("CoinMarketCapPriceProvider")
+    fun provideCoinMarketCapPriceProvider(api: CoinMarketCapPriceApi,
+                                          prefs: SharedPreferences): PriceProvider {
+        return CoinMarketCapPriceProvider(api, prefs)
     }
 
     @Provides

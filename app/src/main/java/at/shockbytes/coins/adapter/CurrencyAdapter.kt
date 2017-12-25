@@ -12,13 +12,11 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-
 import at.shockbytes.coins.R
 import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.currency.RealCurrency
 import at.shockbytes.coins.currency.conversion.CurrencyConversionRates
 import at.shockbytes.coins.ui.fragment.MainFragment
-import at.shockbytes.coins.util.CoinUtils
 import at.shockbytes.coins.util.ResourceManager
 import butterknife.BindView
 import butterknife.OnClick
@@ -82,8 +80,7 @@ class CurrencyAdapter(cxt: Context, data: List<Currency>,
         override fun bind(ownedCurrency: Currency) {
             content = ownedCurrency
 
-            imgViewIcon.setImageResource(CoinUtils
-                    .getResourceForCryptoCurrency(content.getCryptoCurrency()))
+            imgViewIcon.setImageResource(content.getCryptoCurrency().icon)
             txtAmount.text = (ResourceManager.roundDouble(content.cryptoAmount, 8).toString()
                     + " " + content.getCryptoCurrency().name)
 
@@ -96,10 +93,9 @@ class CurrencyAdapter(cxt: Context, data: List<Currency>,
             }
 
             txtBoughtPrice.text = (ResourceManager.roundDouble(boughtPrice, 2).toString()
-                    + " " + CoinUtils.getSymbolForCurrency(localCurrency!!))
+                    + " " + localCurrency?.symbol)
 
-            txtCurrentPrice.text = (content.currentPrice.toString()
-                    + " " + CoinUtils.getSymbolForCurrency(localCurrency!!))
+            txtCurrentPrice.text = (content.currentPrice.toString() + " " + localCurrency?.symbol)
 
             val diff = content.getPricePercentageDiff(boughtPrice)
             val diffColor = if (diff >= 0) R.color.percentage_win else R.color.percentage_loose

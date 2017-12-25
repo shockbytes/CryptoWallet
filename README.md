@@ -30,12 +30,15 @@
 * Introduce Help screen
 * Showcase introduction
 * Refactor data storage model
+* Include ads
+
+### Version 1.1
+* Support IOTA, DASH and XPR
+* Introduce provider selection (enable provider) in settings
+* DetailView (incl. buy, spot, sell price, date of buy, price source, price of 1 coin)
 
 ## Upcoming features
 
-* Ads as cards?
 * Introduce currency exchange rates (buy in USD and show in EUR) --> using fixer.io
 * Database encryption based on Fingerprint cipher
 * Landscape support
-* Introduce provider selection in settings
-* DetailView (incl. buy, spot, sell price, date of buy, price source, price of 1 coin)

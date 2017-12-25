@@ -1,6 +1,7 @@
 package at.shockbytes.coins.currency.conversion
 
 import at.shockbytes.coins.currency.CryptoCurrency
+import at.shockbytes.coins.currency.price.PriceSource
 
 /**
  *
@@ -15,7 +16,12 @@ import at.shockbytes.coins.currency.CryptoCurrency
 
 class PriceConversion {
 
+    // This data will be filled later on
     var cryptoCurrency: CryptoCurrency? = null
+    // Default initialize variable, will be replaced in Api calls
+    var priceSource: PriceSource = PriceSource("Default", 0)
+
+    // This data will be filled by Retrofit
     var data: Data = Data()
 
     val to: String?
@@ -23,6 +29,11 @@ class PriceConversion {
 
     val conversionRate: Double
         get() = data.amount
+
+    fun fillDataExternal(amount: Double, currency: String) {
+        data.amount = amount
+        data.currency = currency
+    }
 
     inner class Data {
 
