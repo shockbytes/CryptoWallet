@@ -29,7 +29,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
     private val PREFS_LATEST_BALANCE = "latest_balance"
 
     private val currencyConversionRatesAsObservable: Observable<CurrencyConversionRates>
-        get() = Observable.just(CurrencyConversionRates.getDefaultCurrencyConversionRates())
+        get() = Observable.just(CurrencyConversionRates.defaultCurrencyConversionRates)
 
     override var localCurrency: RealCurrency
         set(value) = prefs.edit().putInt(PREFS_LOCAL_CURRENCY, value.ordinal).apply()
@@ -97,7 +97,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
                                                rates: CurrencyConversionRates?): List<Currency> {
 
         // Get default conversion rates if rates is not present
-        currencyConversionRates = rates ?: CurrencyConversionRates.getDefaultCurrencyConversionRates()
+        currencyConversionRates = rates ?: CurrencyConversionRates.defaultCurrencyConversionRates
 
         balance = Balance()
         // Assign the conversion rates to the corresponding currencies

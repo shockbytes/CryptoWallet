@@ -77,27 +77,27 @@ class CurrencyAdapter(cxt: Context, data: List<Currency>,
             setupPopupMenu()
         }
 
-        override fun bind(ownedCurrency: Currency) {
-            content = ownedCurrency
+        override fun bind(t: Currency) {
+            content = t
 
-            imgViewIcon.setImageResource(content.getCryptoCurrency().icon)
-            txtAmount.text = (ResourceManager.roundDouble(content.cryptoAmount, 8).toString()
-                    + " " + content.getCryptoCurrency().name)
+            imgViewIcon.setImageResource(content?.getCryptoCurrency()?.icon!!)
+            txtAmount.text = (ResourceManager.roundDouble(content?.cryptoAmount!!, 8).toString()
+                    + " " + content?.getCryptoCurrency()?.name)
 
-            val boughtPrice = if (content.getRealCurrency() !== localCurrency) {
+            val boughtPrice = if (content?.getRealCurrency() !== localCurrency) {
                 // Fall back to realAmount, if conversion not possible
-                conversionRates?.convert(content.realAmount, content.getRealCurrency(),
-                        localCurrency) ?: content.realAmount
+                conversionRates?.convert(content?.realAmount!!, content?.getRealCurrency()!!,
+                        localCurrency!!) ?: content?.realAmount
             } else {
-                content.realAmount
+                content?.realAmount
             }
 
-            txtBoughtPrice.text = (ResourceManager.roundDouble(boughtPrice, 2).toString()
+            txtBoughtPrice.text = (ResourceManager.roundDouble(boughtPrice!!, 2).toString()
                     + " " + localCurrency?.symbol)
 
-            txtCurrentPrice.text = (content.currentPrice.toString() + " " + localCurrency?.symbol)
+            txtCurrentPrice.text = (content?.currentPrice.toString() + " " + localCurrency?.symbol)
 
-            val diff = content.getPricePercentageDiff(boughtPrice)
+            val diff = content?.getPricePercentageDiff(boughtPrice)!!
             val diffColor = if (diff >= 0) R.color.percentage_win else R.color.percentage_loose
             txtDiff.setTextColor(ContextCompat.getColor(context, diffColor))
             txtDiff.text = diff.toString().plus("%")
@@ -138,9 +138,9 @@ class CurrencyAdapter(cxt: Context, data: List<Currency>,
 
             when (item.itemId) {
 
-                R.id.popup_item_cashout -> popupListener?.onCashout(content)
+                R.id.popup_item_cashout -> popupListener?.onCashout(content!!)
 
-                R.id.popup_item_remove -> popupListener?.onDelete(content)
+                R.id.popup_item_remove -> popupListener?.onDelete(content!!)
             }
             return true
         }

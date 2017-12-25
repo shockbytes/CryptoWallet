@@ -217,7 +217,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
 
             adapter?.setLocalCurrency(currencyManager.localCurrency,
                     currencyManager.currencyConversionRates)
-            adapter?.data = ownedCurrencies
+            adapter?.data = ownedCurrencies.toMutableList()
 
             val visibility = if (ownedCurrencies.isEmpty()) View.VISIBLE else View.GONE
             emptyView.visibility = visibility
