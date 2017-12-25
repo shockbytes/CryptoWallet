@@ -1,5 +1,7 @@
 package at.shockbytes.coins.currency.conversion
 
+import at.shockbytes.coins.currency.RealCurrency
+
 /**
  * @author Martin Macheiner
  * Date: 25.12.2017.
@@ -11,5 +13,5 @@ package at.shockbytes.coins.currency.conversion
 
 interface PriceConversionConvertible {
 
-    fun asPriceConversion(): PriceConversion
+    fun asPriceConversion(to: RealCurrency): PriceConversion
 }

@@ -43,7 +43,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
             return Observable.zip(localCurrencies,
                     priceProxy.getPriceConversions(Arrays.asList(*CryptoCurrency.values()), localCurrency),
                     currencyConversionRatesAsObservable,
-                    Function3<List<Currency>, List<PriceConversion>, CurrencyConversionRates, List<Currency>> { c, conversions, rates ->
+                    Function3<List<Currency>, List<PriceConversion>, CurrencyConversionRates, List<Currency>> { c, conversions, _ ->
                         // TODO Replace with rates call later
                         updateOwnedCurrencyConversions(c, conversions, null)
                     })
@@ -54,7 +54,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
     override val cashedOutCurrencies: Observable<List<Currency>>
         get() = Observable.zip(storageManager.loadOwnedCurrencies(true),
                 currencyConversionRatesAsObservable,
-                BiFunction<List<Currency>, CurrencyConversionRates, List<Currency>> { currencies, rates ->
+                BiFunction<List<Currency>, CurrencyConversionRates, List<Currency>> { currencies, _ ->
                     // TODO Replace with rates call later
                     updateOwnedCurrencyConversions(currencies, null, null)
                 })
@@ -106,7 +106,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
                     ?.convert(oc.realAmount, oc.getRealCurrency(), localCurrency) ?: 0.0
             balance?.addInvested(inv)
             if (conversions != null) {
-                storageManager.updateConversionRates(oc, conversions)
+                storageManager.updateConversionRate(oc, conversions)
             }
             balance?.addCurrent(oc.currentPrice)
         }

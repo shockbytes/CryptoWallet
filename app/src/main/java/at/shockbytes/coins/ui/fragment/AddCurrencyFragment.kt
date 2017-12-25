@@ -16,8 +16,8 @@ import at.shockbytes.coins.currency.CryptoCurrency
 import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.currency.CurrencyManager
 import at.shockbytes.coins.currency.RealCurrency
+import at.shockbytes.coins.currency.price.PriceProxy
 import at.shockbytes.coins.dagger.AppComponent
-import at.shockbytes.coins.util.CoinUtils
 import butterknife.BindView
 import butterknife.OnClick
 import javax.inject.Inject
@@ -29,25 +29,28 @@ import javax.inject.Inject
 class AddCurrencyFragment : BaseFragment() {
 
     @Inject
-    lateinit var currencyManager: CurrencyManager
+    protected lateinit var currencyManager: CurrencyManager
+
+    @Inject
+    protected lateinit var priceProxy: PriceProxy
 
     @BindView(R.id.fragment_dialog_add_currency_edit_cryptocurrency)
-    lateinit var editCryptoCurrency: TextInputEditText
+    protected lateinit var editCryptoCurrency: TextInputEditText
 
     @BindView(R.id.fragment_dialog_add_currency_edit_currency)
-    lateinit var editCurrency: TextInputEditText
+    protected lateinit var editCurrency: TextInputEditText
 
     @BindView(R.id.fragment_dialog_add_currency_til_cryptocurrency)
-    lateinit var tilCryptoCurrency: TextInputLayout
+    protected lateinit var tilCryptoCurrency: TextInputLayout
 
     @BindView(R.id.fragment_dialog_add_currency_til_currency)
-    lateinit var tilCurrency: TextInputLayout
+    protected lateinit var tilCurrency: TextInputLayout
 
     @BindView(R.id.fragment_dialog_add_currency_spinner_cryptocurrency)
-    lateinit var spinnerCryptoCurrency: Spinner
+    protected lateinit var spinnerCryptoCurrency: Spinner
 
     @BindView(R.id.fragment_dialog_add_currency_spinner_currency)
-    lateinit var spinnerCurrency: Spinner
+    protected lateinit var spinnerCurrency: Spinner
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,15 +122,13 @@ class AddCurrencyFragment : BaseFragment() {
 
     private fun getCurrencyItems(): List<CurrencySpinnerAdapter.CurrencySpinnerAdapterItem> {
         return RealCurrency.values().map {
-            CurrencySpinnerAdapter.CurrencySpinnerAdapterItem(it.name,
-                    CoinUtils.getResourceForCurrency(it))
+            CurrencySpinnerAdapter.CurrencySpinnerAdapterItem(it.name, it.icon)
         }
     }
 
     private fun getCryptoCurrencyItems(): List<CurrencySpinnerAdapter.CurrencySpinnerAdapterItem> {
-        return CryptoCurrency.values().map {
-            CurrencySpinnerAdapter.CurrencySpinnerAdapterItem(it.name,
-                    CoinUtils.getResourceForCryptoCurrency(it))
+        return priceProxy.getSupportedCryptoCurrencies().map {
+            CurrencySpinnerAdapter.CurrencySpinnerAdapterItem(it.name, it.icon)
         }
     }
 

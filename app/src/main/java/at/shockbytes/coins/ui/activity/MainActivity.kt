@@ -236,6 +236,7 @@ class MainActivity : BaseActivity(),
                 .setTarget(view)
                 .setListener(this)
                 .setTextColor(Color.WHITE)
+                .enableDotAnimation(true)
                 .setUsageId(id)
                 .show()
     }

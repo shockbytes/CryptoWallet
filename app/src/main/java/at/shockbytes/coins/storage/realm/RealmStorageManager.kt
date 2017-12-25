@@ -60,15 +60,17 @@ class RealmStorageManager(private val realm: Realm) : StorageManager {
                 .subscribeOn(Schedulers.io())
     }
 
-    override fun updateConversionRates(c: Currency, conversions: List<PriceConversion>) {
+    override fun updateConversionRate(c: Currency, conversions: List<PriceConversion>) {
 
         realm.beginTransaction()
-        for (conversion in conversions) {
-            if (c.getCryptoCurrency() === conversion.cryptoCurrency) {
-                c.conversionRate = conversion.conversionRate
-                break
-            }
-        }
+
+        conversions
+                .filter { c.getCryptoCurrency() === it.cryptoCurrency }
+                .first {
+                    c.conversionRate = it.conversionRate
+                    c.priceSource = realm.copyToRealmOrUpdate(it.priceSource)
+                    true
+                }
         realm.commitTransaction()
     }
 

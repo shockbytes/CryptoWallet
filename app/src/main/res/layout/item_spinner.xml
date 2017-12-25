@@ -19,6 +19,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:textColor="@android:color/white"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:textSize="17sp" />

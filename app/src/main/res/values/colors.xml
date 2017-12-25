@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Deprecated Light colors
-    <color name="colorPrimary">#795548</color>
-    <color name="colorPrimaryDark">#5D4037</color>
-    <color name="colorAccent">#F44336</color>
-    -->
-
     <color name="colorAccent">#2962FF</color>
 
     <color name="controls">#EEE</color>
+
+    <color name="currency">#FFF</color>
+
+    <color name="price_provider_coinbase">#1565C0</color>
+    <color name="price_provider_coinmarketcap">#EEE</color>
 
     <color name="percentage_win">#8BC34A</color>
     <color name="percentage_loose">#f44336</color>

@@ -5,7 +5,6 @@ import at.shockbytes.coins.currency.RealCurrency
 import at.shockbytes.coins.currency.conversion.PriceConversion
 import at.shockbytes.coins.currency.conversion.PriceConversionWrapper
 import io.reactivex.Observable
-import java.util.*
 
 /**
  * @author Martin Macheiner
@@ -20,10 +19,18 @@ class DefaultPriceProxy(private val priceProviders: List<PriceProvider>) : Price
         val wrapper = getConversionObservables(from, to)
         return Observable.zip(wrapper.conversions) { t ->
             t.mapIndexed { idx, m ->
-                val pc = m as PriceConversion
-                pc.cryptoCurrency = wrapper.from[idx]
-                pc
+                val pc = m as PriceConversion; pc.cryptoCurrency = wrapper.from[idx]; pc
             }
+        }
+    }
+
+    override fun getSupportedCryptoCurrencies(): List<CryptoCurrency> {
+
+        return CryptoCurrency.values().filter {
+            priceProviders
+                    .filter { p -> p.supportedCurrencies().contains(it) and p.isEnabled }
+                    .forEach { return@filter true }
+            false
         }
     }
 
@@ -33,14 +40,16 @@ class DefaultPriceProxy(private val priceProviders: List<PriceProvider>) : Price
         val conversionObservables = ArrayList<Observable<PriceConversion>>()
         val conversionCurrencies = ArrayList<CryptoCurrency>()
         for (currency in from) {
-            // TODO Only support 1 conversion of each currency at a time and add PriceSource to conversion
-            for (manager in priceProviders) {
-                if (manager.supportsCurrencyConversion(currency)) {
-                    conversionObservables.add(manager.getSpotPrice(currency, to))
-                    conversionCurrencies.add(currency)
-                    break
-                }
-            }
+
+            priceProviders
+                    .filter { it.isEnabled }
+                    .forEach {
+                        if (it.supportedCurrencies().contains(currency)) {
+                            conversionObservables.add(it.getSpotPrice(currency, to))
+                            conversionCurrencies.add(currency)
+                            return@forEach
+                        }
+                    }
         }
         return PriceConversionWrapper(conversionObservables, conversionCurrencies)
     }

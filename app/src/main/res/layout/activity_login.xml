@@ -27,7 +27,7 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/activity_login_img_fingerprint"
         android:layout_toStartOf="@+id/activity_login_img_fingerprint"
-        app:srcCompat="@drawable/ic_crypto_currency_btc_white" />
+        app:srcCompat="@drawable/ic_crypto_currency_btc" />
 
     <ImageView
         android:id="@+id/activity_login_img_eth"
@@ -36,7 +36,7 @@
         android:layout_alignBottom="@+id/activity_login_img_btc"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="44dp"
-        app:srcCompat="@drawable/ic_crypto_currency_eth_white" />
+        app:srcCompat="@drawable/ic_crypto_currency_eth" />
 
     <ImageView
         android:id="@+id/activity_login_img_ltc"
@@ -45,7 +45,7 @@
         android:layout_alignTop="@+id/activity_login_img_btc"
         android:layout_toRightOf="@+id/activity_login_img_fingerprint"
         android:layout_toEndOf="@+id/activity_login_img_fingerprint"
-        app:srcCompat="@drawable/ic_crypto_currency_ltc_white" />
+        app:srcCompat="@drawable/ic_crypto_currency_ltc" />
 
     <TextView
         android:id="@+id/activity_login_txt_summary"
