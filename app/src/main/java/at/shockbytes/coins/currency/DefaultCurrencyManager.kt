@@ -2,7 +2,7 @@ package at.shockbytes.coins.currency
 
 import android.content.SharedPreferences
 import at.shockbytes.coins.currency.conversion.CurrencyConversionRates
-import at.shockbytes.coins.currency.price.PriceConversion
+import at.shockbytes.coins.currency.conversion.PriceConversion
 import at.shockbytes.coins.currency.price.PriceProxy
 import at.shockbytes.coins.network.conversion.CurrencyConversionApi
 import at.shockbytes.coins.storage.StorageManager
@@ -102,7 +102,8 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
         balance = Balance()
         // Assign the conversion rates to the corresponding currencies
         for (oc in c) {
-            val inv = currencyConversionRates?.convert(oc.realAmount, oc.getRealCurrency(), localCurrency) ?: 0.0
+            val inv = currencyConversionRates
+                    ?.convert(oc.realAmount, oc.getRealCurrency(), localCurrency) ?: 0.0
             balance?.addInvested(inv)
             if (conversions != null) {
                 storageManager.updateConversionRates(oc, conversions)

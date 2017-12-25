@@ -3,8 +3,8 @@ package at.shockbytes.coins.network.coinbase
 import at.shockbytes.coins.R
 import at.shockbytes.coins.currency.CryptoCurrency
 import at.shockbytes.coins.currency.RealCurrency
-import at.shockbytes.coins.currency.price.PriceConversion
-import at.shockbytes.coins.currency.price.PriceManager
+import at.shockbytes.coins.currency.conversion.PriceConversion
+import at.shockbytes.coins.currency.price.PriceProvider
 import at.shockbytes.coins.currency.price.PriceSource
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,7 +16,7 @@ import java.util.*
  * Date: 14.06.2017.
  */
 
-class CoinbasePriceManager(private val api: CoinbasePriceApi) : PriceManager {
+class CoinbasePriceProvider(private val api: CoinbasePriceApi) : PriceProvider {
 
     override val info = PriceSource("Coinbase", R.drawable.ic_price_provider_coinbase)
 

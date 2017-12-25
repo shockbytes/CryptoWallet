@@ -145,9 +145,9 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
         isViewSetup = true
     }
 
-    override fun onCashout(ownedCurrency: Currency) {
+    override fun onCashout(c: Currency) {
 
-        val fragment = CashoutDialogFragment.newInstance(ownedCurrency.id)
+        val fragment = CashoutDialogFragment.newInstance(c.id)
         fragment.setOnCashoutCompletedListener { loadData() }
         fragment.show(fragmentManager, "cashout-fragment")
     }

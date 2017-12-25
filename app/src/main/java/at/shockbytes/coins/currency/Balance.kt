@@ -9,10 +9,10 @@ import at.shockbytes.coins.util.ResourceManager
 class Balance {
 
     var invested: Double = 0.0
-        get() = ResourceManager.roundDoubleWithDigits(field, 2)
+        get() = ResourceManager.roundDouble(field, 2)
 
     var current: Double = 0.0
-        get() = ResourceManager.roundDoubleWithDigits(field, 2)
+        get() = ResourceManager.roundDouble(field, 2)
 
     var percentageDiff = 0.0
         private set
@@ -21,7 +21,7 @@ class Balance {
                 0.0
             } else {
                 val diff = current / (invested / 100) - 100
-                ResourceManager.roundDoubleWithDigits(diff, 2)
+                ResourceManager.roundDouble(diff, 2)
             }
         }
 

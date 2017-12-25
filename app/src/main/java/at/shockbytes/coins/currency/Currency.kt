@@ -27,7 +27,7 @@ open class Currency(@PrimaryKey var id: Long = 0,
     val currentPrice: Double
         get() {
             return if (conversionRate != 0.0) {
-                ResourceManager.roundDoubleWithDigits(cryptoAmount * conversionRate, 2)
+                ResourceManager.roundDouble(cryptoAmount * conversionRate, 2)
             } else {
                 -1.0
             }
@@ -35,7 +35,7 @@ open class Currency(@PrimaryKey var id: Long = 0,
 
     fun getPricePercentageDiff(boughtPrice: Double): Double {
         val diff = currentPrice / (boughtPrice / 100) - 100
-        return ResourceManager.roundDoubleWithDigits(diff, 2)
+        return ResourceManager.roundDouble(diff, 2)
     }
 
     fun getCryptoCurrency(): CryptoCurrency {

@@ -1,6 +1,6 @@
 package at.shockbytes.coins.network.coinbase
 
-import at.shockbytes.coins.currency.price.PriceConversion
+import at.shockbytes.coins.currency.conversion.PriceConversion
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Header

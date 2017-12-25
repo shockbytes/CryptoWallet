@@ -6,7 +6,7 @@ import android.preference.PreferenceManager
 import at.shockbytes.coins.currency.CurrencyManager
 import at.shockbytes.coins.currency.DefaultCurrencyManager
 import at.shockbytes.coins.currency.price.DefaultPriceProxy
-import at.shockbytes.coins.currency.price.PriceManager
+import at.shockbytes.coins.currency.price.PriceProvider
 import at.shockbytes.coins.currency.price.PriceProxy
 import at.shockbytes.coins.network.conversion.CurrencyConversionApi
 import at.shockbytes.coins.storage.StorageManager
@@ -38,8 +38,8 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    fun providePriceProxy(@Named("CoinbasePriceManager") priceManager: PriceManager): PriceProxy {
-        return DefaultPriceProxy(Arrays.asList(priceManager))
+    fun providePriceProxy(@Named("CoinbasePriceManager") priceProvider: PriceProvider): PriceProxy {
+        return DefaultPriceProxy(Arrays.asList(priceProvider))
     }
 
     @Provides

@@ -1,7 +1,7 @@
 package at.shockbytes.coins.storage.realm
 
 import at.shockbytes.coins.currency.Currency
-import at.shockbytes.coins.currency.price.PriceConversion
+import at.shockbytes.coins.currency.conversion.PriceConversion
 import at.shockbytes.coins.storage.StorageManager
 import at.shockbytes.coins.storage.realm.model.ShockConfig
 import io.reactivex.Observable

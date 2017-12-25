@@ -2,6 +2,8 @@ package at.shockbytes.coins.currency.price
 
 import at.shockbytes.coins.currency.CryptoCurrency
 import at.shockbytes.coins.currency.RealCurrency
+import at.shockbytes.coins.currency.conversion.PriceConversion
+import at.shockbytes.coins.currency.conversion.PriceConversionWrapper
 import io.reactivex.Observable
 import java.util.*
 
@@ -10,7 +12,7 @@ import java.util.*
  * Date: 24.06.2017.
  */
 
-class DefaultPriceProxy(private val priceManagers: List<PriceManager>) : PriceProxy {
+class DefaultPriceProxy(private val priceProviders: List<PriceProvider>) : PriceProxy {
 
     override fun getPriceConversions(from: List<CryptoCurrency>,
                                      to: RealCurrency): Observable<List<PriceConversion>> {
@@ -32,7 +34,7 @@ class DefaultPriceProxy(private val priceManagers: List<PriceManager>) : PricePr
         val conversionCurrencies = ArrayList<CryptoCurrency>()
         for (currency in from) {
             // TODO Only support 1 conversion of each currency at a time and add PriceSource to conversion
-            for (manager in priceManagers) {
+            for (manager in priceProviders) {
                 if (manager.supportsCurrencyConversion(currency)) {
                     conversionObservables.add(manager.getSpotPrice(currency, to))
                     conversionCurrencies.add(currency)

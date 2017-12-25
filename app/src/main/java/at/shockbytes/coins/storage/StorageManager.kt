@@ -1,7 +1,7 @@
 package at.shockbytes.coins.storage
 
 import at.shockbytes.coins.currency.Currency
-import at.shockbytes.coins.currency.price.PriceConversion
+import at.shockbytes.coins.currency.conversion.PriceConversion
 import io.reactivex.Observable
 
 /**

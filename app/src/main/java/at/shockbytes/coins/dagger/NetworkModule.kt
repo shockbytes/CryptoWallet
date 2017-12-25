@@ -1,9 +1,9 @@
 package at.shockbytes.coins.dagger
 
 import android.app.Application
-import at.shockbytes.coins.currency.price.PriceManager
+import at.shockbytes.coins.currency.price.PriceProvider
 import at.shockbytes.coins.network.coinbase.CoinbasePriceApi
-import at.shockbytes.coins.network.coinbase.CoinbasePriceManager
+import at.shockbytes.coins.network.coinbase.CoinbasePriceProvider
 import at.shockbytes.coins.network.conversion.CurrencyConversionApi
 import dagger.Module
 import dagger.Provides
@@ -48,8 +48,8 @@ class NetworkModule(private val app: Application) {
     @Provides
     @Singleton
     @Named("CoinbasePriceManager")
-    fun providePriceManager(api: CoinbasePriceApi): PriceManager {
-        return CoinbasePriceManager(api)
+    fun providePriceManager(api: CoinbasePriceApi): PriceProvider {
+        return CoinbasePriceProvider(api)
     }
 
     @Provides

@@ -38,3 +38,4 @@
 * Database encryption based on Fingerprint cipher
 * Landscape support
 * Introduce provider selection in settings
+* DetailView (incl. buy, spot, sell price, date of buy, price source, price of 1 coin)

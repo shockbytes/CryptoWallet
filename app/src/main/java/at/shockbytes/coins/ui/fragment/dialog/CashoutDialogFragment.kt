@@ -98,7 +98,7 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
         txtAmount.text = ((progress / SEEKBAR_FACTOR).toString() + " / "
-                + ResourceManager.roundDoubleWithDigits(currency.cryptoAmount, 8))
+                + ResourceManager.roundDouble(currency.cryptoAmount, 8))
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar) { }
@@ -116,7 +116,7 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
 
         txtCurrency.text = getString(R.string.dialog_cashout_message, currency.getCryptoCurrency().name)
         txtAmount.text = getString(R.string.dialog_cashout_message_amount,
-                ResourceManager.roundDoubleWithDigits(currency.cryptoAmount, 8))
+                ResourceManager.roundDouble(currency.cryptoAmount, 8))
     }
 
     companion object {
