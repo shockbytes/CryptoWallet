@@ -24,7 +24,7 @@ class RealmStorageManager(private val realm: Realm) : StorageManager {
             if (config == null) {
                 config = realm.createObject(ShockConfig::class.java)
             }
-            return config?.lastPrimaryKey!!
+            return config?.getLastPrimaryKey()!!
         }
 
     override fun storeOwnedCurrency(currency: Currency) {

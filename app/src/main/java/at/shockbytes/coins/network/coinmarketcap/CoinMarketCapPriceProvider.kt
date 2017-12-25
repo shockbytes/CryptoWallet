@@ -19,8 +19,6 @@ import java.util.*
 class CoinMarketCapPriceProvider(private val api: CoinMarketCapPriceApi,
                                  private val prefs: SharedPreferences) : PriceProvider {
 
-    private val argEnabled = "arg_coinmarketcap_price_provider_is_enabled"
-
     override val providerInfo = PriceSource("CoinMarketCap",
             R.drawable.ic_price_provider_coinmarketcap)
 
@@ -42,6 +40,12 @@ class CoinMarketCapPriceProvider(private val api: CoinMarketCapPriceApi,
 
     override fun supportedCurrencies(): List<CryptoCurrency> {
         return Arrays.asList(CryptoCurrency.MIOTA, CryptoCurrency.DASH, CryptoCurrency.XRP)
+    }
+
+    companion object {
+
+        val argEnabled = "arg_coinmarketcap_price_provider_is_enabled"
+
     }
 
 }

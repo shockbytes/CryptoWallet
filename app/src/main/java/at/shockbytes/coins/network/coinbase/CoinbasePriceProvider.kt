@@ -20,8 +20,6 @@ import java.util.*
 class CoinbasePriceProvider(private val api: CoinbasePriceApi,
                             private val prefs: SharedPreferences) : PriceProvider {
 
-    private val argEnabled = "arg_coinbase_price_provider_is_enabled"
-
     override val providerInfo = PriceSource("Coinbase", R.drawable.ic_price_provider_coinbase)
 
     override var isEnabled: Boolean
@@ -59,6 +57,13 @@ class CoinbasePriceProvider(private val api: CoinbasePriceApi,
 
     private fun buildTimestamp(): String {
         return ""
+    }
+
+
+    companion object {
+
+        val argEnabled = "arg_coinbase_price_provider_is_enabled"
+
     }
 
 }
