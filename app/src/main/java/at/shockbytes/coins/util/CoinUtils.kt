@@ -7,5 +7,6 @@ package at.shockbytes.coins.util
 
 object CoinUtils {
 
+    val testDeviceMotoG5s = "5FAB0A53BFA531FBB2B0DA58530B191F"
 
 }
