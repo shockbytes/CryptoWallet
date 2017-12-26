@@ -46,5 +46,13 @@ open class Currency(@PrimaryKey var id: Long = -1,
         return RealCurrency.values()[realCurrencyOrdinal]
     }
 
+    override fun equals(other: Any?): Boolean {
+
+        return if (other is Currency) {
+            (id == other.id)
+        } else {
+            false
+        }
+    }
 
 }

@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import at.shockbytes.coins.BuildConfig
 import at.shockbytes.coins.R
-import at.shockbytes.coins.util.CoinUtils
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import java.util.*
@@ -34,9 +34,11 @@ abstract class AdBaseAdapter<T>(c: Context, d: List<T>) : BaseAdapter<T>(c, d) {
                 }
             }
 
-            addAdEntity()
+            addAdvertisementEntity()
             notifyDataSetChanged()
         }
+
+    abstract val testDeviceId: String
 
     override fun getItemViewType(position: Int): Int {
         return if (position == adPosition) adViewType else itemViewType
@@ -53,7 +55,7 @@ abstract class AdBaseAdapter<T>(c: Context, d: List<T>) : BaseAdapter<T>(c, d) {
         }
     }
 
-    abstract fun addAdEntity()
+    abstract fun addAdvertisementEntity()
 
     abstract fun getViewHolder(parent: ViewGroup): ViewHolder
 
@@ -61,11 +63,38 @@ abstract class AdBaseAdapter<T>(c: Context, d: List<T>) : BaseAdapter<T>(c, d) {
 
         private val adView: AdView = itemView.findViewById(R.id.item_ad_adview)
 
+        private var isAdLoaded = false
+
         override fun bind(t: T) {
-            val request = AdRequest.Builder()
-                    .addTestDevice(CoinUtils.testDeviceMotoG5s)
-                    .build()
-            adView.loadAd(request)
+
+            if (!isAdLoaded) {
+                isAdLoaded = true
+                cleanAndRecycle()
+
+                // Build requests different for release and debug config
+                val request = if (BuildConfig.DEBUG) {
+                    AdRequest.Builder().addTestDevice(testDeviceId).build()
+                } else {
+                    AdRequest.Builder().build()
+                }
+                adView.loadAd(request)
+            }
+        }
+
+        private fun cleanAndRecycle() {
+            // The NativeExpressAdViewHolder recycled by the RecyclerView may be a different
+            // instance than the one used previously for this position. Clear the
+            // NativeExpressAdViewHolder of any subviews in case it has a different
+            // AdView associated with it, and make sure the AdView for this position doesn't
+            // already have a parent of a different recycled NativeExpressAdViewHolder.
+            itemView as ViewGroup
+            if (itemView.childCount > 0) {
+                itemView.removeAllViews()
+            }
+            if (adView.parent != null) {
+                (adView.parent as ViewGroup).removeView(adView)
+            }
+            itemView.addView(adView)
         }
 
     }

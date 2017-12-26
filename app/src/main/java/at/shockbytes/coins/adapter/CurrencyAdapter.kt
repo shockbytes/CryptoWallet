@@ -40,11 +40,13 @@ class CurrencyAdapter(cxt: Context, data: List<Currency>,
     private var localCurrency: RealCurrency? = null
     private var conversionRates: CurrencyConversionRates? = null
 
+    override val testDeviceId = "5FAB0A53BFA531FBB2B0DA58530B191F"
+
     override fun getViewHolder(parent: ViewGroup): BaseAdapter<Currency>.ViewHolder {
         return ViewHolder(inflater.inflate(R.layout.item_currency, parent, false))
     }
 
-    override fun addAdEntity() {
+    override fun addAdvertisementEntity() {
         if (adPosition < itemCount) {
             addEntity(adPosition, Currency())
         }
@@ -135,7 +137,7 @@ class CurrencyAdapter(cxt: Context, data: List<Currency>,
                 val popup = fieldPopup.get(menu) as MenuPopupHelper
                 popup.setForceShowIcon(true)
             } catch (e: Exception) {
-                Log.d("CryptoWallet", "Cannot force to show icons in popupmenu")
+                Log.d("Coins", "Cannot force to show icons in popupmenu")
             }
         }
 

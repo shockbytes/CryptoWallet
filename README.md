@@ -36,15 +36,15 @@ We currently support:
 * Secure app with fingerprint
 
 ### Version 1.0
-- [x] Apply dark design
-- [x] Extract strings
-- [x] Support Bitcoin Cash (BCH)
-- [x] Introduce Help screen
-- [x] Showcase introduction
-- [x] Refactor data storage model
-- [x] Include ads
-- [x] Ask for default local currency
-- [x] Include banner ads into RecyclerView (native ads are deprecated)
+* Apply dark design
+* Extract strings
+* Support Bitcoin Cash (BCH)
+* Introduce Help screen
+* Showcase introduction
+* Refactor data storage model
+* Include ads
+* Ask for default local currency
+* Include banner ads into RecyclerView (native ads are deprecated)
 
 ### Version 1.1
 - [x] Support IOTA, DASH and XRP

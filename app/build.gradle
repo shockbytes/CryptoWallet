@@ -28,6 +28,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            //buildConfigField  "boolean", "isDebug", "false"
+            resValue "string", "app_version", "1.0"
+        }
+        debug {
+            //buildConfigField  "boolean", "isDebug", "true"
+            resValue "string", "app_version", "1.0 Debug Build"
         }
     }
 }
