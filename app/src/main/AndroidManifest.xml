@@ -15,8 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.activity.MainActivity"
-            android:screenOrientation="portrait">
+            android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,15 +30,12 @@
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:label="@string/navigation_settings"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WithActionBarLight" />
         <activity android:name=".ui.activity.AddCurrencyActivity"
             android:label="@string/label_add_currency"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WithActionBar" />
         <activity android:name=".ui.activity.HelpActivity"
             android:label="@string/navigation_help"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WithActionBar"/>
     </application>
 

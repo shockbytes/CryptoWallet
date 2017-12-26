@@ -2,9 +2,11 @@ package at.shockbytes.coins.ui.fragment
 
 
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -148,7 +150,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
         // RecyclerView
         adapter = CurrencyAdapter(context, ArrayList(),
                 viewType, this)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = getLayoutManagerForOrientation()
         recyclerView.adapter = adapter
 
         isViewSetup = true
@@ -241,6 +243,14 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
         timerDisposable = Observable.interval(0, AppParams.autoUpdateTime,
                 TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 .subscribe { subscribeToSingleDataSource(currencyManager.ownedCurrencies) }
+    }
+
+    private fun getLayoutManagerForOrientation(): RecyclerView.LayoutManager {
+        return if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            LinearLayoutManager(context)
+        } else {
+            GridLayoutManager(context, 2)
+        }
     }
 
     fun onNewCurrencyEntryAvailable() {
