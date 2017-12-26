@@ -50,7 +50,7 @@ We currently support:
 - [x] Support IOTA, DASH and XRP
 - [ ] Introduce provider selection (enable provider) in settings
 - [ ] DetailView (incl. buy, spot, sell price, date of buy, price source, price of 1 coin)
-- [ ] Landscape support
+- [x] Landscape support
 
 ### Version 1.2
 
