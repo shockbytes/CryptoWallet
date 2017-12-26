@@ -41,7 +41,7 @@
     <string name="dialog_remove_confirmation_msg">Sollen %s aus deiner Brieftasche gelöscht werden?</string>
     <string name="help_balance">Du kannst deine Coins mit den jeweiligen Kaufpreis zu deiner Brieftasche hinzufügen
         und zusehen, wie sich der Preis über die Zeit entwickelt. Crypto Watcher hat keinen Zugriff
-        auf deine persoönliche Coin-Brieftasche, um die Sicherheit deiner Coins zu gewährleisten.
+        auf deine persönliche Coin-Brieftasche, um die Sicherheit deiner Coins zu gewährleisten.
         \n\nZurzeit werden folgende Kryptowährungen unterstützt:\n\n\t&#8226; BTC\n\t&#8226; BCH\n\t&#8226; ETH\n\t&#8226; LTC</string>
     <string name="help_cashout">Wenn du deine tatsächlichen Coins verkaufst kannst du sie auch in
         Crypto Watcher auszahlen. Mit diesem Feature kannst du den Profit (hoffentlich) deiner Coins
