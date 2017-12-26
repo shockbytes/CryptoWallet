@@ -1,5 +1,17 @@
 # Crypto Watcher
 
+## Description
+
+Crypto Watcher let you keep track of the value of your coins. It is not a wallet! It just
+let's you add your coins with your initial coin price and you can see how well your coins
+have developed.
+
+We currently support:
+* BTC
+* ETH
+* LTC
+* BCH
+
 ## Versions
 
 ### Version 0.7
@@ -24,25 +36,23 @@
 * Secure app with fingerprint
 
 ### Version 1.0
-* Apply dark design
-* Extract strings
-* Support Bitcoin Cash (BCH)
-* Introduce Help screen
-* Showcase introduction
-* Refactor data storage model
-* Include ads
-* Ask for default local currency
-
-#### TODO for 1.0 release
-* Include ads
+- [x] Apply dark design
+- [x] Extract strings
+- [x] Support Bitcoin Cash (BCH)
+- [x] Introduce Help screen
+- [x] Showcase introduction
+- [x] Refactor data storage model
+- [x] Include ads
+- [x] Ask for default local currency
+- [ ] Include ads
 
 ### Version 1.1
-* Support IOTA, DASH and XPR
-* Introduce provider selection (enable provider) in settings
-* DetailView (incl. buy, spot, sell price, date of buy, price source, price of 1 coin)
+- [x] Support IOTA, DASH and XPR
+- [ ] Introduce provider selection (enable provider) in settings
+- [ ] DetailView (incl. buy, spot, sell price, date of buy, price source, price of 1 coin)
+- [ ] Landscape support
 
-## Upcoming features
+### Version 1.2
 
-* Introduce currency exchange rates (buy in USD and show in EUR) --> using fixer.io
-* Database encryption based on Fingerprint cipher
-* Landscape support
+- [ ] Introduce currency exchange rates (buy in USD and show in EUR) --> using fixer.io
+- [ ] Database encryption based on Fingerprint cipher
