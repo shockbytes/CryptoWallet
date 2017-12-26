@@ -31,6 +31,10 @@
 * Showcase introduction
 * Refactor data storage model
 * Include ads
+* Ask for default local currency
+
+#### TODO for 1.0 release
+* Include ads
 
 ### Version 1.1
 * Support IOTA, DASH and XPR

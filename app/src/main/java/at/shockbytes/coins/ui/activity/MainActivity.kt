@@ -25,6 +25,7 @@ import android.widget.TextView
 import at.shockbytes.coins.R
 import at.shockbytes.coins.dagger.AppComponent
 import at.shockbytes.coins.ui.fragment.MainFragment
+import at.shockbytes.coins.ui.fragment.dialog.LocalCurrencyDialogFragment
 import at.shockbytes.coins.util.AppParams
 import at.shockbytes.coins.util.ResourceManager
 import butterknife.BindView
@@ -146,6 +147,8 @@ class MainActivity : BaseActivity(),
 
             AppParams.showcaseIdHeader -> showShowcaseView(ResourceManager.getNavigationIcon(toolbar),
                     AppParams.showcaseIdToolbar, R.string.showcase_drawer)
+
+            AppParams.showcaseIdToolbar -> askForLocalCurrency()
         }
     }
 
@@ -239,6 +242,14 @@ class MainActivity : BaseActivity(),
                 .enableDotAnimation(true)
                 .setUsageId(id)
                 .show()
+    }
+
+    private fun askForLocalCurrency() {
+        LocalCurrencyDialogFragment.newInstance()
+                .setOnCompletionListener {
+                    mainFragment?.onRefresh() // Refresh with possible new currency
+                }
+                .show(supportFragmentManager, "local-currency-dialog-fragment")
     }
 
     companion object {

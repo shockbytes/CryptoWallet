@@ -70,6 +70,18 @@ class AddCurrencyFragment : BaseFragment() {
 
     override fun setupViews() {
 
+        spinnerCurrency.adapter = CurrencySpinnerAdapter(context, getCurrencyItems())
+        spinnerCurrency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
+                val item = spinnerCurrency.selectedItem as CurrencySpinnerAdapter.CurrencySpinnerAdapterItem
+                tilCurrency.hint = item.text
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>) {}
+        }
+        // Select the local currency as default value
+        spinnerCurrency.setSelection(currencyManager.localCurrency.ordinal, true)
+
         spinnerCryptoCurrency.adapter = CurrencySpinnerAdapter(context, getCryptoCurrencyItems())
         spinnerCryptoCurrency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
@@ -80,15 +92,6 @@ class AddCurrencyFragment : BaseFragment() {
             override fun onNothingSelected(adapterView: AdapterView<*>) {}
         }
 
-        spinnerCurrency.adapter = CurrencySpinnerAdapter(context, getCurrencyItems())
-        spinnerCurrency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
-                val item = spinnerCurrency.selectedItem as CurrencySpinnerAdapter.CurrencySpinnerAdapterItem
-                tilCurrency.hint = item.text
-            }
-
-            override fun onNothingSelected(adapterView: AdapterView<*>) {}
-        }
     }
 
     @OnClick(R.id.fragment_dialog_add_currency_btn_save)

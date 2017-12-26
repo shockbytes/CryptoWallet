@@ -25,15 +25,15 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
                              private val prefs: SharedPreferences) : CurrencyManager {
 
 
-    private val PREFS_LOCAL_CURRENCY = "prefs_local_currency"
-    private val PREFS_LATEST_BALANCE = "latest_balance"
+    private val prefsLocalCurrency = "prefs_local_currency"
+    private val prefsLatestBalance = "latest_balance"
 
     private val currencyConversionRatesAsObservable: Observable<CurrencyConversionRates>
         get() = Observable.just(CurrencyConversionRates.defaultCurrencyConversionRates)
 
     override var localCurrency: RealCurrency
-        set(value) = prefs.edit().putInt(PREFS_LOCAL_CURRENCY, value.ordinal).apply()
-        get() = RealCurrency.values()[prefs.getInt(PREFS_LOCAL_CURRENCY, RealCurrency.EUR.ordinal)]
+        set(value) = prefs.edit().putInt(prefsLocalCurrency, value.ordinal).apply()
+        get() = RealCurrency.values()[prefs.getInt(prefsLocalCurrency, RealCurrency.USD.ordinal)]
 
     override var currencyConversionRates: CurrencyConversionRates? = null
 
@@ -64,7 +64,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
     override var balance: Balance? = null
 
     override val latestBalance: Double
-        get() = prefs.getFloat(PREFS_LATEST_BALANCE, 0f).toDouble()
+        get() = prefs.getFloat(prefsLatestBalance, 0f).toDouble()
 
     override fun getOwnedCurrencyById(id: Long): Currency {
         return storageManager.getOwnedCurrencyById(id)
@@ -76,7 +76,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
 
     override fun storeLatestBalance() {
         prefs.edit()
-                .putFloat(PREFS_LATEST_BALANCE, balance?.current?.toFloat() ?: 0.toFloat())
+                .putFloat(prefsLatestBalance, balance?.current?.toFloat() ?: 0.toFloat())
                 .apply()
     }
 

@@ -3,7 +3,7 @@
     <string name="app_version" translatable="false">1.0</string>
 
     <string name="prefs_key_fingerprint_as_auth" translatable="false">prefs_key_use_fingerprint_as_auth</string>
-    <string name="local_currency_default_value" translatable="false">EUR</string>
+    <string name="local_currency_default_value" translatable="false">USD</string>
     <string name="prefs_key_local_currency" translatable="false">prefs_key_local_currency</string>
     <string name="contentdesc_drawer_open">Open drawer</string>
     <string name="contentdesc_drawer_close">Close drawer</string>
@@ -62,5 +62,7 @@
     <string name="showcase_drawer">You can navigate between balance and cashout. You can visit help and settings here as well.</string>
     <string name="showcase_header">Here you can see your current balance. You can also see your invested money and your percentual profit.</string>
     <string name="error_add_currency_bigger_than_zero">Amount must be bigger than 0.0</string>
+    <string name="dialog_set_local_currency_title">Choose your currency</string>
+    <string name="ok" translatable="false">OKAY</string>
 
 </resources>

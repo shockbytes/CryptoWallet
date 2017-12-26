@@ -71,6 +71,9 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     @BindView(R.id.fragment_main_empty_view_text)
     protected lateinit var emptyTextView: TextView
 
+    @BindView(R.id.fragment_main_empty_view_img)
+    protected lateinit var emptyImgView: ImageView
+
     private lateinit var viewType: ViewType
 
     private var adapter: CurrencyAdapter? = null
@@ -131,10 +134,16 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
                 ContextCompat.getColor(context, R.color.colorPrimaryDark))
         swipeRefreshLayout.isEnabled = viewType != ViewType.CASHOUT
 
+        // Setup empty views
         emptyTextView.setText(if (viewType == ViewType.CASHOUT)
             R.string.empty_indicator_cashout
         else
             R.string.empty_indicator_balance)
+        emptyImgView.setImageResource(if (viewType == ViewType.CASHOUT)
+            R.drawable.ic_navigation_cashout
+        else
+            R.drawable.ic_navigation_balance
+        )
 
         // RecyclerView
         adapter = CurrencyAdapter(context, ArrayList(),

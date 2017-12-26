@@ -30,11 +30,12 @@
                 android:visibility="gone">
 
                 <ImageView
+                    android:id="@+id/fragment_main_empty_view_img"
                     android:layout_width="128dp"
                     android:layout_height="128dp"
                     android:layout_above="@+id/fragment_main_empty_view_text"
                     android:layout_centerHorizontal="true"
-                    app:srcCompat="@drawable/ic_crypto_currency_btc" />
+                    app:srcCompat="@drawable/ic_navigation_balance" />
 
                 <TextView
                     android:id="@+id/fragment_main_empty_view_text"
