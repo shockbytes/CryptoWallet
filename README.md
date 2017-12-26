@@ -44,10 +44,10 @@ We currently support:
 - [x] Refactor data storage model
 - [x] Include ads
 - [x] Ask for default local currency
-- [ ] Include ads
+- [x] Include banner ads into RecyclerView (native ads are deprecated)
 
 ### Version 1.1
-- [x] Support IOTA, DASH and XPR
+- [x] Support IOTA, DASH and XRP
 - [ ] Introduce provider selection (enable provider) in settings
 - [ ] DetailView (incl. buy, spot, sell price, date of buy, price source, price of 1 coin)
 - [ ] Landscape support

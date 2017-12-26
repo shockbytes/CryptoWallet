@@ -28,7 +28,7 @@ import butterknife.OnClick
 
 class CurrencyAdapter(cxt: Context, data: List<Currency>,
                       private val viewType: MainFragment.ViewType,
-                      private val popupListener: OnEntryPopupItemSelectedListener?) : BaseAdapter<Currency>(cxt, data) {
+                      private val popupListener: OnEntryPopupItemSelectedListener?) : AdBaseAdapter<Currency>(cxt, data) {
 
     interface OnEntryPopupItemSelectedListener {
 
@@ -40,9 +40,14 @@ class CurrencyAdapter(cxt: Context, data: List<Currency>,
     private var localCurrency: RealCurrency? = null
     private var conversionRates: CurrencyConversionRates? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): BaseAdapter<Currency>.ViewHolder {
+    override fun getViewHolder(parent: ViewGroup): BaseAdapter<Currency>.ViewHolder {
         return ViewHolder(inflater.inflate(R.layout.item_currency, parent, false))
+    }
+
+    override fun addAdEntity() {
+        if (adPosition < itemCount) {
+            addEntity(adPosition, Currency())
+        }
     }
 
     fun setLocalCurrency(localCurrency: RealCurrency, conversionRates: CurrencyConversionRates?) {

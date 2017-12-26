@@ -33,7 +33,7 @@ abstract class BaseAdapter<T>(protected var context: Context,
         fun onItemDismissed(t: T, position: Int)
     }
 
-    var data: MutableList<T> = ArrayList()
+    open var data: MutableList<T> = ArrayList()
         set(value) {
 
             field = ArrayList()
@@ -58,7 +58,7 @@ abstract class BaseAdapter<T>(protected var context: Context,
     var onItemLongClickListener: OnItemLongClickListener<T>? = null
 
     init {
-        this.data = extData.toMutableList()
+        data = extData.toMutableList()
     }
 
     override fun onBindViewHolder(holder: BaseAdapter<T>.ViewHolder, position: Int) {

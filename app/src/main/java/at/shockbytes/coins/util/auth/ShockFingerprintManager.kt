@@ -69,7 +69,7 @@ class ShockFingerprintManager(private val context: Activity,
                         .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
                         .build())
                 val key = keyGenerator.generateKey()
-                // TODO Do something with this key!
+                // TODO v1.2 - Do something with this key!
                 println(key.toString())
             }
 

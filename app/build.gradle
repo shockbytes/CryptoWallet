@@ -10,6 +10,7 @@ def supportVersion = "26.1.0"
 def rxJavaVersion = "2.1.6"
 def rxAndroidVersion = "2.0.1"
 def retrofitVersion = "2.3.0"
+def firebaseVersion = "11.8.0"
 
 android {
     compileSdkVersion 26
@@ -62,6 +63,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
 
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
+    implementation "com.google.firebase:firebase-ads:$firebaseVersion"
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
@@ -71,3 +73,5 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+apply plugin: 'com.google.gms.google-services'

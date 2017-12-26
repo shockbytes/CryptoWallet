@@ -11,7 +11,7 @@ import io.realm.annotations.PrimaryKey
  * Date: 24.12.2017.
  */
 
-open class Currency(@PrimaryKey var id: Long = 0,
+open class Currency(@PrimaryKey var id: Long = -1,
                     @Ignore private var _cryptoCurrency: CryptoCurrency = CryptoCurrency.BTC,
                     private var cryptoCurrencyOrdinal: Int = _cryptoCurrency.ordinal,
                     var cryptoAmount: Double = 0.0,

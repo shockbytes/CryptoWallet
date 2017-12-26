@@ -44,7 +44,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
                     priceProxy.getPriceConversions(Arrays.asList(*CryptoCurrency.values()), localCurrency),
                     currencyConversionRatesAsObservable,
                     Function3<List<Currency>, List<PriceConversion>, CurrencyConversionRates, List<Currency>> { c, conversions, _ ->
-                        // TODO Replace with rates call later
+                        // TODO v1.2 Replace with rates call later
                         updateOwnedCurrencyConversions(c, conversions, null)
                     })
                     .observeOn(AndroidSchedulers.mainThread())
@@ -55,7 +55,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
         get() = Observable.zip(storageManager.loadOwnedCurrencies(true),
                 currencyConversionRatesAsObservable,
                 BiFunction<List<Currency>, CurrencyConversionRates, List<Currency>> { currencies, _ ->
-                    // TODO Replace with rates call later
+                    // TODO v1.2 Replace with rates call later
                     updateOwnedCurrencyConversions(currencies, null, null)
                 })
                 .observeOn(AndroidSchedulers.mainThread())
