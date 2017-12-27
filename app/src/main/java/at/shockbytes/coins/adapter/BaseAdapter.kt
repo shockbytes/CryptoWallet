@@ -115,6 +115,10 @@ abstract class BaseAdapter<T>(protected var context: Context,
         notifyDataSetChanged()
     }
 
+    fun getLocation(searching: T): Int {
+        return getLocation(data, searching)
+    }
+
     protected fun getLocation(data: List<T>, searching: T): Int {
 
         for (j in data.indices) {

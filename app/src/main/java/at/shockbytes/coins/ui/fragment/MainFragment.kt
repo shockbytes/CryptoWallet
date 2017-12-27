@@ -16,12 +16,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import at.shockbytes.coins.R
+import at.shockbytes.coins.adapter.BaseAdapter
 import at.shockbytes.coins.adapter.CurrencyAdapter
 import at.shockbytes.coins.currency.Balance
 import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.currency.CurrencyManager
 import at.shockbytes.coins.currency.price.NoPriceProviderSelectedException
 import at.shockbytes.coins.dagger.AppComponent
+import at.shockbytes.coins.ui.activity.DetailActivity
 import at.shockbytes.coins.ui.activity.SettingsActivity
 import at.shockbytes.coins.ui.fragment.dialog.CashoutDialogFragment
 import at.shockbytes.coins.ui.fragment.dialog.RemoveConfirmationDialogFragment
@@ -34,26 +36,30 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
-        CurrencyAdapter.OnEntryPopupItemSelectedListener {
+        CurrencyAdapter.OnEntryPopupItemSelectedListener, BaseAdapter.OnItemClickListener<Currency> {
 
     enum class ViewType {
         BALANCE, CASHOUT
     }
 
     @Inject
-    lateinit var currencyManager: CurrencyManager
+    protected lateinit var currencyManager: CurrencyManager
 
     @Inject
-    lateinit var preferences: SharedPreferences
+    protected lateinit var preferences: SharedPreferences
 
+    // Public so it can be accessed by the MainActivity for showcase view
     @BindView(R.id.fragment_main_header)
     lateinit var balanceHeader: View
 
     @BindView(R.id.main_fragment_rv)
     protected lateinit var recyclerView: RecyclerView
 
+    // Can't be assigned with just the ButterKnife assignment,
+    // will crash sporadically if it is not handled that way
+    @JvmField
     @BindView(R.id.fragment_main_swipe_container)
-    protected lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    protected var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     @BindView(R.id.balance_header_txt_current)
     protected lateinit var txtCurrent: TextView
@@ -121,7 +127,6 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
         if (timerDisposable?.isDisposed == false) {
             timerDisposable?.dispose()
         }
-
         currencyManager.storeLatestBalance()
     }
 
@@ -132,12 +137,12 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     public override fun setupViews() {
 
         // SwipeRefreshLayout
-        swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.setColorSchemeColors(
+        swipeRefreshLayout?.setOnRefreshListener(this)
+        swipeRefreshLayout?.setColorSchemeColors(
                 ContextCompat.getColor(context, R.color.colorPrimary),
                 ContextCompat.getColor(context, R.color.colorAccent),
                 ContextCompat.getColor(context, R.color.colorPrimaryDark))
-        swipeRefreshLayout.isEnabled = viewType != ViewType.CASHOUT
+        swipeRefreshLayout?.isEnabled = viewType != ViewType.CASHOUT
 
         // Setup empty views
         emptyTextView.setText(if (viewType == ViewType.CASHOUT)
@@ -153,6 +158,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
         // RecyclerView
         adapter = CurrencyAdapter(context, ArrayList(),
                 viewType, this)
+        adapter?.onItemClickListener = this
         recyclerView.layoutManager = getLayoutManagerForOrientation()
         recyclerView.adapter = adapter
 
@@ -160,7 +166,6 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onCashout(c: Currency) {
-
         val fragment = CashoutDialogFragment.newInstance(c.id)
         fragment.setOnCashoutCompletedListener { loadData() }
         fragment.show(fragmentManager, "cashout-fragment")
@@ -173,7 +178,38 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
                     currencyManager.removeCurrency(c)
                     loadData()
                 }
-        dialog.show(fragmentManager, "remove_confirmation_dialog_fragment")
+        dialog.show(fragmentManager, "remove-confirmation-dialog-fragment")
+    }
+
+    override fun onItemClick(t: Currency?, v: View) {
+        if (t != null) {
+            recyclerView.scrollToPosition(adapter?.getLocation(t) ?: 0)
+            showDetailFragment(t, v)
+        }
+    }
+
+    // --------------------------------------------------------------------------------
+
+    private fun showDetailFragment(t: Currency, v: View) {
+
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
+                android.support.v4.util.Pair(v.findViewById(R.id.item_currency_cardview),
+                        getString(R.string.transition_item_currency_cardview)),
+                android.support.v4.util.Pair(v.findViewById(R.id.item_currency_icon),
+                        getString(R.string.transition_item_currency_icon)),
+                android.support.v4.util.Pair(v.findViewById(R.id.item_currency_txt_amount),
+                        getString(R.string.transition_item_currency_crypto_amount)),
+                android.support.v4.util.Pair(v.findViewById(R.id.item_currency_divider),
+                        getString(R.string.transition_item_currency_divider)),
+                android.support.v4.util.Pair(v.findViewById(R.id.item_currency_txt_bought_price),
+                        getString(R.string.transition_item_currency_txt_bought_price)),
+                android.support.v4.util.Pair(v.findViewById(R.id.item_currency_imgview_arrow),
+                        getString(R.string.transition_item_currency_imgview_arrow)),
+                android.support.v4.util.Pair(v.findViewById(R.id.item_currency_txt_current_price),
+                        getString(R.string.transition_item_currency_txt_current_price)),
+                android.support.v4.util.Pair(v.findViewById(R.id.item_currency_txt_diff),
+                        getString(R.string.transition_item_currency_txt_diff)))
+        startActivity(DetailActivity.newIntent(context, t.id), options.toBundle())
     }
 
     private fun setupHeader(balance: Balance?) {
@@ -208,7 +244,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
 
     private fun loadData() {
 
-        swipeRefreshLayout.isRefreshing = true
+        swipeRefreshLayout?.isRefreshing = true
 
         if (viewType == ViewType.BALANCE) {
 
@@ -227,7 +263,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     private fun subscribeToSingleDataSource(dataSource: Observable<List<Currency>>) {
 
         dataSource.subscribe({ ownedCurrencies ->
-            swipeRefreshLayout.isRefreshing = false
+            swipeRefreshLayout?.isRefreshing = false
 
             adapter?.setLocalCurrency(currencyManager.localCurrency,
                     currencyManager.currencyConversionRates)
@@ -245,7 +281,6 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun subscribeToPeriodicDataSource() {
-
         timerDisposable = Observable.interval(0, AppParams.autoUpdateTime,
                 TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 .subscribe { subscribeToSingleDataSource(currencyManager.ownedCurrencies) }
@@ -262,7 +297,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     private fun handleDataLoadingError(throwable: Throwable) {
 
         timerDisposable?.dispose() // Kill timer if this is a periodic task
-        swipeRefreshLayout.isRefreshing = false
+        swipeRefreshLayout?.isRefreshing = false
 
         when (throwable) {
 
@@ -276,7 +311,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
                         })
                 // TODO Show something in EmptyView
             }
-            else -> showSnackbar(getString(R.string.error_load_data), showLong = true)
+            // else -> showToast(getString(R.string.error_load_data), showLong = true)
         }
 
     }

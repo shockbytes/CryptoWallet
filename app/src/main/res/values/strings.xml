@@ -72,5 +72,16 @@
     <string name="error_load_data">Error while loading data</string>
     <string name="enable">Enable</string>
     <string name="error_no_price_provider">No price provider selected</string>
+    <string name="transition_item_currency_cardview" translatable="false">transition_item_currency_card</string>
+    <string name="transition_item_currency_icon" translatable="false">transition_item_currency_icon</string>
+    <string name="transition_item_currency_crypto_amount" translatable="false">transition_item_currency_crypto_amount</string>
+    <string name="transition_item_currency_divider" translatable="false">transition_item_currency_divider</string>
+    <string name="transition_item_currency_txt_bought_price" translatable="false">transition_item_currency_txt_bought_price</string>
+    <string name="transition_item_currency_txt_current_price" translatable="false">transition_item_currency_txt_current_price</string>
+    <string name="transition_item_currency_imgview_arrow" translatable="false">transition_item_currency_imgview_arrow</string>
+    <string name="transition_item_currency_txt_diff" translatable="false">transition_item_currency_txt_diff</string>
+    <string name="detail_price_provider">Price provided by %s</string>
+    <string name="detail_bought_date">Bought: %s</string>
+    <string name="detail_sold_date">Sold: %s</string>
 
 </resources>
