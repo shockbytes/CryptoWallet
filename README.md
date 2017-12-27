@@ -11,6 +11,9 @@ We currently support:
 * ETH
 * LTC
 * BCH
+* IOTA
+* DASH
+* XRP
 
 ## Versions
 
@@ -49,8 +52,10 @@ We currently support:
 ### Version 1.1
 - [x] Support IOTA, DASH and XRP
 - [x] Introduce provider selection (enable provider) in settings
-- [ ] DetailView (incl. buy, spot, sell price, date of buy, price source, price of 1 coin)
+- [x] DetailView
 - [x] Landscape support
+- [ ] Introduce KotterKnife for MainFragment
+- [ ] Change accent color for better readability
 
 ### Version 1.2
 

@@ -22,7 +22,7 @@ interface CurrencyManager {
 
     val latestBalance: Double
 
-    fun getOwnedCurrencyById(id: Long): Currency
+    fun getCurrencyById(id: Long): Currency
 
     fun addCurrency(ownedCurrency: Currency)
 

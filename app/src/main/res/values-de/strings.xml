@@ -60,4 +60,7 @@
     <string name="error_no_price_provider">Kein Preisanbieter ausgewählt</string>
     <string name="error_load_data">Fehler beim Laden der Daten</string>
     <string name="contentdesc_item_price_provider">Item Preisanbieter</string>
+    <string name="detail_price_provider">Preis bezogen von %s</string>
+    <string name="detail_bought_date">Gekauft am %s</string>
+    <string name="detail_sold_date">Verkauft am %s</string>
 </resources>

@@ -21,6 +21,7 @@ import android.view.View
 import java.io.IOException
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -149,7 +150,8 @@ object ResourceManager {
 
     fun roundDouble(value: Double, digits: Int): Double {
 
-        if (value == 0.0 || digits < 0) {
+        if (value == 0.0 || digits < 0 || value == Double.POSITIVE_INFINITY
+                || value == Double.NaN || value == Double.NEGATIVE_INFINITY) {
             return 0.00
         }
 
@@ -173,6 +175,10 @@ object ResourceManager {
         if (hadContentDescription)
             toolbar.navigationContentDescription = null
         return navIcon
+    }
+
+    fun formatDateOfYear(millis: Long): String {
+        return SimpleDateFormat("dd. MMM yyyy", Locale.getDefault()).format(Date(millis))
     }
 
 

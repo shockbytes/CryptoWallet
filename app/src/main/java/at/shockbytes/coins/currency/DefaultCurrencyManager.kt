@@ -66,7 +66,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
     override val latestBalance: Double
         get() = prefs.getFloat(prefsLatestBalance, 0f).toDouble()
 
-    override fun getOwnedCurrencyById(id: Long): Currency {
+    override fun getCurrencyById(id: Long): Currency {
         return storageManager.getOwnedCurrencyById(id)
     }
 

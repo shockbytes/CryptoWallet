@@ -14,8 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,12 +30,17 @@
             android:name=".ui.activity.SettingsActivity"
             android:label="@string/navigation_settings"
             android:theme="@style/AppTheme.WithActionBar" />
-        <activity android:name=".ui.activity.AddCurrencyActivity"
+        <activity
+            android:name=".ui.activity.AddCurrencyActivity"
             android:label="@string/label_add_currency"
             android:theme="@style/AppTheme.WithActionBar" />
-        <activity android:name=".ui.activity.HelpActivity"
+        <activity
+            android:name=".ui.activity.HelpActivity"
             android:label="@string/navigation_help"
-            android:theme="@style/AppTheme.WithActionBar"/>
+            android:theme="@style/AppTheme.WithActionBar" />
+        <activity
+            android:name=".ui.activity.DetailActivity"
+            android:theme="@style/AppTheme.WithActionBar" />
     </application>
 
 </manifest>

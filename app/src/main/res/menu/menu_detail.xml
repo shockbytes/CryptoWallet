@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_detail_cashout"
+        android:icon="@drawable/ic_money_filled_white"
+        android:title="@string/popup_item_cashout"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_detail_remove"
+        android:icon="@drawable/ic_cancel_white"
+        android:title="@string/remove"
+        app:showAsAction="always" />
+
+</menu>

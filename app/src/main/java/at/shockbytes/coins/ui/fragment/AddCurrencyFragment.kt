@@ -116,7 +116,8 @@ class AddCurrencyFragment : BaseFragment() {
         }
 
         val c = Currency(_cryptoCurrency = cryptoCurrency, cryptoAmount = cryptoAmount,
-                _realCurrency = realCurrency, realAmount = realAmount)
+                _realCurrency = realCurrency, realAmount = realAmount,
+                boughtDate = System.currentTimeMillis())
 
         currencyManager.addCurrency(c)
         activity.setResult(Activity.RESULT_OK, Intent())

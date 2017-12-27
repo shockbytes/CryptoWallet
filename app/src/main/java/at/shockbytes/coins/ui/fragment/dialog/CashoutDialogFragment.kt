@@ -57,7 +57,7 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
         (activity.application as CryptoWatcherApp).appComponent.inject(this)
 
         val id = arguments.getLong(ARG_CURRENCY_ID)
-        currency = currencyManager.getOwnedCurrencyById(id)
+        currency = currencyManager.getCurrencyById(id)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -70,7 +70,13 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
 
                     val amountToPayout = seekBarAmount.progress / SEEKBAR_FACTOR
                     if (amountToPayout > 0) {
-                        currencyManager.partialCashout(currency, amountToPayout)
+
+                        // All is selected, make a full cashout
+                        if (amountToPayout == currency.cryptoAmount) {
+                            currencyManager.cashoutCurrency(currency)
+                        } else {
+                            currencyManager.partialCashout(currency, amountToPayout)
+                        }
                         completeListener?.invoke()
                     } else {
                         Toast.makeText(context, R.string.hint_dialog_cashout_bigger_zero, Toast.LENGTH_SHORT).show()
@@ -101,9 +107,9 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
                 + ResourceManager.roundDouble(currency.cryptoAmount, 8))
     }
 
-    override fun onStartTrackingTouch(seekBar: SeekBar) { }
+    override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
-    override fun onStopTrackingTouch(seekBar: SeekBar) { }
+    override fun onStopTrackingTouch(seekBar: SeekBar) {}
 
     fun setOnCashoutCompletedListener(listener: () -> Unit) {
         this.completeListener = listener

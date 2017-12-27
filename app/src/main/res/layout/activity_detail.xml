@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:transitionName="@string/transition_item_currency_cardview">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/activity_detail_imgview"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:transitionName="@string/transition_item_currency_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_crypto_currency_btc" />
+
+        <TextView
+            android:id="@+id/activity_detail_txt_crypto_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="0.04 BTC"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"
+            android:transitionName="@string/transition_item_currency_crypto_amount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_detail_imgview" />
+
+
+        <View
+            android:id="@+id/activity_detail_divider"
+            android:layout_width="125dp"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/activity_detail_txt_crypto_amount"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/white"
+            android:transitionName="@string/transition_item_currency_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_detail_txt_crypto_amount" />
+
+        <TextView
+            android:id="@+id/activity_detail_txt_bought"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="200.0 €"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/controls"
+            android:transitionName="@string/transition_item_currency_txt_bought_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_detail_divider" />
+
+        <ImageView
+            android:id="@+id/activity_detail_imgview_conversion_arrow"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:rotation="0"
+            android:transitionName="@string/transition_item_currency_imgview_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_detail_txt_bought"
+            app:srcCompat="@drawable/ic_conversion_arrow" />
+
+        <TextView
+            android:id="@+id/activity_detail_txt_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="10 €"
+            android:transitionName="@string/transition_item_currency_txt_current_price"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/controls"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_detail_imgview_conversion_arrow" />
+
+
+        <TextView
+            android:id="@+id/activity_detail_txt_diff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="+2%"
+            android:transitionName="@string/transition_item_currency_txt_diff"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/percentage_win"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_detail_txt_current" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_detail_txt_diff">
+
+            <TextView
+                android:id="@+id/activity_detail_txt_bought_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:drawablePadding="8dp"
+                android:drawableTop="@drawable/ic_time"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:textSize="13sp"
+                android:text="Bought: 20. Sep 2017 "
+                android:textColor="@color/controls" />
+
+            <TextView
+                android:id="@+id/activity_detail_txt_sold_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:drawablePadding="8dp"
+                android:drawableTop="@drawable/ic_sold"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:textSize="13sp"
+                android:text="Sold: ---"
+                android:textColor="@color/controls" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_detail_txt_price_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:drawablePadding="8dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="Price provided by Coinbase"
+            android:textColor="@android:color/tertiary_text_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

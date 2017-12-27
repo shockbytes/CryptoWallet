@@ -2,6 +2,7 @@ package at.shockbytes.coins.dagger
 
 import at.shockbytes.coins.ui.activity.MainActivity
 import at.shockbytes.coins.ui.fragment.AddCurrencyFragment
+import at.shockbytes.coins.ui.activity.DetailActivity
 import at.shockbytes.coins.ui.fragment.MainFragment
 import at.shockbytes.coins.ui.fragment.SettingsFragment
 import at.shockbytes.coins.ui.fragment.dialog.CashoutDialogFragment
@@ -25,6 +26,8 @@ interface AppComponent {
     fun inject(fragment: AddCurrencyFragment)
 
     fun inject(fragment: SettingsFragment)
+
+    fun inject(activity: DetailActivity)
 
     fun inject(dialogFragment: CashoutDialogFragment)
 
