@@ -30,7 +30,7 @@
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:label="@string/navigation_settings"
-            android:theme="@style/AppTheme.WithActionBarLight" />
+            android:theme="@style/AppTheme.WithActionBar" />
         <activity android:name=".ui.activity.AddCurrencyActivity"
             android:label="@string/label_add_currency"
             android:theme="@style/AppTheme.WithActionBar" />
