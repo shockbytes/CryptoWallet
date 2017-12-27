@@ -66,10 +66,9 @@ class RealmStorageManager(private val realm: Realm) : StorageManager {
 
         conversions
                 .filter { c.getCryptoCurrency() === it.cryptoCurrency }
-                .first {
+                .forEach {
                     c.conversionRate = it.conversionRate
                     c.priceSource = realm.copyToRealmOrUpdate(it.priceSource)
-                    true
                 }
         realm.commitTransaction()
     }

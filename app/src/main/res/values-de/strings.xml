@@ -27,7 +27,7 @@
     <string name="prefs_cat_about">Über</string>
     <string name="prefs_about_developer_summary">Entwickler</string>
     <string name="prefs_currency_local_title">Lokale Währung</string>
-    <string name="prefs_currency_price_provider_title">Preisanbieter (Beta)</string>
+    <string name="prefs_currency_price_provider_title">Preisanbieter</string>
     <string name="auth_failed">Authentifizierung fehlgeschlagen</string>
     <string name="auth_lockscreen_not_enabled">Lockscreen-Feature nicht eingeschalten!</string>
     <string name="auth_no_fingerprint_registered">Bitte Fingerprint zuerst registrieren!</string>
@@ -42,7 +42,9 @@
     <string name="help_balance">Du kannst deine Coins mit den jeweiligen Kaufpreis zu deiner Brieftasche hinzufügen
         und zusehen, wie sich der Preis über die Zeit entwickelt. Crypto Watcher hat keinen Zugriff
         auf deine persönliche Coin-Brieftasche, um die Sicherheit deiner Coins zu gewährleisten.
-        \n\nZurzeit werden folgende Kryptowährungen unterstützt:\n\n\t&#8226; BTC\n\t&#8226; BCH\n\t&#8226; ETH\n\t&#8226; LTC</string>
+        \n\nZurzeit werden folgende Kryptowährungen unterstützt:\n
+        \n\t&#8226; BTC\n\t&#8226; BCH\n\t&#8226; ETH\n\t&#8226; LTC
+        \n\t&#8226; IOTA\n\t&#8226; DASH\n\t&#8226; XRP</string>
     <string name="help_cashout">Wenn du deine tatsächlichen Coins verkaufst kannst du sie auch in
         Crypto Watcher auszahlen. Mit diesem Feature kannst du den Profit (hoffentlich) deiner Coins
         aufzeichnen. Bitte beachte, dass du deine tatsächlichen Coins NICHT mit dieser App auszahlen
@@ -52,4 +54,10 @@
     <string name="showcase_drawer">Du kannst zwischen Kontostand und Auszahlung navigieren. Hier kommst du auch zur Hilfe und den Einstellungen</string>
     <string name="error_add_currency_bigger_than_zero">Die Zahlen müssen größer als 0.0 sein</string>
     <string name="dialog_set_local_currency_title">Wähle deine Währung</string>
+    <string name="apply">Übernehmen</string>
+    <string name="dialog_provider_selection_title">Preisanbieter auswählen</string>
+    <string name="enable">Auswählen</string>
+    <string name="error_no_price_provider">Kein Preisanbieter ausgewählt</string>
+    <string name="error_load_data">Fehler beim Laden der Daten</string>
+    <string name="contentdesc_item_price_provider">Item Preisanbieter</string>
 </resources>

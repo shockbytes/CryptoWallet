@@ -6,6 +6,7 @@ import at.shockbytes.coins.ui.fragment.MainFragment
 import at.shockbytes.coins.ui.fragment.SettingsFragment
 import at.shockbytes.coins.ui.fragment.dialog.CashoutDialogFragment
 import at.shockbytes.coins.ui.fragment.dialog.LocalCurrencyDialogFragment
+import at.shockbytes.coins.ui.fragment.dialog.PriceProviderDialogFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -28,5 +29,7 @@ interface AppComponent {
     fun inject(dialogFragment: CashoutDialogFragment)
 
     fun inject(dialogFragment: LocalCurrencyDialogFragment)
+
+    fun inject(dialogFragment: PriceProviderDialogFragment)
 
 }

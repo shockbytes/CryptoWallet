@@ -11,15 +11,19 @@ import io.reactivex.Observable
  * Date: 24.06.2017.
  */
 
-class DefaultPriceProxy(private val priceProviders: List<PriceProvider>) : PriceProxy {
+class DefaultPriceProxy(override val priceProvider: List<PriceProvider>) : PriceProxy {
 
     override fun getPriceConversions(from: List<CryptoCurrency>,
                                      to: RealCurrency): Observable<List<PriceConversion>> {
 
-        val wrapper = getConversionObservables(from, to)
-        return Observable.zip(wrapper.conversions) { t ->
-            t.mapIndexed { idx, m ->
-                val pc = m as PriceConversion; pc.cryptoCurrency = wrapper.from[idx]; pc
+        return if (priceProvider.none { it.isEnabled }) {
+            Observable.error(NoPriceProviderSelectedException())
+        } else {
+            val wrapper = getConversionObservables(from, to)
+            Observable.zip(wrapper.conversions) { t ->
+                t.mapIndexed { idx, m ->
+                    val pc = m as PriceConversion; pc.cryptoCurrency = wrapper.from[idx]; pc
+                }
             }
         }
     }
@@ -27,7 +31,7 @@ class DefaultPriceProxy(private val priceProviders: List<PriceProvider>) : Price
     override fun getSupportedCryptoCurrencies(): List<CryptoCurrency> {
 
         return CryptoCurrency.values().filter {
-            priceProviders
+            priceProvider
                     .filter { p -> p.supportedCurrencies().contains(it) and p.isEnabled }
                     .forEach { return@filter true }
             false
@@ -41,7 +45,7 @@ class DefaultPriceProxy(private val priceProviders: List<PriceProvider>) : Price
         val conversionCurrencies = ArrayList<CryptoCurrency>()
         for (currency in from) {
 
-            priceProviders
+            priceProvider
                     .filter { it.isEnabled }
                     .forEach {
                         if (it.supportedCurrencies().contains(currency)) {

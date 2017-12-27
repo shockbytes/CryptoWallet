@@ -10,26 +10,33 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import at.shockbytes.coins.R
 import at.shockbytes.coins.core.CryptoWatcherApp
-import at.shockbytes.coins.currency.RealCurrency
 import at.shockbytes.coins.currency.CurrencyManager
+import at.shockbytes.coins.currency.RealCurrency
+import at.shockbytes.coins.currency.price.PriceProxy
+import at.shockbytes.coins.ui.activity.BackNavigableActivity
+import at.shockbytes.coins.ui.fragment.dialog.PriceProviderDialogFragment
 import javax.inject.Inject
 
-class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeListener {
+class SettingsFragment : PreferenceFragment(),
+        Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
 
     @Inject
     lateinit var currencyManager: CurrencyManager
 
+    @Inject
+    lateinit var priceProxy: PriceProxy
+
     private lateinit var localCurrencyPref: ListPreference
+
+    private lateinit var providerSelectionPref: Preference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity.application as CryptoWatcherApp).appComponent.inject(this)
         addPreferencesFromResource(R.xml.settings)
 
-        localCurrencyPref = findPreference(getString(R.string.prefs_key_local_currency)) as ListPreference
-        localCurrencyPref.summary = currencyManager.localCurrency.name
-        localCurrencyPref.onPreferenceChangeListener = this
-
+        setupLocalCurrency()
+        setupProviderSelection()
         checkForFingerprintSecurity()
     }
 
@@ -38,6 +45,37 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         localCurrencyPref.summary = value
         currencyManager.localCurrency = RealCurrency.valueOf(value)
         return true
+    }
+
+    override fun onPreferenceClick(pref: Preference?): Boolean {
+
+        return if (pref?.key == getString(R.string.prefs_key_price_provider_selection)) {
+            PriceProviderDialogFragment.newInstance()
+                    .setOnCompletionListener { providerSelectionPref.summary = buildProviderSummary() }
+                    .show((activity as BackNavigableActivity).supportFragmentManager,
+                            "price-provider-selection-dialogfragment")
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun setupLocalCurrency() {
+        localCurrencyPref = findPreference(getString(R.string.prefs_key_local_currency)) as ListPreference
+        localCurrencyPref.summary = currencyManager.localCurrency.name
+        localCurrencyPref.onPreferenceChangeListener = this
+    }
+
+    private fun setupProviderSelection() {
+        providerSelectionPref = findPreference(
+                getString(R.string.prefs_key_price_provider_selection))
+        providerSelectionPref.summary = buildProviderSummary()
+        providerSelectionPref.onPreferenceClickListener = this
+    }
+
+    private fun buildProviderSummary(): String {
+        return priceProxy.priceProvider.filter { it.isEnabled }
+                .joinToString(", ") { it.providerInfo.name }
     }
 
     private fun checkForFingerprintSecurity() {

@@ -4,6 +4,7 @@ package at.shockbytes.coins.ui.fragment
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
@@ -19,7 +20,9 @@ import at.shockbytes.coins.adapter.CurrencyAdapter
 import at.shockbytes.coins.currency.Balance
 import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.currency.CurrencyManager
+import at.shockbytes.coins.currency.price.NoPriceProviderSelectedException
 import at.shockbytes.coins.dagger.AppComponent
+import at.shockbytes.coins.ui.activity.SettingsActivity
 import at.shockbytes.coins.ui.fragment.dialog.CashoutDialogFragment
 import at.shockbytes.coins.ui.fragment.dialog.RemoveConfirmationDialogFragment
 import at.shockbytes.coins.util.AppParams
@@ -235,7 +238,10 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
 
             // Call in here makes sure, that the balance object is loaded at this point in time
             setupHeader(currencyManager.balance)
-        }) { throwable -> throwable.printStackTrace() }
+        }) { throwable ->
+            throwable.printStackTrace()
+            handleDataLoadingError(throwable)
+        }
     }
 
     private fun subscribeToPeriodicDataSource() {
@@ -251,6 +257,28 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
         } else {
             GridLayoutManager(context, 2)
         }
+    }
+
+    private fun handleDataLoadingError(throwable: Throwable) {
+
+        timerDisposable?.dispose() // Kill timer if this is a periodic task
+        swipeRefreshLayout.isRefreshing = false
+
+        when (throwable) {
+
+            is NoPriceProviderSelectedException -> {
+                showSnackbar(getString(R.string.error_no_price_provider),
+                        getString(R.string.enable), true,
+                        {
+                            startActivity(SettingsActivity.newIntent(context),
+                                    ActivityOptionsCompat.makeSceneTransitionAnimation(activity)
+                                            .toBundle())
+                        })
+                // TODO Show something in EmptyView
+            }
+            else -> showSnackbar(getString(R.string.error_load_data), showLong = true)
+        }
+
     }
 
     fun onNewCurrencyEntryAvailable() {

@@ -23,7 +23,7 @@ class CoinMarketCapPriceProvider(private val api: CoinMarketCapPriceApi,
             R.drawable.ic_price_provider_coinmarketcap)
 
     override var isEnabled: Boolean
-        get() = prefs.getBoolean(argEnabled, false) // TODO v1.1 - Enable CoinMarketCapPriceProvider
+        get() = prefs.getBoolean(argEnabled, true)
         set(value) = prefs.edit().putBoolean(argEnabled, value).apply()
 
     override fun getSpotPrice(from: CryptoCurrency, to: RealCurrency): Observable<PriceConversion> {

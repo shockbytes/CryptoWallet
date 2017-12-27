@@ -12,6 +12,8 @@ import io.reactivex.Observable
 
 interface PriceProxy {
 
+    val priceProvider: List<PriceProvider>
+
     fun getPriceConversions(from: List<CryptoCurrency>,
                             to: RealCurrency): Observable<List<PriceConversion>>
 
