@@ -14,9 +14,7 @@ import at.shockbytes.coins.core.CryptoWatcherApp
 import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.currency.CurrencyManager
 import at.shockbytes.coins.util.ResourceManager
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.Unbinder
+import kotterknife.bindView
 import javax.inject.Inject
 
 /**
@@ -29,28 +27,18 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
     @Inject
     protected lateinit var currencyManager: CurrencyManager
 
-    @BindView(R.id.dialog_fragment_cashout_txt_currency)
-    protected lateinit var txtCurrency: TextView
-
-    @BindView(R.id.dialog_fragment_cashout_txt_amount)
-    protected lateinit var txtAmount: TextView
-
-    @BindView(R.id.dialog_fragment_cashout_seekbar_amount)
-    protected lateinit var seekBarAmount: SeekBar
+    private val txtCurrency: TextView by bindView(R.id.dialog_fragment_cashout_txt_currency)
+    private val txtAmount: TextView by bindView(R.id.dialog_fragment_cashout_txt_amount)
+    private val seekBarAmount: SeekBar by bindView(R.id.dialog_fragment_cashout_seekbar_amount)
 
     private lateinit var currency: Currency
 
     private var completeListener: (() -> Unit)? = null
 
-    private var unbinder: Unbinder? = null
-
     private val cashoutView: View
-        get() {
-            val v = LayoutInflater.from(context)
-                    .inflate(R.layout.dialog_fragment_cashout, null, false)
-            unbinder = ButterKnife.bind(this, v)
-            return v
-        }
+        get() = LayoutInflater.from(context)
+                .inflate(R.layout.dialog_fragment_cashout, null, false)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,11 +83,6 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
     override fun onStart() {
         super.onStart()
         setup()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        unbinder?.unbind()
     }
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {

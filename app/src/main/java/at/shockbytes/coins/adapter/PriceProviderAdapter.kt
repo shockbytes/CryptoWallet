@@ -8,7 +8,7 @@ import android.widget.Switch
 import android.widget.TextView
 import at.shockbytes.coins.R
 import at.shockbytes.coins.currency.price.PriceSource
-import butterknife.BindView
+import kotterknife.bindView
 
 /**
  * @author Martin Macheiner
@@ -24,14 +24,9 @@ class PriceProviderAdapter(c: Context, data: List<PriceProviderItem>)
 
     inner class ViewHolder(itemView: View) : BaseAdapter<PriceProviderItem>.ViewHolder(itemView) {
 
-        @BindView(R.id.item_price_provider_imgview)
-        protected lateinit var imgView: ImageView
-
-        @BindView(R.id.item_price_provider_txt)
-        protected lateinit var txtView: TextView
-
-        @BindView(R.id.item_price_provider_switch)
-        protected lateinit var enableSwitch: Switch
+        private val imgView: ImageView by bindView(R.id.item_price_provider_imgview)
+        private val txtView: TextView by bindView(R.id.item_price_provider_txt)
+        private val enableSwitch: Switch by bindView(R.id.item_price_provider_switch)
 
         override fun bind(t: PriceProviderItem) {
             content = t

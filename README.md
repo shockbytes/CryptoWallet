@@ -54,7 +54,7 @@ We currently support:
 - [x] Introduce provider selection (enable provider) in settings
 - [x] DetailView
 - [x] Landscape support
-- [ ] Introduce KotterKnife for MainFragment
+- [x] Introduce KotterKnife
 - [ ] Change accent color for better readability
 
 ### Version 1.2

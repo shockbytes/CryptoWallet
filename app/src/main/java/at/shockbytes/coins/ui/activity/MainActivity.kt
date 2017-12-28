@@ -28,30 +28,23 @@ import at.shockbytes.coins.ui.fragment.MainFragment
 import at.shockbytes.coins.ui.fragment.dialog.LocalCurrencyDialogFragment
 import at.shockbytes.coins.util.AppParams
 import at.shockbytes.coins.util.ResourceManager
-import butterknife.BindView
 import butterknife.OnClick
 import co.mobiwise.materialintro.animation.MaterialIntroListener
 import co.mobiwise.materialintro.shape.Focus
 import co.mobiwise.materialintro.shape.FocusGravity
 import co.mobiwise.materialintro.shape.ShapeType
 import co.mobiwise.materialintro.view.MaterialIntroView
+import kotterknife.bindView
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
 class MainActivity : BaseActivity(),
         NavigationView.OnNavigationItemSelectedListener, MaterialIntroListener {
 
-    @BindView(R.id.main_fab)
-    protected lateinit var fab: FloatingActionButton
-
-    @BindView(R.id.main_toolbar)
-    protected lateinit var toolbar: Toolbar
-
-    @BindView(R.id.main_drawer_layout)
-    protected lateinit var drawerLayout: DrawerLayout
-
-    @BindView(R.id.main_navigation_view)
-    protected lateinit var navigationView: NavigationView
+    private val fab: FloatingActionButton by bindView(R.id.main_fab)
+    private val toolbar: Toolbar by bindView(R.id.main_toolbar)
+    private val drawerLayout: DrawerLayout by bindView(R.id.main_drawer_layout)
+    private val navigationView: NavigationView by bindView(R.id.main_navigation_view)
 
     private var drawerToggle: ActionBarDrawerToggle? = null
 

@@ -18,8 +18,8 @@ import at.shockbytes.coins.currency.CurrencyManager
 import at.shockbytes.coins.currency.RealCurrency
 import at.shockbytes.coins.currency.price.PriceProxy
 import at.shockbytes.coins.dagger.AppComponent
-import butterknife.BindView
 import butterknife.OnClick
+import kotterknife.bindView
 import javax.inject.Inject
 
 /**
@@ -34,24 +34,12 @@ class AddCurrencyFragment : BaseFragment() {
     @Inject
     protected lateinit var priceProxy: PriceProxy
 
-    @BindView(R.id.fragment_dialog_add_currency_edit_cryptocurrency)
-    protected lateinit var editCryptoCurrency: TextInputEditText
-
-    @BindView(R.id.fragment_dialog_add_currency_edit_currency)
-    protected lateinit var editCurrency: TextInputEditText
-
-    @BindView(R.id.fragment_dialog_add_currency_til_cryptocurrency)
-    protected lateinit var tilCryptoCurrency: TextInputLayout
-
-    @BindView(R.id.fragment_dialog_add_currency_til_currency)
-    protected lateinit var tilCurrency: TextInputLayout
-
-    @BindView(R.id.fragment_dialog_add_currency_spinner_cryptocurrency)
-    protected lateinit var spinnerCryptoCurrency: Spinner
-
-    @BindView(R.id.fragment_dialog_add_currency_spinner_currency)
-    protected lateinit var spinnerCurrency: Spinner
-
+    private val editCryptoCurrency: TextInputEditText by bindView(R.id.activity_add_currency_edit_cryptocurrency)
+    private val editCurrency: TextInputEditText by bindView(R.id.activity_add_currency_edit_currency)
+    private val tilCryptoCurrency: TextInputLayout by bindView(R.id.activity_add_currency_til_cryptocurrency)
+    private val tilCurrency: TextInputLayout by bindView(R.id.activity_add_currency_til_currency)
+    private val spinnerCryptoCurrency: Spinner by bindView(R.id.activity_add_currency_spinner_cryptocurrency)
+    private val spinnerCurrency: Spinner by bindView(R.id.activity_add_currency_spinner_currency)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +82,7 @@ class AddCurrencyFragment : BaseFragment() {
 
     }
 
-    @OnClick(R.id.fragment_dialog_add_currency_btn_save)
+    @OnClick(R.id.activity_add_currency_btn_save)
     fun onClickSave() {
 
         val strbp = editCurrency.text.toString()

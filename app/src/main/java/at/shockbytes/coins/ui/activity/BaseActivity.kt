@@ -16,14 +16,18 @@ import butterknife.Unbinder
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    open val enableActivityTransition: Boolean = true
+
     private var unbinder: Unbinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
-            window.exitTransition = Slide(Gravity.BOTTOM)
-            window.enterTransition = Explode()
+            if (enableActivityTransition) {
+                window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+                window.exitTransition = Slide(Gravity.BOTTOM)
+                window.enterTransition = Explode()
+            }
         }
         injectToGraph((application as CryptoWatcherApp).appComponent)
     }
@@ -38,8 +42,8 @@ abstract class BaseActivity : AppCompatActivity() {
         unbinder?.unbind()
     }
 
-    protected fun showSnackbar(text: String?) {
-        if (text != null && !text.isEmpty()) {
+    protected fun showSnackbar(text: String) {
+        if (!text.isEmpty()) {
             Snackbar.make(findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
         }
     }

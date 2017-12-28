@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import butterknife.ButterKnife
 import java.util.*
 
 /**
@@ -16,12 +15,12 @@ abstract class BaseAdapter<T>(protected var context: Context,
 
     interface OnItemClickListener<in T> {
 
-        fun onItemClick(t: T?, v: View)
+        fun onItemClick(t: T, v: View)
     }
 
     interface OnItemLongClickListener<in T> {
 
-        fun onItemLongClick(t: T?, v: View)
+        fun onItemLongClick(t: T, v: View)
     }
 
     interface OnItemMoveListener<in T> {
@@ -136,12 +135,16 @@ abstract class BaseAdapter<T>(protected var context: Context,
         protected var content: T? = null
 
         init {
-            ButterKnife.bind(this, itemView)
-
-            itemView.setOnClickListener { onItemClickListener?.onItemClick(content, itemView) }
+            itemView.setOnClickListener {
+                content.let {
+                    onItemClickListener?.onItemClick(content!!, itemView)
+                }
+            }
             itemView.setOnLongClickListener {
-                onItemLongClickListener?.onItemLongClick(content, itemView)
-                true
+                content.let {
+                    onItemLongClickListener?.onItemLongClick(content!!, itemView)
+                    true
+                }
             }
         }
 

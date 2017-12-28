@@ -16,7 +16,7 @@ import at.shockbytes.coins.dagger.AppComponent
 import at.shockbytes.coins.ui.fragment.dialog.CashoutDialogFragment
 import at.shockbytes.coins.ui.fragment.dialog.RemoveConfirmationDialogFragment
 import at.shockbytes.coins.util.ResourceManager
-import butterknife.BindView
+import kotterknife.bindView
 import javax.inject.Inject
 
 /**
@@ -29,32 +29,15 @@ class DetailActivity : BackNavigableActivity() {
     @Inject
     protected lateinit var currencyManager: CurrencyManager
 
-    @BindView(R.id.activity_detail_imgview)
-    protected lateinit var imgView: ImageView
-
-    @BindView(R.id.activity_detail_txt_crypto_amount)
-    protected lateinit var txtCryptoAmount: TextView
-
-    @BindView(R.id.activity_detail_txt_bought)
-    protected lateinit var txtBoughtPrice: TextView
-
-    @BindView(R.id.activity_detail_txt_current)
-    protected lateinit var txtCurrentPrice: TextView
-
-    @BindView(R.id.activity_detail_txt_diff)
-    protected lateinit var txtDiff: TextView
-
-    @BindView(R.id.activity_detail_txt_bought_date)
-    protected lateinit var txtBoughtDate: TextView
-
-    @BindView(R.id.activity_detail_txt_sold_date)
-    protected lateinit var txtSoldDate: TextView
-
-    @BindView(R.id.activity_detail_imgview_conversion_arrow)
-    protected lateinit var imgViewArrow: ImageView
-
-    @BindView(R.id.activity_detail_txt_price_source)
-    protected lateinit var txtPriceSource: TextView
+    private val imgView: ImageView by bindView(R.id.activity_detail_imgview)
+    private val txtCryptoAmount: TextView by bindView(R.id.activity_detail_txt_crypto_amount)
+    private val txtBoughtPrice: TextView by bindView(R.id.activity_detail_txt_bought)
+    private val txtCurrentPrice: TextView by bindView(R.id.activity_detail_txt_current)
+    private val txtDiff: TextView by bindView(R.id.activity_detail_txt_diff)
+    private val txtBoughtDate: TextView by bindView(R.id.activity_detail_txt_bought_date)
+    private val txtSoldDate: TextView by bindView(R.id.activity_detail_txt_sold_date)
+    private val imgViewArrow: ImageView by bindView(R.id.activity_detail_imgview_conversion_arrow)
+    private val txtPriceSource: TextView by bindView(R.id.activity_detail_txt_price_source)
 
     private lateinit var c: Currency
 
