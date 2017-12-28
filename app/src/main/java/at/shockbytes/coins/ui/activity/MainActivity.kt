@@ -145,7 +145,6 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    @SuppressLint("RestrictedApi")
     @OnClick(R.id.main_fab)
     fun onClickFab() {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this)

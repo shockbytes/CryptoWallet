@@ -18,7 +18,7 @@ import at.shockbytes.coins.R
 class CurrencySpinnerAdapter(context: Context, data: List<CurrencySpinnerAdapterItem>)
     : ArrayAdapter<CurrencySpinnerAdapter.CurrencySpinnerAdapterItem>(context, 0, data) {
 
-    class CurrencySpinnerAdapterItem(var text: String, internal var iconId: Int)
+    class CurrencySpinnerAdapterItem(var name: String, internal var iconId: Int)
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         return getView(position, convertView, parent)
@@ -32,7 +32,7 @@ class CurrencySpinnerAdapter(context: Context, data: List<CurrencySpinnerAdapter
         }
 
         val text = v?.findViewById<TextView>(R.id.item_spinner_text)
-        text?.text = getItem(position)?.text
+        text?.text = getItem(position)?.name
         val imgView = v?.findViewById<ImageView>(R.id.item_spinner_icon)
         imgView?.setImageResource(getItem(position)?.iconId!!)
         return v!!
