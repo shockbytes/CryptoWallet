@@ -18,8 +18,7 @@ import at.shockbytes.coins.currency.RealCurrency
 import at.shockbytes.coins.currency.conversion.CurrencyConversionRates
 import at.shockbytes.coins.ui.fragment.MainFragment
 import at.shockbytes.coins.util.ResourceManager
-import butterknife.BindView
-import butterknife.OnClick
+import kotterknife.bindView
 
 /**
  * @author Martin Macheiner
@@ -60,23 +59,12 @@ class CurrencyAdapter(cxt: Context, data: List<Currency>,
     internal inner class ViewHolder(itemView: View) : BaseAdapter<Currency>.ViewHolder(itemView),
             PopupMenu.OnMenuItemClickListener {
 
-        @BindView(R.id.item_currency_icon)
-        protected lateinit var imgViewIcon: ImageView
-
-        @BindView(R.id.item_currency_txt_amount)
-        protected lateinit var txtAmount: TextView
-
-        @BindView(R.id.item_currency_txt_bought_price)
-        protected lateinit var txtBoughtPrice: TextView
-
-        @BindView(R.id.item_currency_txt_current_price)
-        protected lateinit var txtCurrentPrice: TextView
-
-        @BindView(R.id.item_currency_txt_diff)
-        protected lateinit var txtDiff: TextView
-
-        @BindView(R.id.item_currency_icon_imgbtn_overflow)
-        protected lateinit var imgBtnOverflow: ImageButton
+        private val imgViewIcon: ImageView by bindView(R.id.item_currency_icon)
+        private val txtAmount: TextView by bindView(R.id.item_currency_txt_amount)
+        private val txtBoughtPrice: TextView by bindView(R.id.item_currency_txt_bought_price)
+        private val txtCurrentPrice: TextView by bindView(R.id.item_currency_txt_current_price)
+        private val txtDiff: TextView by bindView(R.id.item_currency_txt_diff)
+        private val imgBtnOverflow: ImageButton by bindView(R.id.item_currency_icon_imgbtn_overflow)
 
         private lateinit var popupMenu: PopupMenu
 
@@ -110,11 +98,6 @@ class CurrencyAdapter(cxt: Context, data: List<Currency>,
             txtDiff.text = diff.toString().plus("%")
         }
 
-        @OnClick(R.id.item_currency_icon_imgbtn_overflow)
-        fun onClickOverflow() {
-            popupMenu.show()
-        }
-
         private fun setupPopupMenu() {
             popupMenu = PopupMenu(context, imgBtnOverflow)
             popupMenu.menuInflater.inflate(R.menu.popup_item, popupMenu.menu)
@@ -126,6 +109,7 @@ class CurrencyAdapter(cxt: Context, data: List<Currency>,
             }
 
             tryShowIconsInPopupMenu(popupMenu)
+            imgBtnOverflow.setOnClickListener { popupMenu.show() }
         }
 
         @SuppressLint("RestrictedApi")

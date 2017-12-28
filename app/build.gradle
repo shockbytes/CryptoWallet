@@ -32,7 +32,7 @@ android {
             resValue "string", "app_version", "1.1"
         }
         debug {
-            resValue "string", "app_version", "1.1beta - Debug Build"
+            resValue "string", "app_version", "1.1b - Debug Build"
         }
     }
 }
@@ -61,6 +61,7 @@ dependencies {
     implementation 'pub.devrel:easypermissions:1.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.github.iammert:MaterialIntroView:1.6.0'
+    implementation 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
 
     implementation "com.google.dagger:dagger:$daggerVersion"
 

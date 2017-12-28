@@ -28,10 +28,10 @@ import at.shockbytes.coins.ui.activity.SettingsActivity
 import at.shockbytes.coins.ui.fragment.dialog.CashoutDialogFragment
 import at.shockbytes.coins.ui.fragment.dialog.RemoveConfirmationDialogFragment
 import at.shockbytes.coins.util.AppParams
-import butterknife.BindView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import kotterknife.bindView
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -48,42 +48,16 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     @Inject
     protected lateinit var preferences: SharedPreferences
 
-    // Public so it can be accessed by the MainActivity for showcase view
-    @BindView(R.id.fragment_main_header)
-    lateinit var balanceHeader: View
-
-    @BindView(R.id.main_fragment_rv)
-    protected lateinit var recyclerView: RecyclerView
-
-    // Can't be assigned with just the ButterKnife assignment,
-    // will crash sporadically if it is not handled that way
-    @JvmField
-    @BindView(R.id.fragment_main_swipe_container)
-    protected var swipeRefreshLayout: SwipeRefreshLayout? = null
-
-    @BindView(R.id.balance_header_txt_current)
-    protected lateinit var txtCurrent: TextView
-
-    @BindView(R.id.balance_header_txt_invested)
-    protected lateinit var txtInvested: TextView
-
-    @BindView(R.id.balance_header_txt_percentage)
-    protected lateinit var txtDiffPercentage: TextView
-
-    // Can't be assigned with just the ButterKnife assignment,
-    // will crash if it is not handled that way
-    @JvmField
-    @BindView(R.id.balance_header_imgview_trend)
-    protected var imgViewTrend: ImageView? = null
-
-    @BindView(R.id.fragment_main_empty_view)
-    protected lateinit var emptyView: View
-
-    @BindView(R.id.fragment_main_empty_view_text)
-    protected lateinit var emptyTextView: TextView
-
-    @BindView(R.id.fragment_main_empty_view_img)
-    protected lateinit var emptyImgView: ImageView
+    val balanceHeader: View by bindView(R.id.fragment_main_header) // Public so it can be accessed by the MainActivity for showcase view
+    private val recyclerView: RecyclerView by bindView(R.id.main_fragment_rv)
+    private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.fragment_main_swipe_container)
+    private val txtCurrent: TextView by bindView(R.id.balance_header_txt_current)
+    private val txtInvested: TextView by bindView(R.id.balance_header_txt_invested)
+    private val txtDiffPercentage: TextView by bindView(R.id.balance_header_txt_percentage)
+    private val imgViewTrend: ImageView by bindView(R.id.balance_header_imgview_trend)
+    private val emptyView: View by bindView(R.id.fragment_main_empty_view)
+    private val emptyTextView: TextView by bindView(R.id.fragment_main_empty_view_text)
+    private val emptyImgView: ImageView by bindView(R.id.fragment_main_empty_view_img)
 
     private lateinit var viewType: ViewType
 
@@ -137,12 +111,12 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     public override fun setupViews() {
 
         // SwipeRefreshLayout
-        swipeRefreshLayout?.setOnRefreshListener(this)
-        swipeRefreshLayout?.setColorSchemeColors(
+        swipeRefreshLayout.setOnRefreshListener(this)
+        swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(context, R.color.colorPrimary),
                 ContextCompat.getColor(context, R.color.colorAccent),
                 ContextCompat.getColor(context, R.color.colorPrimaryDark))
-        swipeRefreshLayout?.isEnabled = viewType != ViewType.CASHOUT
+        swipeRefreshLayout.isEnabled = viewType != ViewType.CASHOUT
 
         // Setup empty views
         emptyTextView.setText(if (viewType == ViewType.CASHOUT)
@@ -173,19 +147,17 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onDelete(c: Currency) {
         val amount = "${c.cryptoAmount} ${c.getCryptoCurrency().name}"
-        val dialog = RemoveConfirmationDialogFragment.newInstance(amount)
+        RemoveConfirmationDialogFragment.newInstance(amount)
                 .setConfirmationListener {
                     currencyManager.removeCurrency(c)
                     loadData()
                 }
-        dialog.show(fragmentManager, "remove-confirmation-dialog-fragment")
+                .show(fragmentManager, "remove-confirmation-dialog-fragment")
     }
 
-    override fun onItemClick(t: Currency?, v: View) {
-        if (t != null) {
-            recyclerView.scrollToPosition(adapter?.getLocation(t) ?: 0)
-            showDetailFragment(t, v)
-        }
+    override fun onItemClick(t: Currency, v: View) {
+        recyclerView.scrollToPosition(adapter?.getLocation(t) ?: 0)
+        showDetailFragment(t, v)
     }
 
     // --------------------------------------------------------------------------------
@@ -233,18 +205,18 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
         }
 
         val rotation = (if (lastBalance > balance) 90 else -90).toFloat()
-        imgViewTrend?.rotation = rotation
+        imgViewTrend.rotation = rotation
 
-        imgViewTrend?.animate()?.alpha(1f)?.setDuration(AppParams.trendAnimDuration)
-                ?.withEndAction {
-                    imgViewTrend?.animate()?.alpha(0f)?.duration = AppParams.trendAnimDuration
+        imgViewTrend.animate().alpha(1f).setDuration(AppParams.trendAnimDuration)
+                .withEndAction {
+                    imgViewTrend.animate().alpha(0f).duration = AppParams.trendAnimDuration
                 }
         lastBalance = balance
     }
 
     private fun loadData() {
 
-        swipeRefreshLayout?.isRefreshing = true
+        swipeRefreshLayout.isRefreshing = true
 
         if (viewType == ViewType.BALANCE) {
 
@@ -263,7 +235,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     private fun subscribeToSingleDataSource(dataSource: Observable<List<Currency>>) {
 
         dataSource.subscribe({ ownedCurrencies ->
-            swipeRefreshLayout?.isRefreshing = false
+            swipeRefreshLayout.isRefreshing = false
 
             adapter?.setLocalCurrency(currencyManager.localCurrency,
                     currencyManager.currencyConversionRates)
@@ -297,7 +269,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     private fun handleDataLoadingError(throwable: Throwable) {
 
         timerDisposable?.dispose() // Kill timer if this is a periodic task
-        swipeRefreshLayout?.isRefreshing = false
+        swipeRefreshLayout.isRefreshing = false
 
         when (throwable) {
 
@@ -311,7 +283,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
                         })
                 // TODO Show something in EmptyView
             }
-            // else -> showToast(getString(R.string.error_load_data), showLong = true)
+        // else -> showToast(getString(R.string.error_load_data), showLong = true)
         }
 
     }
