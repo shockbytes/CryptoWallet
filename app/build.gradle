@@ -11,6 +11,7 @@ def rxJavaVersion = "2.1.6"
 def rxAndroidVersion = "2.0.1"
 def retrofitVersion = "2.3.0"
 def firebaseVersion = "11.8.0"
+def rxBindingsVersion = "2.0.0"
 
 android {
     compileSdkVersion 26
@@ -34,6 +35,9 @@ android {
         debug {
             resValue "string", "app_version", "1.1b - Debug Build"
         }
+    }
+    lintOptions {
+        disable 'RestrictedApi'
     }
 }
 
@@ -62,6 +66,9 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.github.iammert:MaterialIntroView:1.6.0'
     implementation 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
+
+    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingsVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBindingsVersion"
 
     implementation "com.google.dagger:dagger:$daggerVersion"
 

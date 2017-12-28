@@ -29,7 +29,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
     private val prefsLatestBalance = "latest_balance"
 
     private val currencyConversionRatesAsObservable: Observable<CurrencyConversionRates>
-        get() = Observable.just(CurrencyConversionRates.defaultCurrencyConversionRates)
+        get() = Observable.just(CurrencyConversionRates.defaultCurrencyConversionRates) // TODO v1.2 - Use Api call instead of default currencies
 
     override var localCurrency: RealCurrency
         set(value) = prefs.edit().putInt(prefsLocalCurrency, value.ordinal).apply()
@@ -43,9 +43,8 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
             return Observable.zip(localCurrencies,
                     priceProxy.getPriceConversions(Arrays.asList(*CryptoCurrency.values()), localCurrency),
                     currencyConversionRatesAsObservable,
-                    Function3<List<Currency>, List<PriceConversion>, CurrencyConversionRates, List<Currency>> { c, conversions, _ ->
-                        // TODO v1.2 Replace with rates call later
-                        updateOwnedCurrencyConversions(c, conversions, null)
+                    Function3<List<Currency>, List<PriceConversion>, CurrencyConversionRates, List<Currency>> { c, conversions, rates ->
+                        updateOwnedCurrencyConversions(c, conversions, rates)
                     })
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -54,9 +53,8 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
     override val cashedOutCurrencies: Observable<List<Currency>>
         get() = Observable.zip(storageManager.loadOwnedCurrencies(true),
                 currencyConversionRatesAsObservable,
-                BiFunction<List<Currency>, CurrencyConversionRates, List<Currency>> { currencies, _ ->
-                    // TODO v1.2 Replace with rates call later
-                    updateOwnedCurrencyConversions(currencies, null, null)
+                BiFunction<List<Currency>, CurrencyConversionRates, List<Currency>> { currencies, rates ->
+                    updateOwnedCurrencyConversions(currencies, null, rates)
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

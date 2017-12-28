@@ -4,7 +4,7 @@
     <color name="colorAccent">#4285F4</color>
 
     <color name="controls">#EEE</color>
-
+    <color name="disabled">#424242</color>
     <color name="currency">#FFF</color>
 
     <color name="price_provider_coinbase">#2670B3</color>

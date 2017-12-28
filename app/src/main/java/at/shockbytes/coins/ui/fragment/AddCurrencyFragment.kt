@@ -2,9 +2,12 @@ package at.shockbytes.coins.ui.fragment
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.AppCompatButton
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +21,9 @@ import at.shockbytes.coins.currency.CurrencyManager
 import at.shockbytes.coins.currency.RealCurrency
 import at.shockbytes.coins.currency.price.PriceProxy
 import at.shockbytes.coins.dagger.AppComponent
-import butterknife.OnClick
+import com.jakewharton.rxbinding2.view.RxView
+import com.jakewharton.rxbinding2.widget.RxTextView
+import io.reactivex.Observable
 import kotterknife.bindView
 import javax.inject.Inject
 
@@ -40,6 +45,7 @@ class AddCurrencyFragment : BaseFragment() {
     private val tilCurrency: TextInputLayout by bindView(R.id.activity_add_currency_til_currency)
     private val spinnerCryptoCurrency: Spinner by bindView(R.id.activity_add_currency_spinner_cryptocurrency)
     private val spinnerCurrency: Spinner by bindView(R.id.activity_add_currency_spinner_currency)
+    private val btnAdd: AppCompatButton by bindView(R.id.activity_add_currency_btn_save)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,11 +64,13 @@ class AddCurrencyFragment : BaseFragment() {
 
     override fun setupViews() {
 
+        setupReactiveViews()
+
         spinnerCurrency.adapter = CurrencySpinnerAdapter(context, getCurrencyItems())
         spinnerCurrency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
                 val item = spinnerCurrency.selectedItem as CurrencySpinnerAdapter.CurrencySpinnerAdapterItem
-                tilCurrency.hint = item.text
+                tilCurrency.hint = item.name
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>) {}
@@ -74,42 +82,46 @@ class AddCurrencyFragment : BaseFragment() {
         spinnerCryptoCurrency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
                 val item = spinnerCryptoCurrency.selectedItem as CurrencySpinnerAdapter.CurrencySpinnerAdapterItem
-                tilCryptoCurrency.hint = item.text
+                tilCryptoCurrency.hint = item.name
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>) {}
         }
-
     }
 
-    @OnClick(R.id.activity_add_currency_btn_save)
-    fun onClickSave() {
+    private fun setupReactiveViews() {
 
-        val strbp = editCurrency.text.toString()
-        val strcc = editCryptoCurrency.text.toString()
+        val cd = RxTextView.textChanges(editCurrency)
+                .map { !it.isEmpty() && it.toString().toDouble() > 0.0 }
+                .distinctUntilChanged()
+        val ccd = RxTextView.textChanges(editCryptoCurrency)
+                .map { !it.isEmpty() && it.toString().toDouble() > 0.0 }
+                .distinctUntilChanged()
 
-        if (strbp.isEmpty() or strcc.isEmpty()) {
-            showSnackbar(getString(R.string.error_add_currency))
-            return
+        Observable.combineLatest(arrayOf(cd, ccd)) { it.all { t -> t == true } }
+                .subscribe {
+                    val bgTint = ContextCompat.getColor(context,
+                            (if (it) R.color.colorAccent else R.color.disabled))
+                    btnAdd.supportBackgroundTintList = ColorStateList.valueOf(bgTint)
+                    RxView.enabled(btnAdd).accept(it)
+                }
+
+        RxView.clicks(btnAdd).subscribe {
+
+            val realAmount = editCurrency.text.toString().toDouble()
+            val realCurrency = RealCurrency.values()[spinnerCurrency.selectedItemPosition]
+            val cryptoAmount = editCryptoCurrency.text.toString().toDouble()
+            val cryptoItem = spinnerCryptoCurrency.selectedItem as CurrencySpinnerAdapter.CurrencySpinnerAdapterItem
+            val cryptoCurrency = CryptoCurrency.valueOf(cryptoItem.name)
+
+            val c = Currency(_cryptoCurrency = cryptoCurrency, cryptoAmount = cryptoAmount,
+                    _realCurrency = realCurrency, realAmount = realAmount,
+                    boughtDate = System.currentTimeMillis())
+
+            currencyManager.addCurrency(c)
+            activity.setResult(Activity.RESULT_OK, Intent())
+            activity.supportFinishAfterTransition()
         }
-
-        val realAmount = strbp.toDouble()
-        val realCurrency = RealCurrency.values()[spinnerCurrency.selectedItemPosition]
-        val cryptoAmount = strcc.toDouble()
-        val cryptoCurrency = CryptoCurrency.values()[spinnerCryptoCurrency.selectedItemPosition]
-
-        if (realAmount <= 0.0 || cryptoAmount <= 0.0) {
-            showSnackbar(getString(R.string.error_add_currency_bigger_than_zero))
-            return
-        }
-
-        val c = Currency(_cryptoCurrency = cryptoCurrency, cryptoAmount = cryptoAmount,
-                _realCurrency = realCurrency, realAmount = realAmount,
-                boughtDate = System.currentTimeMillis())
-
-        currencyManager.addCurrency(c)
-        activity.setResult(Activity.RESULT_OK, Intent())
-        activity.supportFinishAfterTransition()
     }
 
     private fun getCurrencyItems(): List<CurrencySpinnerAdapter.CurrencySpinnerAdapterItem> {
