@@ -2,12 +2,14 @@ package at.shockbytes.coins.dagger
 
 import android.app.Application
 import android.content.SharedPreferences
+import at.shockbytes.coins.currency.conversion.CurrencyConversionProvider
 import at.shockbytes.coins.currency.price.PriceProvider
 import at.shockbytes.coins.network.coinbase.CoinbasePriceApi
 import at.shockbytes.coins.network.coinbase.CoinbasePriceProvider
 import at.shockbytes.coins.network.coinmarketcap.CoinMarketCapPriceApi
 import at.shockbytes.coins.network.coinmarketcap.CoinMarketCapPriceProvider
-import at.shockbytes.coins.network.conversion.CurrencyConversionApi
+import at.shockbytes.coins.network.conversion.FixerIoCurrencyConversionApi
+import at.shockbytes.coins.network.conversion.FixerIoCurrencyConversionProvider
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -79,14 +81,21 @@ class NetworkModule(private val app: Application) {
 
     @Provides
     @Singleton
-    fun provideCurrencyConversionApi(client: OkHttpClient): CurrencyConversionApi {
+    fun provideFixerIoCurrencyConversionApi(client: OkHttpClient): FixerIoCurrencyConversionApi {
         return Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(CurrencyConversionApi.SERVICE_ENDPOINT)
+                .baseUrl(FixerIoCurrencyConversionApi.SERVICE_ENDPOINT)
                 .build()
-                .create(CurrencyConversionApi::class.java)
+                .create(FixerIoCurrencyConversionApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFixerIoCurrencyConversionProvider(api: FixerIoCurrencyConversionApi,
+                                                 prefs: SharedPreferences): CurrencyConversionProvider {
+        return FixerIoCurrencyConversionProvider(api, prefs)
     }
 
 }

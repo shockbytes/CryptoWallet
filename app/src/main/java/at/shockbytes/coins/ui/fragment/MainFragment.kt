@@ -21,6 +21,7 @@ import at.shockbytes.coins.adapter.CurrencyAdapter
 import at.shockbytes.coins.currency.Balance
 import at.shockbytes.coins.currency.Currency
 import at.shockbytes.coins.currency.CurrencyManager
+import at.shockbytes.coins.currency.conversion.CurrencyConversionRates
 import at.shockbytes.coins.currency.price.NoPriceProviderSelectedException
 import at.shockbytes.coins.dagger.AppComponent
 import at.shockbytes.coins.ui.activity.DetailActivity
@@ -31,6 +32,8 @@ import at.shockbytes.coins.util.AppParams
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
+import io.reactivex.schedulers.Schedulers
 import kotterknife.bindView
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -98,9 +101,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
     override fun onPause() {
         super.onPause()
 
-        if (timerDisposable?.isDisposed == false) {
-            timerDisposable?.dispose()
-        }
+        timerDisposable?.dispose()
         currencyManager.storeLatestBalance()
     }
 
@@ -191,7 +192,9 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
 
         val diff = balance?.percentageDiff ?: 0.0
         val diffColor = if (diff >= 0) R.color.percentage_win else R.color.percentage_loose
-        txtDiffPercentage.setTextColor(ContextCompat.getColor(context, diffColor))
+        if (context != null) { // Some exceptions occur and I don't know why context is null
+            txtDiffPercentage.setTextColor(ContextCompat.getColor(context, diffColor))
+        }
         txtDiffPercentage.text = diff.toString() + "%"
 
         animateTrendArrow(balance?.current ?: lastBalance)
@@ -232,24 +235,29 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
 
     }
 
-    private fun subscribeToSingleDataSource(dataSource: Observable<List<Currency>>) {
+    private fun subscribeToSingleDataSource(dataSrc: Observable<List<Currency>>) {
 
-        dataSource.subscribe({ ownedCurrencies ->
-            swipeRefreshLayout.isRefreshing = false
+        Observable.zip(dataSrc, currencyManager.currencyConversionProvider.getCurrencyConversionRates(),
+                BiFunction<List<Currency>, CurrencyConversionRates, Pair<List<Currency>, CurrencyConversionRates>> { c, r -> Pair(c, r) })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ pair ->
 
-            adapter?.setLocalCurrency(currencyManager.localCurrency,
-                    currencyManager.currencyConversionRates)
-            adapter?.data = ownedCurrencies.toMutableList()
+                    swipeRefreshLayout.isRefreshing = false
 
-            val visibility = if (ownedCurrencies.isEmpty()) View.VISIBLE else View.GONE
-            emptyView.visibility = visibility
+                    adapter?.setLocalCurrency(currencyManager.localCurrency, pair.second)
+                    adapter?.data = pair.first.toMutableList()
 
-            // Call in here makes sure, that the balance object is loaded at this point in time
-            setupHeader(currencyManager.balance)
-        }) { throwable ->
-            throwable.printStackTrace()
-            handleDataLoadingError(throwable)
-        }
+                    val visibility = if (pair.first.isEmpty()) View.VISIBLE else View.GONE
+                    emptyView.visibility = visibility
+
+                    // Call in here makes sure, that the balance object is loaded at this point in time
+                    setupHeader(currencyManager.balance)
+
+                }) { throwable ->
+                    throwable.printStackTrace()
+                    handleDataLoadingError(throwable)
+                }
     }
 
     private fun subscribeToPeriodicDataSource() {
@@ -281,7 +289,7 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
                                     ActivityOptionsCompat.makeSceneTransitionAnimation(activity)
                                             .toBundle())
                         })
-                // TODO Show something in EmptyView
+                // TODO v1.2 -Show something in EmptyView
             }
         // else -> showToast(getString(R.string.error_load_data), showLong = true)
         }

@@ -5,10 +5,10 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import at.shockbytes.coins.currency.CurrencyManager
 import at.shockbytes.coins.currency.DefaultCurrencyManager
+import at.shockbytes.coins.currency.conversion.CurrencyConversionProvider
 import at.shockbytes.coins.currency.price.DefaultPriceProxy
 import at.shockbytes.coins.currency.price.PriceProvider
 import at.shockbytes.coins.currency.price.PriceProxy
-import at.shockbytes.coins.network.conversion.CurrencyConversionApi
 import at.shockbytes.coins.storage.StorageManager
 import at.shockbytes.coins.storage.realm.CryptoWatcherRealmMigration
 import at.shockbytes.coins.storage.realm.RealmStorageManager
@@ -31,9 +31,10 @@ class AppModule(private val app: Application) {
     @Singleton
     fun provideCurrencyManager(priceProxy: PriceProxy,
                                storageManager: StorageManager,
-                               currencyConversionApi: CurrencyConversionApi,
+                               currencyConversionProvider: CurrencyConversionProvider,
                                preferences: SharedPreferences): CurrencyManager {
-        return DefaultCurrencyManager(priceProxy, storageManager, currencyConversionApi, preferences)
+        return DefaultCurrencyManager(priceProxy, storageManager,
+                currencyConversionProvider, preferences)
     }
 
     @Provides

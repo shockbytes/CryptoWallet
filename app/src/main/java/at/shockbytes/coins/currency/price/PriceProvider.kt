@@ -18,10 +18,6 @@ interface PriceProvider {
 
     fun getSpotPrice(from: CryptoCurrency, to: RealCurrency): Observable<PriceConversion>
 
-    fun getBuyPrice(from: CryptoCurrency, to: RealCurrency): Observable<PriceConversion>?
-
-    fun getSellPrice(from: CryptoCurrency, to: RealCurrency): Observable<PriceConversion>?
-
     fun supportedCurrencies(): List<CryptoCurrency>
 
 }

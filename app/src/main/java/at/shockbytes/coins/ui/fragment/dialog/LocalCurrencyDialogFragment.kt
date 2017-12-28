@@ -36,7 +36,7 @@ class LocalCurrencyDialogFragment : DialogFragment() {
                 .setTitle(R.string.dialog_set_local_currency_title)
                 .setIcon(R.drawable.ic_real_currency_usd)
                 .setSingleChoiceItems(RealCurrency.values().map { it.name }.toTypedArray(),
-                        RealCurrency.USD.ordinal, // USD is default value
+                        currencyManager.localCurrency.ordinal,
                         { di: DialogInterface, _ ->
                             checkedIdx = (di as AlertDialog).listView.checkedItemPosition
                         })

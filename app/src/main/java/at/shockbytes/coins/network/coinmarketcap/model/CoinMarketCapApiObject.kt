@@ -16,6 +16,8 @@ class CoinMarketCapApiObject : PriceConversionConvertible {
 
     var price_usd: Double = 0.0
     var price_eur: Double = 0.0
+    var price_gbp: Double = 0.0
+    var price_chf: Double = 0.0
 
     // Enable in later release, when those currencies are supported
     // var price_chf: Double = 0.0
@@ -35,6 +37,8 @@ class CoinMarketCapApiObject : PriceConversionConvertible {
 
             RealCurrency.EUR -> price_eur
             RealCurrency.USD -> price_usd
+            RealCurrency.GBP -> price_gbp
+            RealCurrency.CHF -> price_chf
         }
     }
 }

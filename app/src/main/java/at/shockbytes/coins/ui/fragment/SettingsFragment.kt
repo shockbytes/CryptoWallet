@@ -3,7 +3,6 @@ package at.shockbytes.coins.ui.fragment
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.preference.ListPreference
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.support.v4.app.ActivityCompat
@@ -14,6 +13,7 @@ import at.shockbytes.coins.currency.CurrencyManager
 import at.shockbytes.coins.currency.RealCurrency
 import at.shockbytes.coins.currency.price.PriceProxy
 import at.shockbytes.coins.ui.activity.BackNavigableActivity
+import at.shockbytes.coins.ui.fragment.dialog.LocalCurrencyDialogFragment
 import at.shockbytes.coins.ui.fragment.dialog.PriceProviderDialogFragment
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class SettingsFragment : PreferenceFragment(),
     @Inject
     lateinit var priceProxy: PriceProxy
 
-    private lateinit var localCurrencyPref: ListPreference
+    private lateinit var localCurrencyPref: Preference
 
     private lateinit var providerSelectionPref: Preference
 
@@ -49,21 +49,31 @@ class SettingsFragment : PreferenceFragment(),
 
     override fun onPreferenceClick(pref: Preference?): Boolean {
 
-        return if (pref?.key == getString(R.string.prefs_key_price_provider_selection)) {
-            PriceProviderDialogFragment.newInstance()
-                    .setOnCompletionListener { providerSelectionPref.summary = buildProviderSummary() }
-                    .show((activity as BackNavigableActivity).supportFragmentManager,
-                            "price-provider-selection-dialogfragment")
-            true
-        } else {
-            false
+        return when (pref?.key){
+            getString(R.string.prefs_key_price_provider_selection) -> {
+                PriceProviderDialogFragment.newInstance()
+                        .setOnCompletionListener { providerSelectionPref.summary = buildProviderSummary() }
+                        .show((activity as BackNavigableActivity).supportFragmentManager,
+                                "price-provider-selection-dialogfragment")
+                true
+            }
+            getString(R.string.prefs_key_local_currency) -> {
+                LocalCurrencyDialogFragment.newInstance()
+                        .setOnCompletionListener {
+                            localCurrencyPref.summary = currencyManager.localCurrency.name
+                        }
+                        .show((activity as BackNavigableActivity).supportFragmentManager,
+                                "local-currency-dialog-fragment")
+                true
+            }
+            else -> false
         }
     }
 
     private fun setupLocalCurrency() {
-        localCurrencyPref = findPreference(getString(R.string.prefs_key_local_currency)) as ListPreference
+        localCurrencyPref = findPreference(getString(R.string.prefs_key_local_currency)) as Preference
         localCurrencyPref.summary = currencyManager.localCurrency.name
-        localCurrencyPref.onPreferenceChangeListener = this
+        localCurrencyPref.onPreferenceClickListener = this
     }
 
     private fun setupProviderSelection() {

@@ -1,10 +1,10 @@
 package at.shockbytes.coins.currency
 
 import android.content.SharedPreferences
+import at.shockbytes.coins.currency.conversion.CurrencyConversionProvider
 import at.shockbytes.coins.currency.conversion.CurrencyConversionRates
 import at.shockbytes.coins.currency.conversion.PriceConversion
 import at.shockbytes.coins.currency.price.PriceProxy
-import at.shockbytes.coins.network.conversion.CurrencyConversionApi
 import at.shockbytes.coins.storage.StorageManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,28 +21,30 @@ import java.util.*
 
 class DefaultCurrencyManager(private val priceProxy: PriceProxy,
                              private val storageManager: StorageManager,
-                             private val currencyConversionApi: CurrencyConversionApi,
+                             override val currencyConversionProvider: CurrencyConversionProvider,
                              private val prefs: SharedPreferences) : CurrencyManager {
-
 
     private val prefsLocalCurrency = "prefs_local_currency"
     private val prefsLatestBalance = "latest_balance"
 
-    private val currencyConversionRatesAsObservable: Observable<CurrencyConversionRates>
-        get() = Observable.just(CurrencyConversionRates.defaultCurrencyConversionRates) // TODO v1.2 - Use Api call instead of default currencies
-
     override var localCurrency: RealCurrency
-        set(value) = prefs.edit().putInt(prefsLocalCurrency, value.ordinal).apply()
+        set(value) {
+            // Check before setting value, otherwise this would have no effect
+            val poking = value.ordinal != prefs.getInt(prefsLocalCurrency, RealCurrency.USD.ordinal)
+            prefs.edit().putInt(prefsLocalCurrency, value.ordinal).apply()
+            // Automatically reload currency conversion rates if local currency changes
+            if (poking) {
+                currencyConversionProvider.poke()
+            }
+        }
         get() = RealCurrency.values()[prefs.getInt(prefsLocalCurrency, RealCurrency.USD.ordinal)]
-
-    override var currencyConversionRates: CurrencyConversionRates? = null
 
     override val ownedCurrencies: Observable<List<Currency>>
         get() {
             val localCurrencies = storageManager.loadOwnedCurrencies(false)
             return Observable.zip(localCurrencies,
                     priceProxy.getPriceConversions(Arrays.asList(*CryptoCurrency.values()), localCurrency),
-                    currencyConversionRatesAsObservable,
+                    currencyConversionProvider.getCurrencyConversionRates(),
                     Function3<List<Currency>, List<PriceConversion>, CurrencyConversionRates, List<Currency>> { c, conversions, rates ->
                         updateOwnedCurrencyConversions(c, conversions, rates)
                     })
@@ -52,7 +54,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
 
     override val cashedOutCurrencies: Observable<List<Currency>>
         get() = Observable.zip(storageManager.loadOwnedCurrencies(true),
-                currencyConversionRatesAsObservable,
+                currencyConversionProvider.getCurrencyConversionRates(),
                 BiFunction<List<Currency>, CurrencyConversionRates, List<Currency>> { currencies, rates ->
                     updateOwnedCurrencyConversions(currencies, null, rates)
                 })
@@ -92,16 +94,12 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
 
     private fun updateOwnedCurrencyConversions(c: List<Currency>,
                                                conversions: List<PriceConversion>?,
-                                               rates: CurrencyConversionRates?): List<Currency> {
-
-        // Get default conversion rates if rates is not present
-        currencyConversionRates = rates ?: CurrencyConversionRates.defaultCurrencyConversionRates
+                                               currencyRates: CurrencyConversionRates): List<Currency> {
 
         balance = Balance()
-        // Assign the conversion rates to the corresponding currencies
+        // Assign the conversion currencyRates to the corresponding currencies
         for (oc in c) {
-            val inv = currencyConversionRates
-                    ?.convert(oc.realAmount, oc.getRealCurrency(), localCurrency) ?: 0.0
+            val inv = currencyRates.convert(oc.realAmount, oc.getRealCurrency(), localCurrency)
             balance?.addInvested(inv)
             if (conversions != null) {
                 storageManager.updateConversionRate(oc, conversions)

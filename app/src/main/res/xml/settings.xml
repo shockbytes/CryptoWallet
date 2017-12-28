@@ -18,10 +18,7 @@
 
     <PreferenceCategory android:title="@string/prefs_cat_currency">
 
-        <ListPreference
-            android:defaultValue="@string/local_currency_default_value"
-            android:entries="@array/currency_entries"
-            android:entryValues="@array/currency_entry_values"
+        <Preference
             android:key="@string/prefs_key_local_currency"
             android:title="@string/prefs_currency_local_title" />
 

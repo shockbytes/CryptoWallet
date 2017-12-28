@@ -1,6 +1,5 @@
 package at.shockbytes.coins.util
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
@@ -29,7 +28,6 @@ import java.util.*
  * Date: 15.06.2017.
  */
 
-@SuppressLint("Recycle", "RestrictedApi")
 object ResourceManager {
 
     fun getProfileImage(context: Context): Uri? {
