@@ -1,7 +1,6 @@
 package at.shockbytes.coins.ui.activity
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
@@ -41,6 +40,8 @@ import pub.devrel.easypermissions.EasyPermissions
 class MainActivity : BaseActivity(),
         NavigationView.OnNavigationItemSelectedListener, MaterialIntroListener {
 
+    private val argViewtype: String = "argViewtype"
+
     private val fab: FloatingActionButton by bindView(R.id.main_fab)
     private val toolbar: Toolbar by bindView(R.id.main_toolbar)
     private val drawerLayout: DrawerLayout by bindView(R.id.main_drawer_layout)
@@ -48,7 +49,9 @@ class MainActivity : BaseActivity(),
 
     private var drawerToggle: ActionBarDrawerToggle? = null
 
-    private var mainFragment: MainFragment? = null
+    private var balanceFragment: MainFragment? = null
+
+    private var viewtype: MainFragment.ViewType = MainFragment.ViewType.BALANCE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +63,14 @@ class MainActivity : BaseActivity(),
                 .getBoolean(getString(R.string.prefs_key_fingerprint_as_auth), false)) {
             startActivityForResult(LoginActivity.newIntent(this), REQ_CODE_LOGIN)
         } else {
-            showMainFragment()
+
+            viewtype = savedInstanceState?.getSerializable(argViewtype)
+                    as? MainFragment.ViewType ?: MainFragment.ViewType.BALANCE
+            if (viewtype == MainFragment.ViewType.BALANCE) {
+                showBalanceFragment()
+            } else {
+                showCashoutFragment()
+            }
         }
         showShowcaseViews()
     }
@@ -80,13 +90,18 @@ class MainActivity : BaseActivity(),
 
         if (requestCode == REQ_CODE_LOGIN) {
             if (resultCode == Activity.RESULT_OK) {
-                showMainFragment()
+                showBalanceFragment()
             } else {
                 supportFinishAfterTransition()
             }
         } else if (requestCode == REQ_CODE_NEW_BUY && resultCode == Activity.RESULT_OK) {
-            mainFragment?.onNewCurrencyEntryAvailable()
+            balanceFragment?.onNewCurrencyEntryAvailable()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putSerializable(argViewtype, viewtype)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -98,15 +113,9 @@ class MainActivity : BaseActivity(),
 
         when (item.itemId) {
 
-            R.id.menu_navigation_balance -> {
-                toolbar.setTitle(R.string.title_balance)
-                showMainFragment()
-            }
+            R.id.menu_navigation_balance -> showBalanceFragment()
 
-            R.id.menu_navigation_cashout -> {
-                toolbar.setTitle(R.string.title_cashout)
-                showFragment(MainFragment.newInstance(MainFragment.ViewType.CASHOUT))
-            }
+            R.id.menu_navigation_cashout -> showCashoutFragment()
 
             R.id.menu_navigation_help ->
                 startActivity(HelpActivity.newIntent(this),
@@ -135,7 +144,7 @@ class MainActivity : BaseActivity(),
 
         when (s) {
 
-            AppParams.showcaseIdFab -> showShowcaseView(mainFragment?.balanceHeader,
+            AppParams.showcaseIdFab -> showShowcaseView(balanceFragment?.balanceHeader,
                     AppParams.showcaseIdHeader, R.string.showcase_header)
 
             AppParams.showcaseIdHeader -> showShowcaseView(ResourceManager.getNavigationIcon(toolbar),
@@ -172,9 +181,19 @@ class MainActivity : BaseActivity(),
         initializePersonalizedDrawer()
     }
 
-    private fun showMainFragment() {
-        mainFragment = MainFragment.newInstance(MainFragment.ViewType.BALANCE)
-        showFragment(mainFragment)
+    private fun showBalanceFragment() {
+        toolbar.setTitle(R.string.title_balance)
+
+        viewtype = MainFragment.ViewType.BALANCE
+        balanceFragment = MainFragment.newInstance(viewtype)
+        showFragment(balanceFragment)
+    }
+
+    private fun showCashoutFragment() {
+        toolbar.setTitle(R.string.title_cashout)
+
+        viewtype = MainFragment.ViewType.CASHOUT
+        showFragment(MainFragment.newInstance(viewtype))
     }
 
     private fun showFragment(fragment: Fragment?) {
@@ -239,7 +258,7 @@ class MainActivity : BaseActivity(),
     private fun askForLocalCurrency() {
         LocalCurrencyDialogFragment.newInstance()
                 .setOnCompletionListener {
-                    mainFragment?.onRefresh() // Refresh with possible new currency
+                    balanceFragment?.onRefresh() // Refresh with possible new currency
                 }
                 .show(supportFragmentManager, "local-currency-dialog-fragment")
     }

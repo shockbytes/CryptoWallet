@@ -27,7 +27,6 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
     @Inject
     protected lateinit var currencyManager: CurrencyManager
 
-    private val txtCurrency: TextView by bindView(R.id.dialog_fragment_cashout_txt_currency)
     private val txtAmount: TextView by bindView(R.id.dialog_fragment_cashout_txt_amount)
     private val seekBarAmount: SeekBar by bindView(R.id.dialog_fragment_cashout_seekbar_amount)
 
@@ -49,9 +48,8 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
         return AlertDialog.Builder(context)
-                .setTitle(R.string.dialog_cashout_title)
+                .setTitle(getString(R.string.dialog_cashout_title, currency.getCryptoCurrency().name))
                 .setIcon(R.drawable.ic_money_filled)
                 .setView(cashoutView)
                 .setPositiveButton(R.string.title_cashout) { _, _ ->
@@ -86,8 +84,7 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
     }
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
-        txtAmount.text = ((progress / SEEKBAR_FACTOR).toString() + " / "
-                + ResourceManager.roundDouble(currency.cryptoAmount, 8))
+        txtAmount.text = ("${(progress / SEEKBAR_FACTOR)} / ${ResourceManager.roundDouble(currency.cryptoAmount, 8)}")
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -103,9 +100,7 @@ class CashoutDialogFragment : DialogFragment(), SeekBar.OnSeekBarChangeListener 
         seekBarAmount.max = Math.ceil(currency.cryptoAmount * SEEKBAR_FACTOR).toInt()
         seekBarAmount.setOnSeekBarChangeListener(this)
 
-        txtCurrency.text = getString(R.string.dialog_cashout_message, currency.getCryptoCurrency().name)
-        txtAmount.text = getString(R.string.dialog_cashout_message_amount,
-                ResourceManager.roundDouble(currency.cryptoAmount, 8))
+        txtAmount.text = ("0.0 / ${ResourceManager.roundDouble(currency.cryptoAmount, 8)}")
     }
 
     companion object {

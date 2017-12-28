@@ -39,7 +39,7 @@ class CurrencyAdapter(cxt: Context, data: List<Currency>,
     private var localCurrency: RealCurrency? = null
     private var conversionRates: CurrencyConversionRates? = null
 
-    override val testDeviceId = "5FAB0A53BFA531FBB2B0DA58530B191F"
+    override val testDeviceId = "75B521A6A3B633AF4A75D6A82EF04165" // <-- Nexus 5
 
     override fun getViewHolder(parent: ViewGroup): BaseAdapter<Currency>.ViewHolder {
         return ViewHolder(inflater.inflate(R.layout.item_currency, parent, false))

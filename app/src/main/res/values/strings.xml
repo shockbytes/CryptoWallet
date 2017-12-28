@@ -27,8 +27,7 @@
     <string name="label_add_currency">Add currency</string>
     <string name="hint_dialog_cashout_bigger_zero">Amount must be bigger than 0!</string>
     <string name="cashout_all">Cashout all</string>
-    <string name="dialog_cashout_title">Cashout coins</string>
-    <string name="dialog_cashout_message">Cashout your %s</string>
+    <string name="dialog_cashout_title">Cashout your %s</string>
     <string name="dialog_cashout_message_amount" translatable="false">0 / %f</string>
     <string name="prefs_cat_general">General</string>
     <string name="prefs_cat_currency">Currency</string>

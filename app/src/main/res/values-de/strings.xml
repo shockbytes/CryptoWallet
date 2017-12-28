@@ -19,9 +19,8 @@
     <string name="contentdesc_drawer_close">Schließe Drawer</string>
     <string name="contentdesc_drawer_open">Öffne Drawer</string>
     <string name="cashout_all">Alles auszahlen</string>
-    <string name="dialog_cashout_title">Coins auszahlen</string>
+    <string name="dialog_cashout_title">%s auszahlen</string>
     <string name="hint_dialog_cashout_bigger_zero">Menge muss größer als 0 sein!</string>
-    <string name="dialog_cashout_message">%s auszahlen</string>
     <string name="prefs_cat_general">Allgemein</string>
     <string name="prefs_cat_currency">Währung</string>
     <string name="prefs_cat_about">Über</string>
