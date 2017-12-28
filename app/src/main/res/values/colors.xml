@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorAccent">#2962FF</color>
+    <color name="colorAccent">#4285F4</color>
 
     <color name="controls">#EEE</color>
 
     <color name="currency">#FFF</color>
 
-    <color name="price_provider_coinbase">#1565C0</color>
+    <color name="price_provider_coinbase">#2670B3</color>
     <color name="price_provider_coinmarketcap">#EEE</color>
 
     <color name="percentage_win">#8BC34A</color>
