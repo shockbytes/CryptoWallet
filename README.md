@@ -55,7 +55,8 @@ We currently support:
 - [x] DetailView
 - [x] Landscape support
 - [x] Introduce KotterKnife
-- [ ] Change accent color for better readability
+- [x] Change accent color for better readability
+- [x] New icon
 
 ### Version 1.2
 
