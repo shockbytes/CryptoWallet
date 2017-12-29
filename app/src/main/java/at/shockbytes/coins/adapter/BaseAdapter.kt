@@ -136,14 +136,16 @@ abstract class BaseAdapter<T>(protected var context: Context,
 
         init {
             itemView.setOnClickListener {
-                content.let {
+                if (content != null){
                     onItemClickListener?.onItemClick(content!!, itemView)
                 }
             }
             itemView.setOnLongClickListener {
-                content.let {
+                if (content != null) {
                     onItemLongClickListener?.onItemLongClick(content!!, itemView)
                     true
+                } else {
+                    false
                 }
             }
         }

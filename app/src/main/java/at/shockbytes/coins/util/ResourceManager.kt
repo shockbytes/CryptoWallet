@@ -38,7 +38,8 @@ object ResourceManager {
 
         val idxImgUri = c.getColumnIndex(ContactsContract.Profile.PHOTO_URI)
         val imgUri = if (c.moveToNext()) {
-            Uri.parse(c.getString(idxImgUri))
+            val uriStr = c.getString(idxImgUri)
+            if (uriStr != null) Uri.parse(uriStr) else null
         } else {
             null
         }
