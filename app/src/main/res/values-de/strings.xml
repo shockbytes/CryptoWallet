@@ -62,4 +62,5 @@
     <string name="detail_price_provider">Preis bezogen von %s</string>
     <string name="detail_bought_date">Gekauft am %s</string>
     <string name="detail_sold_date">Verkauft am %s</string>
+    <string name="error_price_provider_hint">Bitte wähle einen Preisanbieter aus</string>
 </resources>

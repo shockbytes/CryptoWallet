@@ -50,7 +50,7 @@ class AppModule(private val app: Application) {
         val config = RealmConfiguration.Builder()
                 .schemaVersion(CryptoWatcherRealmMigration.v1_0_scheme)
                 .migration(CryptoWatcherRealmMigration())
-                //.encryptionKey(key)
+                //.encryptionKey(key) TODO v1.3 Enable key somehow?
                 .build()
         return Realm.getInstance(config)
     }

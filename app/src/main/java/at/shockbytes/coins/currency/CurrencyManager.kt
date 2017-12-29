@@ -16,7 +16,7 @@ interface CurrencyManager {
 
     val cashedOutCurrencies: Observable<List<Currency>>
 
-    var balance: Balance?
+    var balance: Balance
 
     val latestBalance: Double
 

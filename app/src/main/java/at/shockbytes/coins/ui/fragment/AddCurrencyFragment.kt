@@ -64,8 +64,6 @@ class AddCurrencyFragment : BaseFragment() {
 
     override fun setupViews() {
 
-        setupReactiveViews()
-
         spinnerCurrency.adapter = CurrencySpinnerAdapter(context, getCurrencyItems())
         spinnerCurrency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
@@ -87,6 +85,9 @@ class AddCurrencyFragment : BaseFragment() {
 
             override fun onNothingSelected(adapterView: AdapterView<*>) {}
         }
+
+        // This has to be called after all the other stuff is initialized!!!
+        setupReactiveViews()
     }
 
     private fun setupReactiveViews() {
@@ -97,8 +98,14 @@ class AddCurrencyFragment : BaseFragment() {
         val ccd = RxTextView.textChanges(editCryptoCurrency)
                 .map { !it.isEmpty() && it.toString().toDouble() > 0.0 }
                 .distinctUntilChanged()
+        // This is only the case if no price provider is selected!
+        val scd = Observable.defer {
+            val cryptoItem = spinnerCryptoCurrency.selectedItem
+                    as? CurrencySpinnerAdapter.CurrencySpinnerAdapterItem
+            Observable.just(cryptoItem != null)
+        }.distinctUntilChanged()
 
-        Observable.combineLatest(arrayOf(cd, ccd)) { it.all { t -> t == true } }
+        Observable.combineLatest(arrayOf(cd, ccd, scd)) { it.all { t -> t == true } }
                 .subscribe {
                     val bgTint = ContextCompat.getColor(context,
                             (if (it) R.color.colorAccent else R.color.disabled))

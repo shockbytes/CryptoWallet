@@ -4,6 +4,7 @@ package at.shockbytes.coins.ui.fragment
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
+import android.support.annotation.DrawableRes
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
@@ -120,15 +121,11 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
         swipeRefreshLayout.isEnabled = viewType != ViewType.CASHOUT
 
         // Setup empty views
-        emptyTextView.setText(if (viewType == ViewType.CASHOUT)
-            R.string.empty_indicator_cashout
-        else
-            R.string.empty_indicator_balance)
-        emptyImgView.setImageResource(if (viewType == ViewType.CASHOUT)
-            R.drawable.ic_navigation_cashout
-        else
-            R.drawable.ic_navigation_balance
-        )
+        val emptyStr = getString(if (viewType == ViewType.CASHOUT)
+            R.string.empty_indicator_cashout else R.string.empty_indicator_balance)
+        val emptyIcon = if (viewType == ViewType.CASHOUT)
+            R.drawable.ic_navigation_cashout else R.drawable.ic_navigation_balance
+        setEmptyViewData(emptyStr, emptyIcon)
 
         // RecyclerView
         adapter = CurrencyAdapter(context, ArrayList(),
@@ -185,19 +182,19 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
         startActivity(DetailActivity.newIntent(context, t.id), options.toBundle())
     }
 
-    private fun setupHeader(balance: Balance?) {
+    private fun setupHeader(balance: Balance) {
 
-        txtCurrent.text = balance?.current?.toString() + " " + currencyManager.localCurrency
-        txtInvested.text = balance?.invested?.toString() + " " + currencyManager.localCurrency
+        txtCurrent.text = balance.current.toString() + " " + currencyManager.localCurrency
+        txtInvested.text = balance.invested.toString() + " " + currencyManager.localCurrency
 
-        val diff = balance?.percentageDiff ?: 0.0
+        val diff = balance.percentageDiff
         val diffColor = if (diff >= 0) R.color.percentage_win else R.color.percentage_loose
         if (context != null) { // Some exceptions occur and I don't know why context is null
             txtDiffPercentage.setTextColor(ContextCompat.getColor(context, diffColor))
         }
         txtDiffPercentage.text = diff.toString() + "%"
 
-        animateTrendArrow(balance?.current ?: lastBalance)
+        animateTrendArrow(balance.current)
     }
 
     private fun animateTrendArrow(balance: Double) {
@@ -289,11 +286,30 @@ class MainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener,
                                     ActivityOptionsCompat.makeSceneTransitionAnimation(activity)
                                             .toBundle())
                         })
-                // TODO v1.2 -Show something in EmptyView
+                setEmptyViewData(getString(R.string.error_price_provider_hint),
+                        R.drawable.ic_price_provider, true, true)
             }
         // else -> showToast(getString(R.string.error_load_data), showLong = true)
         }
 
+    }
+
+    private fun setEmptyViewData(text: String, @DrawableRes icon: Int,
+                                 show: Boolean = false, clearData: Boolean = false) {
+        emptyTextView.text = text
+        emptyImgView.setImageResource(icon)
+        showEmptyView(show)
+
+        if (clearData) {
+            adapter?.clear()
+            setupHeader(Balance())
+        }
+
+    }
+
+    private fun showEmptyView(show: Boolean) {
+        val visibility = if (show) View.VISIBLE else View.GONE
+        emptyView.visibility = visibility
     }
 
     fun onNewCurrencyEntryAvailable() {

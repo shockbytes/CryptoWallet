@@ -107,6 +107,11 @@ abstract class BaseAdapter<T>(protected var context: Context,
         notifyItemChanged(arrayIdx)
     }
 
+    fun clear() {
+        data.clear()
+        notifyDataSetChanged()
+    }
+
     fun moveEntity(i: Int, dest: Int) {
         val temp = data.removeAt(i)
         data.add(dest, temp)

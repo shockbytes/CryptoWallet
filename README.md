@@ -17,10 +17,12 @@ We currently support:
 
 ## Versions
 
-### Version 1.2
-
-- [x] Introduce currency exchange rates (buy in USD and show in EUR) using fixer.io
+### Version 1.3
 - [ ] Database encryption based on Fingerprint cipher
+
+### Version 1.2
+* Introduce currency exchange rates (buy in USD and show in EUR) using fixer.io
+* Bugfixes
 
 ### Version 1.1
 * Support IOTA, DASH and XRP

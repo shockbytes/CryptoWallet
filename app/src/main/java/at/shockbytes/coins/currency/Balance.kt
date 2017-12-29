@@ -33,4 +33,10 @@ class Balance {
         current += price
     }
 
+    fun clear() {
+        invested = 0.0
+        current = 0.0
+        percentageDiff = 0.0
+    }
+
 }

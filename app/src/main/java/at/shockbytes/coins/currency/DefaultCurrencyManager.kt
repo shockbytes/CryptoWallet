@@ -61,7 +61,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
 
-    override var balance: Balance? = null
+    override var balance: Balance = Balance()
 
     override val latestBalance: Double
         get() = prefs.getFloat(prefsLatestBalance, 0f).toDouble()
@@ -76,7 +76,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
 
     override fun storeLatestBalance() {
         prefs.edit()
-                .putFloat(prefsLatestBalance, balance?.current?.toFloat() ?: 0.toFloat())
+                .putFloat(prefsLatestBalance, balance.current.toFloat())
                 .apply()
     }
 
@@ -96,15 +96,15 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
                                                conversions: List<PriceConversion>?,
                                                currencyRates: CurrencyConversionRates): List<Currency> {
 
-        balance = Balance()
+        balance.clear()
         // Assign the conversion currencyRates to the corresponding currencies
         for (oc in c) {
             val inv = currencyRates.convert(oc.realAmount, oc.getRealCurrency(), localCurrency)
-            balance?.addInvested(inv)
+            balance.addInvested(inv)
             if (conversions != null) {
                 storageManager.updateConversionRate(oc, conversions)
             }
-            balance?.addCurrent(oc.currentPrice)
+            balance.addCurrent(oc.currentPrice)
         }
         return c
     }
