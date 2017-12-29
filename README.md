@@ -20,6 +20,9 @@ We currently support:
 ### Version 1.3
 - [ ] Database encryption based on Fingerprint cipher
 
+### Version 1.2.1
+* Change bought date
+
 ### Version 1.2
 * Introduce currency exchange rates (buy in USD and show in EUR) using fixer.io
 * Bugfixes

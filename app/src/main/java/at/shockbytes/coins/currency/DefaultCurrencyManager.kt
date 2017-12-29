@@ -41,7 +41,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
 
     override val ownedCurrencies: Observable<List<Currency>>
         get() {
-            val localCurrencies = storageManager.loadOwnedCurrencies(false)
+            val localCurrencies = storageManager.loadCurrencies(false)
             return Observable.zip(localCurrencies,
                     priceProxy.getPriceConversions(Arrays.asList(*CryptoCurrency.values()), localCurrency),
                     currencyConversionProvider.getCurrencyConversionRates(),
@@ -53,7 +53,7 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
         }
 
     override val cashedOutCurrencies: Observable<List<Currency>>
-        get() = Observable.zip(storageManager.loadOwnedCurrencies(true),
+        get() = Observable.zip(storageManager.loadCurrencies(true),
                 currencyConversionProvider.getCurrencyConversionRates(),
                 BiFunction<List<Currency>, CurrencyConversionRates, List<Currency>> { currencies, rates ->
                     updateOwnedCurrencyConversions(currencies, null, rates)
@@ -70,8 +70,12 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
         return storageManager.getOwnedCurrencyById(id)
     }
 
-    override fun addCurrency(ownedCurrency: Currency) {
-        storageManager.storeOwnedCurrency(ownedCurrency)
+    override fun addCurrency(currency: Currency) {
+        storageManager.storeCurrency(currency)
+    }
+
+    override fun updateBoughtDateCurrency(currency: Currency, boughtDate: Long) {
+        storageManager.updateBoughtDateCurrency(currency, boughtDate)
     }
 
     override fun storeLatestBalance() {
@@ -81,11 +85,11 @@ class DefaultCurrencyManager(private val priceProxy: PriceProxy,
     }
 
     override fun removeCurrency(ownedCurrency: Currency) {
-        storageManager.removeOwnedCurrency(ownedCurrency)
+        storageManager.removeCurrency(ownedCurrency)
     }
 
     override fun cashoutCurrency(ownedCurrency: Currency) {
-        storageManager.cashoutOwnedCurrency(ownedCurrency)
+        storageManager.cashoutCurrency(ownedCurrency)
     }
 
     override fun partialCashout(currency: Currency, amountToPayout: Double) {
