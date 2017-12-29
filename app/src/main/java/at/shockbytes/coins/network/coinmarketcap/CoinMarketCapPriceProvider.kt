@@ -34,10 +34,6 @@ class CoinMarketCapPriceProvider(private val api: CoinMarketCapPriceApi,
                 .subscribeOn(Schedulers.io())
     }
 
-    override fun getBuyPrice(from: CryptoCurrency, to: RealCurrency): Observable<PriceConversion>? = null
-
-    override fun getSellPrice(from: CryptoCurrency, to: RealCurrency): Observable<PriceConversion>? = null
-
     override fun supportedCurrencies(): List<CryptoCurrency> {
         return Arrays.asList(CryptoCurrency.MIOTA, CryptoCurrency.DASH, CryptoCurrency.XRP)
     }

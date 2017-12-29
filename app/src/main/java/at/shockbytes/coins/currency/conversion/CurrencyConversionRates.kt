@@ -9,6 +9,8 @@ import at.shockbytes.coins.currency.RealCurrency
 
 class CurrencyConversionRates {
 
+    var providerName: String = "" // Set by the CurrencyConversionProvider itself
+
     private var base: String = ""
     private var date: String = ""
 
@@ -30,11 +32,13 @@ class CurrencyConversionRates {
 
             RealCurrency.EUR -> rates.EUR
             RealCurrency.USD -> rates.USD
+            RealCurrency.GBP -> rates.GBP
+            RealCurrency.CHF -> rates.CHF
         }
     }
 
     override fun toString(): String {
-        return "Base: " + base + "\nDate: " + date + "\n" + rates.toString()
+        return "Base: $base\nDate: $date\nProvider: $providerName\nRates: \n$rates"
     }
 
     internal class Rates {
@@ -45,7 +49,7 @@ class CurrencyConversionRates {
         var USD: Double = 0.0
 
         override fun toString(): String {
-            return "To CHF: $CHF\nTo GBP: $GBP\nTo EUR: $EUR\nTo USD: $USD"
+            return "\tTo CHF: $CHF\n\tTo GBP: $GBP\n\tTo EUR: $EUR\n\tTo USD: $USD"
         }
 
         fun defaultInitialize(): Rates {
@@ -62,12 +66,12 @@ class CurrencyConversionRates {
         val defaultCurrencyConversionRates: CurrencyConversionRates
             get() {
 
-                val def = CurrencyConversionRates()
-                def.base = "EUR"
-                def.date = ""
-                def.rates = Rates().defaultInitialize()
-
-                return def
+                val ccr = CurrencyConversionRates()
+                ccr.base = "EUR"
+                ccr.date = ""
+                ccr.providerName = "DEFAULT"
+                ccr.rates = Rates().defaultInitialize()
+                return ccr
             }
     }
 

@@ -16,10 +16,15 @@ enum class RealCurrency {
     USD {
         override val symbol = "$"
         override val icon = R.drawable.ic_real_currency_usd
+    },
+    GBP {
+        override val symbol = "£"
+        override val icon = R.drawable.ic_real_currency_gbp
+    },
+    CHF {
+        override val symbol = "CHF"
+        override val icon = R.drawable.ic_real_currency_chf
     };
-    /*,
-    GBP,
-    CHF*/
 
     abstract val symbol: String
     abstract val icon: Int

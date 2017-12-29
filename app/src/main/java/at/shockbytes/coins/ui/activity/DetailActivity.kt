@@ -94,9 +94,8 @@ class DetailActivity : BackNavigableActivity() {
 
         val boughtPrice = if (c.getRealCurrency() !== currencyManager.localCurrency) {
             // Fall back to realAmount, if conversion not possible
-            currencyManager.currencyConversionRates
-                    ?.convert(c.realAmount, c.getRealCurrency(), currencyManager.localCurrency)
-                    ?: c.realAmount
+            currencyManager.currencyConversionProvider
+                    .convert(c.realAmount, c.getRealCurrency(), currencyManager.localCurrency)
         } else {
             c.realAmount
         }

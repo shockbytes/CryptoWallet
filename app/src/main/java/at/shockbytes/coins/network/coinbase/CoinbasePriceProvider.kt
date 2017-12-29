@@ -10,6 +10,7 @@ import at.shockbytes.coins.currency.price.PriceSource
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -26,22 +27,12 @@ class CoinbasePriceProvider(private val api: CoinbasePriceApi,
         get() = prefs.getBoolean(argEnabled, true)
         set(value) = prefs.edit().putBoolean(argEnabled, value).apply()
 
+    private val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
 
     override fun getSpotPrice(from: CryptoCurrency, to: RealCurrency): Observable<PriceConversion> {
         return api.getSpotPrice(buildConversionPath(from, to), buildTimestamp())
                 .map { it.priceSource = providerInfo; it } // <-- Set the PriceSource here
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-    }
-
-    override fun getBuyPrice(from: CryptoCurrency, to: RealCurrency): Observable<PriceConversion>? {
-        return api.getBuyPrice(buildConversionPath(from, to), buildTimestamp())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-    }
-
-    override fun getSellPrice(from: CryptoCurrency, to: RealCurrency): Observable<PriceConversion>? {
-        return api.getSellPrice(buildConversionPath(from, to), buildTimestamp())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
     }
@@ -56,7 +47,7 @@ class CoinbasePriceProvider(private val api: CoinbasePriceApi,
     }
 
     private fun buildTimestamp(): String {
-        return ""
+        return sdf.format(Date(System.currentTimeMillis()))
     }
 
 

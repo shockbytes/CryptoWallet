@@ -10,7 +10,7 @@ import retrofit2.http.Query
  * Date: 01.07.2017.
  */
 
-interface CurrencyConversionApi {
+interface FixerIoCurrencyConversionApi {
 
     @GET("latest")
     fun getCurrencyConversionRates(@Query("base") from: String,

@@ -17,15 +17,6 @@ interface CoinbasePriceApi {
     fun getSpotPrice(@Path("conversion") conversion: String,
                      @Header("CB-VERSION") version: String): Observable<PriceConversion>
 
-    @GET("{conversion}/buy")
-    fun getBuyPrice(@Path("conversion") conversion: String,
-                    @Header("CB-VERSION") version: String): Observable<PriceConversion>
-
-
-    @GET("{conversion}/sell")
-    fun getSellPrice(@Path("conversion") conversion: String,
-                     @Header("CB-VERSION") version: String): Observable<PriceConversion>
-
     companion object {
 
         val SERVICE_ENDPOINT = "https://api.coinbase.com/v2/prices/"

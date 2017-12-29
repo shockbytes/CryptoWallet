@@ -83,6 +83,6 @@
     <string name="detail_bought_date">Bought: %s</string>
     <string name="detail_sold_date">Sold: %s</string>
     <string name="prefs_about_icons_title" translatable="false">Icons</string>
-    <string name="prefs_about_icons_summary" translatable="false">iconfinder.com</string>
+    <string name="prefs_about_icons_summary" translatable="false">www.iconfinder.com\nwww.flaticon.com</string>
 
 </resources>

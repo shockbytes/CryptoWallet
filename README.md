@@ -17,26 +17,19 @@ We currently support:
 
 ## Versions
 
-### Version 0.7
+### Version 1.2
 
-* Add Bitcoin, Ethereum and Litecoin
-* Manually update course
-* Get trading course from Coinbase API
-* Technical possibility to incorporate other API provider
-* Cash out full amount of entered currency (it won't update price)
+- [x] Introduce currency exchange rates (buy in USD and show in EUR) using fixer.io
+- [ ] Database encryption based on Fingerprint cipher
 
-### Version 0.8
-
-* New color design
-* Auto update values
-* Arrow indicates latest trend in balance header
-* Stability improvements
-
-### Version 0.9
-
-* Improved Enter dialog
-* Improved cashout dialog
-* Secure app with fingerprint
+### Version 1.1
+* Support IOTA, DASH and XRP
+* Introduce provider selection (enable provider) in settings
+* DetailView
+* Landscape support
+* Introduce KotterKnife
+* Change accent color for better readability
+* New icon
 
 ### Version 1.0
 * Apply dark design
@@ -49,16 +42,23 @@ We currently support:
 * Ask for default local currency
 * Include banner ads into RecyclerView (native ads are deprecated)
 
-### Version 1.1
-- [x] Support IOTA, DASH and XRP
-- [x] Introduce provider selection (enable provider) in settings
-- [x] DetailView
-- [x] Landscape support
-- [x] Introduce KotterKnife
-- [x] Change accent color for better readability
-- [x] New icon
+### Version 0.9
 
-### Version 1.2
+* Improved Enter dialog
+* Improved cashout dialog
+* Secure app with fingerprint
 
-- [ ] Introduce currency exchange rates (buy in USD and show in EUR) --> using fixer.io
-- [ ] Database encryption based on Fingerprint cipher
+### Version 0.8
+
+* New color design
+* Auto update values
+* Arrow indicates latest trend in balance header
+* Stability improvements
+
+### Version 0.7
+
+* Add Bitcoin, Ethereum and Litecoin
+* Manually update course
+* Get trading course from Coinbase API
+* Technical possibility to incorporate other API provider
+* Cash out full amount of entered currency (it won't update price)

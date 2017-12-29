@@ -8,7 +8,7 @@ package at.shockbytes.coins.util
 object AppParams {
 
     val requestFingerprintCode = 0x1982
-    var autoUpdateTime = 5000L
+    var autoUpdateTime = 10000L
     var trendAnimDuration = 850L
 
     val showcaseIdFab = "show_id_fab"

@@ -1,6 +1,6 @@
 package at.shockbytes.coins.currency
 
-import at.shockbytes.coins.currency.conversion.CurrencyConversionRates
+import at.shockbytes.coins.currency.conversion.CurrencyConversionProvider
 import io.reactivex.Observable
 
 /**
@@ -12,8 +12,6 @@ interface CurrencyManager {
 
     var localCurrency: RealCurrency
 
-    var currencyConversionRates: CurrencyConversionRates?
-
     val ownedCurrencies: Observable<List<Currency>>
 
     val cashedOutCurrencies: Observable<List<Currency>>
@@ -21,6 +19,8 @@ interface CurrencyManager {
     var balance: Balance?
 
     val latestBalance: Double
+
+    val currencyConversionProvider: CurrencyConversionProvider
 
     fun getCurrencyById(id: Long): Currency
 
