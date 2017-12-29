@@ -8,12 +8,12 @@
     android:padding="16dp"
     tools:context="at.shockbytes.coins.ui.activity.LoginActivity">
 
-<TextView
+    <TextView
         android:id="@+id/activity_login_txt_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="64dp"
         android:gravity="center"
@@ -43,8 +43,8 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_alignTop="@+id/activity_login_img_btc"
-        android:layout_toRightOf="@+id/activity_login_img_fingerprint"
         android:layout_toEndOf="@+id/activity_login_img_fingerprint"
+        android:layout_toRightOf="@+id/activity_login_img_fingerprint"
         app:srcCompat="@drawable/ic_crypto_currency_ltc" />
 
     <TextView
@@ -53,18 +53,28 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/activity_login_img_fingerprint"
         android:layout_below="@+id/activity_login_img_btc"
+        android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/login_summary"
-        android:fontFamily="sans-serif-light"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-    <ImageView
+    <com.mattprecious.swirl.SwirlView
         android:id="@+id/activity_login_img_fingerprint"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="4dp"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/activity_login_fingerprint_error"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/ic_fingerprint" />
+        android:layout_marginBottom="4dp"
+        app:swirl_state="off" />
+
+    <TextView
+        android:id="@+id/activity_login_fingerprint_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/percentage_loose"
+        android:fontFamily="sans-serif-light"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
