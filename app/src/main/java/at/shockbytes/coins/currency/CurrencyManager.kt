@@ -24,7 +24,9 @@ interface CurrencyManager {
 
     fun getCurrencyById(id: Long): Currency
 
-    fun addCurrency(ownedCurrency: Currency)
+    fun addCurrency(currency: Currency)
+
+    fun updateBoughtDateCurrency(currency: Currency, boughtDate: Long)
 
     fun storeLatestBalance()
 

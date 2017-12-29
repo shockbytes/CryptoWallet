@@ -11,15 +11,17 @@ import io.reactivex.Observable
 
 interface StorageManager {
 
-    fun storeOwnedCurrency(currency: Currency)
+    fun storeCurrency(currency: Currency)
 
-    fun removeOwnedCurrency(currency: Currency)
+    fun removeCurrency(currency: Currency)
 
-    fun cashoutOwnedCurrency(currency: Currency)
+    fun cashoutCurrency(currency: Currency)
 
-    fun loadOwnedCurrencies(isCashedOut: Boolean): Observable<List<Currency>>
+    fun loadCurrencies(isCashedOut: Boolean): Observable<List<Currency>>
 
     fun updateConversionRate(c: Currency, conversions: List<PriceConversion>)
+
+    fun updateBoughtDateCurrency(currency: Currency, boughtDate: Long)
 
     fun getOwnedCurrencyById(id: Long): Currency
 

@@ -1,10 +1,12 @@
 package at.shockbytes.coins.ui.activity
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.view.HapticFeedbackConstants
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -17,6 +19,7 @@ import at.shockbytes.coins.ui.fragment.dialog.CashoutDialogFragment
 import at.shockbytes.coins.ui.fragment.dialog.RemoveConfirmationDialogFragment
 import at.shockbytes.coins.util.ResourceManager
 import kotterknife.bindView
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -65,12 +68,12 @@ class DetailActivity : BackNavigableActivity() {
             }
             R.id.menu_detail_remove -> {
                 val amount = "${c.cryptoAmount} ${c.getCryptoCurrency().name}"
-                val dialog = RemoveConfirmationDialogFragment.newInstance(amount)
+                RemoveConfirmationDialogFragment.newInstance(amount)
                         .setConfirmationListener {
                             currencyManager.removeCurrency(c)
                             supportFinishAfterTransition()
                         }
-                dialog.show(supportFragmentManager, "remove-confirmation-dialog-fragment")
+                        .show(supportFragmentManager, "remove-confirmation-dialog-fragment")
             }
         }
         return super.onOptionsItemSelected(item)
@@ -121,7 +124,23 @@ class DetailActivity : BackNavigableActivity() {
         if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
             imgViewArrow.animate().setStartDelay(200).setDuration(200).rotation(90f).start()
         }
+
+        txtBoughtDate.setOnClickListener {
+            it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            showDatePickerDialog()
+        }
     }
+
+    private fun showDatePickerDialog() {
+        val cal = Calendar.getInstance()
+        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { dp, _, _, _ ->
+            val date = ResourceManager.getDateFromDatePicker(dp)
+            currencyManager.updateBoughtDateCurrency(c, date)
+            txtBoughtDate.text = getString(R.string.detail_bought_date,
+                    ResourceManager.formatDateOfYear(date))
+        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+    }
+
 
     companion object {
 

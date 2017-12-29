@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
+import android.widget.DatePicker
 import java.io.IOException
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -180,5 +181,13 @@ object ResourceManager {
         return SimpleDateFormat("dd. MMM yyyy", Locale.getDefault()).format(Date(millis))
     }
 
+    fun getDateFromDatePicker(datePicker: DatePicker): Long {
+        val day = datePicker.dayOfMonth
+        val month = datePicker.month
+        val year = datePicker.year
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day)
+        return calendar.timeInMillis
+    }
 
 }

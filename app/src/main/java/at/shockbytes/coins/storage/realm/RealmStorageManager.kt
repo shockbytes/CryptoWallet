@@ -27,7 +27,7 @@ class RealmStorageManager(private val realm: Realm) : StorageManager {
             return config?.getLastPrimaryKey()!!
         }
 
-    override fun storeOwnedCurrency(currency: Currency) {
+    override fun storeCurrency(currency: Currency) {
 
         realm.beginTransaction()
         currency.id = lastPrimaryKey
@@ -35,14 +35,14 @@ class RealmStorageManager(private val realm: Realm) : StorageManager {
         realm.commitTransaction()
     }
 
-    override fun removeOwnedCurrency(currency: Currency) {
+    override fun removeCurrency(currency: Currency) {
 
         realm.beginTransaction()
         currency.deleteFromRealm()
         realm.commitTransaction()
     }
 
-    override fun cashoutOwnedCurrency(currency: Currency) {
+    override fun cashoutCurrency(currency: Currency) {
 
         realm.beginTransaction()
         currency.instanceCashedOut = true
@@ -50,7 +50,7 @@ class RealmStorageManager(private val realm: Realm) : StorageManager {
         realm.commitTransaction()
     }
 
-    override fun loadOwnedCurrencies(isCashedOut: Boolean): Observable<List<Currency>> {
+    override fun loadCurrencies(isCashedOut: Boolean): Observable<List<Currency>> {
         val stored = realm.where(Currency::class.java)
                 .equalTo("instanceCashedOut", isCashedOut)
                 .findAllAsync()
@@ -63,13 +63,20 @@ class RealmStorageManager(private val realm: Realm) : StorageManager {
     override fun updateConversionRate(c: Currency, conversions: List<PriceConversion>) {
 
         realm.beginTransaction()
-
         conversions
                 .filter { c.getCryptoCurrency() === it.cryptoCurrency }
                 .forEach {
                     c.conversionRate = it.conversionRate
                     c.priceSource = realm.copyToRealmOrUpdate(it.priceSource)
                 }
+        realm.commitTransaction()
+    }
+
+    override fun updateBoughtDateCurrency(currency: Currency, boughtDate: Long) {
+
+        realm.beginTransaction()
+        currency.boughtDate = boughtDate
+        realm.copyToRealmOrUpdate(currency)
         realm.commitTransaction()
     }
 
